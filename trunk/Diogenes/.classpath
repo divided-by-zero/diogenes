@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/olli/Desktop/SWT-Projekt/wrp-3.0.2-beta.jar"/>
+	<classpathentry kind="lib" path="/home/olli/Desktop/SWT-Projekt/wrputil-1.0.5b.jar"/>
+	<classpathentry kind="lib" path="/home/olli/Desktop/SWT-Projekt/wrputil-awt-impl-1.0.5b.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
