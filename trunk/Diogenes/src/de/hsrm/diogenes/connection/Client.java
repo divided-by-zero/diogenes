@@ -33,10 +33,14 @@ public class Client implements WRPPacketListener {
 	public void run(String ip, int port) {
 		try {
 			diogenes = DiogenesImpl.connect(ip, port);
+			//diogenes.requestMove(20, 20);
 			diogenes.requestStatus();
 			diogenes.requestSensorData();
 			diogenes.requestImage();
+			
+		
 			diogenes.waitForAll();
+			
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
