@@ -61,8 +61,9 @@ public class GUI {
 		frame = new JFrame("Diogenes Projekt");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-        label1 = new JLabel("Statusbar",JLabel.RIGHT);
-        //label1.setV
+        label1 = new JLabel("Statusbar");
+        label1.setHorizontalAlignment(JLabel.RIGHT);
+        label1.setVerticalAlignment(JLabel.BOTTOM);
         label1.setPreferredSize(new Dimension(1024, 680));
         
         frame.getContentPane().add(label1, BorderLayout.CENTER);
