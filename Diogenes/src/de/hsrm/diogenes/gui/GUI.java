@@ -9,8 +9,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import de.hsrm.diogenes.common.ModelListener;
 
-public class GUI {
+
+public class GUI implements ModelListener {
+	
+	private GuiModel m;
+	
+	public GUI(GuiModel m){
+		
+		this.m = m;
+		this.m.addModelListener(this);
+	}
 	
 	public JMenuBar makeMenuBar() {
 		JMenuBar menuBar;
@@ -54,7 +64,7 @@ public class GUI {
 		return menuBar;
 	}
 	
-	public static void makeGUI() {
+	public void makeGUI() {
 		JFrame frame;
 		JLabel label1;
 		
@@ -69,19 +79,28 @@ public class GUI {
         frame.getContentPane().add(label1, BorderLayout.CENTER);
 
         
-        GUI demo = new GUI();
+        GUI demo = new GUI(this.m);
         frame.setJMenuBar(demo.makeMenuBar());
         
         frame.pack();
 		frame.setVisible(true);
 	}
 	
+	@Override
+	public void modelChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void main(String[] args) {
+		final GUI g = new GUI(new GuiModel());
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                makeGUI();
+                g.makeGUI();
             }
         });
 
 	}
+
+	
 }
