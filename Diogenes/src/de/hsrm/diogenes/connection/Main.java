@@ -10,7 +10,8 @@ public class Main {
 		c.run("localhost", 33333);
 		// settings for the robbie
 //		c.run("10.18.72.254", 33333);
-//		c.moveTo(112, -42);
+		
+		c.moveTo(10, 10);
 		//roboterbewegung?
 		c.turnLeft(23);
 	}	
