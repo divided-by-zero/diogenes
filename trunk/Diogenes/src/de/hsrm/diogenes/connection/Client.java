@@ -148,13 +148,13 @@ public class Client implements WRPPacketListener {
 
 	@Override
 	public void handleCameraInfoPacket(WRPCameraInfoPacket arg0) {
-		// TODO Auto-generated method stub
+		System.out.println("Got CameraInfoPacket");
 		
 	}
 
 	@Override
 	public void handleRequestFinished(WRPFinishedPacket arg0) {
-		// TODO Auto-generated method stub
+		System.out.println("RequestFinished");
 		
 	}
 	
