@@ -11,6 +11,8 @@ public class Main {
 		// settings for the robbie
 //		c.run("10.18.72.254", 33333);
 //		c.moveTo(112, -42);
+		//roboterbewegung?
+		c.turnLeft(23);
 	}	
 	
 }
