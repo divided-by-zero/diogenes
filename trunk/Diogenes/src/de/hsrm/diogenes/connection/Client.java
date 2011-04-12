@@ -71,6 +71,61 @@ public class Client implements WRPPacketListener {
 		}
 	}
 	
+	/**
+	 * Move forward.
+	 *
+	 * @param x 
+	 * @throws WRPException the wRP exception
+	 */
+	public void moveForward(int x) throws WRPException{
+		diogenes.requestMoveForward(x);
+		diogenes.waitFor(WRPCmd.MOVE_FORWARD);
+		System.out.println("Move forward um" +x);
+	}
+	
+	/**
+	 * Move backward.
+	 *
+	 * @param x The distance the robot walks
+	 * @throws WRPException the wRP exception
+	 */
+	public void moveBackward(int x) throws WRPException{
+		diogenes.requestMoveBackward(x);
+		diogenes.waitFor(WRPCmd.MOVE_BACKWARD);
+		System.out.println("Move backward um" +x);
+	}
+	
+	/**
+	 * Turn left.
+	 *
+	 * @param x The angle the robot turns
+	 * @throws WRPException the wRP exception
+	 */
+	public void turnLeft(int x) throws WRPException{
+		diogenes.requestRotateLeft(x);
+		diogenes.waitFor(WRPCmd.ROTATE_LEFT);
+		System.out.println("Turn Left um" +x);
+	}
+	
+	/**
+	 * Turn right.
+	 *
+	 * @param x The angle the robot turns
+	 * @throws WRPException the wRP exception
+	 */
+	public void turnRight(int x) throws WRPException{
+		diogenes.requestRotateRight(x);
+		diogenes.waitFor(WRPCmd.ROTATE_RIGHT);
+		System.out.println("TurnRight um" +x);
+	}
+	
+	
+
+	
+	
+	
+	
+	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
 		System.out.println("Got VideoPacket.");
