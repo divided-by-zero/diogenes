@@ -10,26 +10,23 @@ public class GuiController {
 	public GuiController(GuiModel m){
 		this.m = m;
 		addListener();
-		
 	}
 	
 	
 	public void changeStatusValue(final String status){
-		m.getB1().addActionListener(new ActionListener(){
+		this.m.getB1().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				m.changeStatus(status);
 			}
 		});
-		
 	}
 	
 	public void addListener(){
-		m.getB1().addActionListener(new ActionListener(){
+		this.m.getB1().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				m.changeStatus("bluub");
 			}
 		});
-		
 	}
 	
 }
