@@ -1,7 +1,10 @@
 package de.hsrm.diogenes.gui;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+
+import sun.awt.HorizBagLayout;
 
 import de.hsrm.diogenes.common.ModelListener;
 
@@ -20,16 +26,19 @@ public class GuiModel {
 	private List<ModelListener> listener;
 	private String status;
 	private JFrame frame;
-	private JLabel label1;
+	private JLabel statusLabel;
 	private JButton b1;
-	private JPanel panel;
+	private JPanel mainPanel,sp_left,sp_right,splitPanePanel,statusBarPanel;
+	private JSplitPane sp;
 	
 	public GuiModel(){
 		this.listener = new ArrayList<ModelListener>();
+		this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		this.makeGUI();
 	}
 	
 	public void addModelListener(ModelListener l){
-		listener.add(l);
+		this.listener.add(l);
 	}
 	
 	public void changeStatus(String status){
@@ -43,7 +52,7 @@ public class GuiModel {
 	
 	
 	public void fireModelChanged(){
-		for(ModelListener ml : listener){
+		for(ModelListener ml : this.listener){
 			ml.modelChanged();
 		}
 	}
@@ -91,54 +100,74 @@ public class GuiModel {
 		
 		public void makeGUI() {
 			
-			panel = new JPanel();
-			b1 = new JButton("test");
-			setFrame(new JFrame("Diogenes Projekt"));
+			this.mainPanel = new JPanel();
+			this.splitPanePanel = new JPanel();
+			this.statusBarPanel = new JPanel();
+			this.sp_left = new JPanel();
+	        this.sp_right = new JPanel();
+			this.b1 = new JButton("test");
+			this.mainPanel.setLayout(new GridLayout(1,1));
+			this.statusLabel = new JLabel("Statusbar");
+			this.setFrame(new JFrame("Diogenes Projekt"));
+			
 			getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
-	        label1 = new JLabel("Statusbar");
-	        label1.setHorizontalAlignment(JLabel.RIGHT);
-	        label1.setVerticalAlignment(JLabel.BOTTOM);
-	        label1.setPreferredSize(new Dimension(1024, 680));
+	        this.statusLabel.setHorizontalAlignment(JLabel.RIGHT);
+	        this.statusLabel.setVerticalAlignment(JLabel.BOTTOM);
+	        this.statusLabel.setPreferredSize(new Dimension(1024, 680));
 	        
 	        //frame.getContentPane().add(label1, BorderLayout.CENTER);
+	        
+	        this.splitPanePanel.setSize(300, 200);
+	        this.statusBarPanel.setSize(1024,10);
 
+	        this.sp_right.add(this.b1);
 	        
+	        this.splitPane();
+	        this.initPanel();
 	        
-	        frame.setJMenuBar(makeMenuBar());
-	        panel.add(b1);
-	        panel.add(label1);
-	        
-	        frame.add(panel);
-	        
-	        frame.pack();
-			frame.setVisible(true);
+	        this.frame.setJMenuBar(makeMenuBar());
+	        this.frame.add(this.mainPanel);
+	        this.frame.pack();
+			this.frame.setVisible(true);
 		}
 
 		public void setFrame(JFrame frame) {
 			this.frame = frame;
 		}
 
+		
 		public JFrame getFrame() {
-			return frame;
+			return this.frame;
 		}
 
-		public void setLabel1(JLabel label1) {
-			this.label1 = label1;
+		public void setStatusLabel(JLabel label1) {
+			this.statusLabel = label1;
 		}
 
-		public JLabel getLabel1() {
-			return label1;
+		public JLabel getStatusLabel() {
+			return this.statusLabel;
 		}
 
 		public JButton getB1() {
-			return b1;
+			return this.b1;
 		}
 
 		public void setB1(JButton b1) {
 			this.b1 = b1;
 		}
 		
+		public void splitPane() {
+			this.sp.setLeftComponent(this.sp_left);
+			this.sp.setRightComponent(this.sp_right);
+		}
+		
+		public void initPanel() {
+			this.splitPanePanel.add(this.sp);
+			this.statusBarPanel.add(this.statusLabel);
+			this.mainPanel.add(this.splitPanePanel);
+			this.mainPanel.add(statusBarPanel);
+		}
 }
 	
 

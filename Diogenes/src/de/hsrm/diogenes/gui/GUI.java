@@ -16,7 +16,7 @@ public class GUI implements ModelListener {
 	
 	@Override
 	public void modelChanged() {
-		this.m.getLabel1().setText(this.m.getStatus());	
+		this.m.getStatusLabel().setText(this.m.getStatus());	
 		this.m.getFrame().repaint();
 	}
 	
