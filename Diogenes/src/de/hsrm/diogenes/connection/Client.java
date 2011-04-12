@@ -52,6 +52,12 @@ public class Client implements WRPPacketListener {
 				+ "  Angle=" + packet.getAngle());
 	}
 
+	/**
+	 * A method to move the robot to an absolute position
+	 * 
+	 * @param x The x-coordinate on the map
+	 * @param y The y-coordinate on the map
+	 */
 	public void moveTo(int x, int y) {
 		try {
 			System.out.println("moving...");
