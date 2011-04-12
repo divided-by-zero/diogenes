@@ -2,6 +2,7 @@ package de.hsrm.diogenes.connection;
 
 import de.fhwiesbaden.webrobbie.wrp.Diogenes;
 import de.fhwiesbaden.webrobbie.wrp.DiogenesImpl;
+import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.fhwiesbaden.webrobbie.wrp.WRPPacketListener;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;
@@ -33,14 +34,10 @@ public class Client implements WRPPacketListener {
 	public void run(String ip, int port) {
 		try {
 			diogenes = DiogenesImpl.connect(ip, port);
-			//diogenes.requestMove(20, 20);
-			diogenes.requestStatus();
-			diogenes.requestSensorData();
-			diogenes.requestImage();
-			
-		
-			diogenes.waitForAll();
-			
+//			diogenes.requestStatus();
+//			diogenes.requestSensorData();
+//			diogenes.requestImage();
+//			diogenes.waitForAll();
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
@@ -55,6 +52,19 @@ public class Client implements WRPPacketListener {
 				+ "  Angle=" + packet.getAngle());
 	}
 
+	public void moveTo(int x, int y) {
+		try {
+			System.out.println("moving...");
+			diogenes.requestMove(x, y);
+			diogenes.waitFor(WRPCmd.GOTO_XY);
+			System.out.println("...moving finished");
+		} catch (WRPException e) {
+			System.err.println("Couldn't move Diogenes to (" + x + "," + y + "):");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
 		System.out.println("Got VideoPacket.");
