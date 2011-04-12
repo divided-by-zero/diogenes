@@ -119,13 +119,6 @@ public class Client implements WRPPacketListener {
 		System.out.println("TurnRight um" +x);
 	}
 	
-	
-
-	
-	
-	
-	
-	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
 		System.out.println("Got VideoPacket.");
