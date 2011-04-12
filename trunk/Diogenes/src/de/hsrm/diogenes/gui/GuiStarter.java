@@ -10,10 +10,7 @@ public class GuiStarter {
 		GuiStarter gs = new GuiStarter();
 		
 		gs.gm = new GuiModel();
-		gs.gm.makeGUI();
 		gs.gc = new GuiController(gs.gm);
-		//gs.gm.makeGUI();
-
 	}
 
 }

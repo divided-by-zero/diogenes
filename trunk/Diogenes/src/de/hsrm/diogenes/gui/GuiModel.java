@@ -3,6 +3,8 @@ package de.hsrm.diogenes.gui;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
@@ -30,10 +32,19 @@ public class GuiModel {
 	private JButton b1;
 	private JPanel mainPanel,sp_left,sp_right,splitPanePanel,statusBarPanel;
 	private JSplitPane sp;
+	private int width,height;
+	private GridBagConstraints gbc;
+	private GridBagLayout gbl;
+	private Container c;
+	
+	
+	
 	
 	public GuiModel(){
 		this.listener = new ArrayList<ModelListener>();
 		this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		this.width = 1024;
+		this.height = 680;
 		this.makeGUI();
 	}
 	
@@ -106,21 +117,20 @@ public class GuiModel {
 			this.sp_left = new JPanel();
 	        this.sp_right = new JPanel();
 			this.b1 = new JButton("test");
-			this.mainPanel.setLayout(new GridLayout(1,1));
+			this.mainPanel.setLayout(new GridBagLayout());
 			this.statusLabel = new JLabel("Statusbar");
 			this.setFrame(new JFrame("Diogenes Projekt"));
+			this.gbl = new GridBagLayout();
 			
-			getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
-	        this.statusLabel.setHorizontalAlignment(JLabel.RIGHT);
-	        this.statusLabel.setVerticalAlignment(JLabel.BOTTOM);
-	        this.statusLabel.setPreferredSize(new Dimension(1024, 680));
+			this.mainPanel.setLayout(gbl);
+			this.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        this.mainPanel.setPreferredSize(new Dimension(width,height));
+			
+			addComponent(this.mainPanel, this.gbl, this.splitPanePanel, 0, 0, 1, 1, 0, 0);
+			addComponent(this.mainPanel, this.gbl, this.statusBarPanel, 1, 1, 1, 1, 0, 0);
 	        
-	        //frame.getContentPane().add(label1, BorderLayout.CENTER);
 	        
-	        this.splitPanePanel.setSize(300, 200);
-	        this.statusBarPanel.setSize(1024,10);
-
 	        this.sp_right.add(this.b1);
 	        
 	        this.splitPane();
@@ -158,16 +168,34 @@ public class GuiModel {
 		}
 		
 		public void splitPane() {
+			this.sp.setDividerLocation(width/2);
 			this.sp.setLeftComponent(this.sp_left);
 			this.sp.setRightComponent(this.sp_right);
 		}
 		
 		public void initPanel() {
-			this.splitPanePanel.add(this.sp);
-			this.statusBarPanel.add(this.statusLabel);
-			this.mainPanel.add(this.splitPanePanel);
-			this.mainPanel.add(statusBarPanel);
+			this.mainPanel.add(this.splitPanePanel.add(this.sp));
+			this.mainPanel.add(this.statusBarPanel.add(this.statusLabel));
 		}
+		
+		static void addComponent( 	Container cont,
+                					GridBagLayout gbl,
+                					Component c,
+                					int x, int y,
+                					int width, int height,
+                					double weightx, double weighty ) {
+				GridBagConstraints gbc = new GridBagConstraints();
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.gridx = x; 
+				gbc.gridy = y;
+				gbc.gridwidth = width; 
+				gbc.gridheight = height;
+				gbc.weightx = weightx; 
+				gbc.weighty = weighty;
+				gbl.setConstraints( c, gbc );
+				cont.add( c );
+		}
+
 }
 	
 
