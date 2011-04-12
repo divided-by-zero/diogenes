@@ -51,7 +51,7 @@ public class Client implements WRPPacketListener {
 				+ "  Y="     + packet.getY() 
 				+ "  Angle=" + packet.getAngle());
 	}
-
+	
 	/**
 	 * A method to move the robot to an absolute position
 	 * 
@@ -148,14 +148,12 @@ public class Client implements WRPPacketListener {
 
 	@Override
 	public void handleCameraInfoPacket(WRPCameraInfoPacket arg0) {
-		System.out.println("Got CameraInfoPacket");
-		
+		System.out.println("Got CameraInfoPacket.");
 	}
 
 	@Override
 	public void handleRequestFinished(WRPFinishedPacket arg0) {
-		System.out.println("RequestFinished");
-		
+		System.out.println("Got RequestFinishedPacket.");
 	}
 	
 }
