@@ -19,8 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import sun.awt.HorizBagLayout;
-
 import de.hsrm.diogenes.common.ModelListener;
 
 public class GuiModel {
