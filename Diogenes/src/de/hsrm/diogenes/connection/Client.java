@@ -3,11 +3,14 @@ package de.hsrm.diogenes.connection;
 import de.fhwiesbaden.webrobbie.wrp.Diogenes;
 import de.fhwiesbaden.webrobbie.wrp.DiogenesImpl;
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
+import de.fhwiesbaden.webrobbie.wrp.WRPConnection;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.fhwiesbaden.webrobbie.wrp.WRPPacketListener;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
@@ -19,6 +22,7 @@ public class Client implements WRPPacketListener {
 	 * Reference to the robot-connection
 	 */
 	private Diogenes diogenes;
+//	private WRPConnection connection;
 	
 	/**
 	 * Creates an instance of the client
@@ -34,10 +38,7 @@ public class Client implements WRPPacketListener {
 	public void run(String ip, int port) {
 		try {
 			diogenes = DiogenesImpl.connect(ip, port);
-//			diogenes.requestStatus();
-//			diogenes.requestSensorData();
-//			diogenes.requestImage();
-//			diogenes.waitForAll();
+//			connection = WRPConnection.connect("localhost", 33333, "localhost", 33333);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
@@ -51,6 +52,19 @@ public class Client implements WRPPacketListener {
 				+ "  Y="     + packet.getY() 
 				+ "  Angle=" + packet.getAngle());
 	}
+	
+//	/**
+//	 * Returns information about the robot
+//	 * 
+//	 * @return A string of values like coordinates etc.
+//	 */
+//	public String getRobotInfo() {
+//		return "X = " + connection.getRobotInfo().getX() + 
+//					", Y = " + connection.getRobotInfo().getY() + 
+//					", Width = " + connection.getRobotInfo().getWidth() + 
+//					", Length = " + connection.getRobotInfo().getLength() +
+//					", Angle = " + connection.getRobotInfo().getAngle();
+//	}
 	
 	/**
 	 * A method to move the robot to an absolute position
@@ -102,9 +116,14 @@ public class Client implements WRPPacketListener {
 	 * @throws WRPException the wRP exception
 	 */
 	public void turnLeft(int x) throws WRPException{
+//		diogenes.requestStopMoving();
+//		diogenes.waitFor(WRPCmd.STOP_MOVING);
+		System.out.println("start rotating");
 		diogenes.requestRotateLeft(x);
 		diogenes.waitFor(WRPCmd.ROTATE_LEFT);
-		System.out.println("Turn Left um" +x);
+		System.out.println("stopped rotating");
+//		System.out.println("Turn Left um" +x);
+		
 	}
 	
 	/**
