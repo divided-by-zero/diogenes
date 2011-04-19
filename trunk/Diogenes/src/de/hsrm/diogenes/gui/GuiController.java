@@ -14,19 +14,19 @@ public class GuiController {
 	
 	
 	public void changeStatusValue(final String status){
-		this.m.getB1().addActionListener(new ActionListener(){
+		/*this.m.getB1().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				m.changeStatus(status);
 			}
-		});
+		});*/
 	}
 	
 	public void addListener(){
-		this.m.getB1().addActionListener(new ActionListener(){
+		/*this.m.getB1().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				m.changeStatus("bluub");
 			}
-		});
+		});*/
 	}
 	
 }
