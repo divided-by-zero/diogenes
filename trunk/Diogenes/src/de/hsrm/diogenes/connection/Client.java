@@ -37,7 +37,7 @@ public class Client implements WRPPacketListener {
 	 */
 	public void run(String ip, int port) {
 		try {
-			diogenes = DiogenesImpl.connect(ip, port);
+			this.diogenes = DiogenesImpl.connect(ip, port);
 //			connection = WRPConnection.connect("localhost", 33333, "localhost", 33333);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
@@ -75,8 +75,8 @@ public class Client implements WRPPacketListener {
 	public void moveTo(int x, int y) {
 		try {
 			System.out.println("moving...");
-			diogenes.requestMove(x, y);
-			diogenes.waitFor(WRPCmd.GOTO_XY);
+			this.diogenes.requestMove(x, y);
+			this.diogenes.waitFor(WRPCmd.GOTO_XY);
 			System.out.println("...moving finished");
 		} catch (WRPException e) {
 			System.err.println("Couldn't move Diogenes to (" + x + "," + y + "):");
@@ -92,8 +92,8 @@ public class Client implements WRPPacketListener {
 	 * @throws WRPException the wRP exception
 	 */
 	public void moveForward(int x) throws WRPException{
-		diogenes.requestMoveForward(x);
-		diogenes.waitFor(WRPCmd.MOVE_FORWARD);
+		this.diogenes.requestMoveForward(x);
+		this.diogenes.waitFor(WRPCmd.MOVE_FORWARD);
 		System.out.println("Move forward um" +x);
 	}
 	
@@ -104,8 +104,8 @@ public class Client implements WRPPacketListener {
 	 * @throws WRPException the wRP exception
 	 */
 	public void moveBackward(int x) throws WRPException{
-		diogenes.requestMoveBackward(x);
-		diogenes.waitFor(WRPCmd.MOVE_BACKWARD);
+		this.diogenes.requestMoveBackward(x);
+		this.diogenes.waitFor(WRPCmd.MOVE_BACKWARD);
 		System.out.println("Move backward um" +x);
 	}
 	
@@ -119,8 +119,8 @@ public class Client implements WRPPacketListener {
 //		diogenes.requestStopMoving();
 //		diogenes.waitFor(WRPCmd.STOP_MOVING);
 		System.out.println("start rotating");
-		diogenes.requestRotateLeft(x);
-		diogenes.waitFor(WRPCmd.ROTATE_LEFT);
+		this.diogenes.requestRotateLeft(x);
+		this.diogenes.waitFor(WRPCmd.ROTATE_LEFT);
 		System.out.println("stopped rotating");
 //		System.out.println("Turn Left um" +x);
 		
@@ -133,14 +133,14 @@ public class Client implements WRPPacketListener {
 	 * @throws WRPException the wRP exception
 	 */
 	public void turnRight(int x) throws WRPException{
-		diogenes.requestRotateRight(x);
-		diogenes.waitFor(WRPCmd.ROTATE_RIGHT);
+		this.diogenes.requestRotateRight(x);
+		this.diogenes.waitFor(WRPCmd.ROTATE_RIGHT);
 		System.out.println("TurnRight um" +x);
 	}
 	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
-		System.out.println("Got VideoPacket.");
+		
 	}
 
 	@Override
