@@ -1,18 +1,30 @@
 package de.hsrm.diogenes.connection;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import de.fhwiesbaden.webrobbie.wrp.Diogenes;
 
+import de.fhwiesbaden.webrobbie.wrp.DiogenesImpl;
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPConnection;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.fhwiesbaden.webrobbie.wrp.WRPPacketListener;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
+import de.hsrm.diogenes.camera.CameraData;
 
 public class Client implements WRPPacketListener {
 
@@ -22,10 +34,14 @@ public class Client implements WRPPacketListener {
 	//private Diogenes diogenes;
 	private WRPConnection diogenes;
 	private Diogenes diogenesconn;
+	private CameraData cameraData;
 	/**
 	 * Creates an instance of the client
+	 * @throws WRPException 
 	 */
-	public Client() {}
+	public Client() throws WRPException {
+		run("10.18.72.254", 33333);
+	}
 	
 	/**
 	 * Runs the robot
@@ -37,16 +53,18 @@ public class Client implements WRPPacketListener {
 	public void run(String ip, int port) throws WRPException {
 		try {
 			//this.setDiogenes(DiogenesImpl.connect(ip, port));
-			diogenes = WRPConnection.connect("10.18.72.254", 33333, "10.18.72.254", 33333);
-			
+			this.diogenes = WRPConnection.connect(ip,port,ip,port);
+			this.diogenes.addPacketListener(this);
+			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
+			//this.diogenes.wait
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
 		}
-		finally{
-			diogenes.disconnect();
+		/*finally{
+			this.diogenes.disconnect();
 		
-		}
+		}*/
 	}
 
 	@Override
@@ -79,9 +97,11 @@ public class Client implements WRPPacketListener {
 	
 	public void moveTo(int x, int y) {
 		try {
+			int[] coordinates = {x,y};
 			System.out.println("moving...");
-			this.getDiogenesconn().requestMove(x, y);
-			this.getDiogenesconn().waitFor(WRPCmd.GOTO_XY);
+			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GOTO_XY, coordinates));
+			//this.getDiogenesconn().requestMove(x, y);
+			this.diogenes.waitFor(WRPCmd.GOTO_XY);
 			System.out.println("...moving finished");
 		} catch (WRPException e) {
 			System.err.println("Couldn't move Diogenes to (" + x + "," + y + "):");
@@ -143,13 +163,9 @@ public class Client implements WRPPacketListener {
 		System.out.println("TurnRight um" +x);
 	}
 	
-	
-	
-	
-	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
-		
+		this.cameraData = new CameraData(packet);
 	}
 
 	@Override
@@ -193,6 +209,14 @@ public class Client implements WRPPacketListener {
 		this.diogenesconn = diogenesconn;
 	}
 
+	public CameraData getCameraData() {
+		return cameraData;
+	}
 
+	public void setCameraData(CameraData cameraData) {
+		this.cameraData = cameraData;
+	}
+
+	
 	
 }
