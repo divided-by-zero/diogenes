@@ -12,6 +12,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import de.fhwiesbaden.webrobbie.wrp.WRPException;
+import de.hsrm.diogenes.connection.Client;
+
 
 public class GuiModel extends JFrame {
 
@@ -26,10 +29,11 @@ public class GuiModel extends JFrame {
 	private JLabel l4;
 	private ImageIcon screen;
 	private ImageIcon map;
+	private Client c;
 	
 	
-	public GuiModel() {
-		
+	public GuiModel(Client c) {
+		this.c = c;
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
@@ -81,7 +85,7 @@ public class GuiModel extends JFrame {
 	public void createPanels(){
 		
 		this.mapPanel.add(l3);
-		this.webcamPanel.add(l2);
+		this.webcamPanel.add(c.getCameraData().getComponent(0));
 		this.coordsPanel.add(l4);
 		this.statusbarPanel.add(l1);
 		
@@ -136,7 +140,12 @@ public class GuiModel extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new GuiModel();
+		try {
+			new GuiModel(new Client());
+		} catch (WRPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
