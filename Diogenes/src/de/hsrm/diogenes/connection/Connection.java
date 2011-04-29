@@ -26,7 +26,7 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.camera.CameraData;
 
-public class Client implements WRPPacketListener {
+public class Connection implements WRPPacketListener {
 
 	/**
 	 * Reference to the robot-connection
@@ -39,8 +39,8 @@ public class Client implements WRPPacketListener {
 	 * Creates an instance of the client
 	 * @throws WRPException 
 	 */
-	public Client() throws WRPException {
-		run("10.18.72.254", 33333);
+	public Connection() throws WRPException {
+		//run("10.18.72.254", 33333);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class Client implements WRPPacketListener {
 			//this.setDiogenes(DiogenesImpl.connect(ip, port));
 			this.diogenes = WRPConnection.connect(ip,port,ip,port);
 			this.diogenes.addPacketListener(this);
-			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
+			//this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
 			//this.diogenes.wait
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
@@ -88,80 +88,7 @@ public class Client implements WRPPacketListener {
 //					", Angle = " + connection.getRobotInfo().getAngle();
 //	}
 	
-	/**
-	 * A method to move the robot to an absolute position
-	 * 
-	 * @param x The x-coordinate on the map
-	 * @param y The y-coordinate on the map
-	 */
 	
-	public void moveTo(int x, int y) {
-		try {
-			int[] coordinates = {x,y};
-			System.out.println("moving...");
-			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GOTO_XY, coordinates));
-			//this.getDiogenesconn().requestMove(x, y);
-			this.diogenes.waitFor(WRPCmd.GOTO_XY);
-			System.out.println("...moving finished");
-		} catch (WRPException e) {
-			System.err.println("Couldn't move Diogenes to (" + x + "," + y + "):");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Move forward.
-	 *
-	 * @param x 
-	 * @throws WRPException the wRP exception
-	 */
-	public void moveForward(int x) throws WRPException{
-		this.getDiogenesconn().requestMoveForward(x);
-		this.getDiogenesconn().waitFor(WRPCmd.MOVE_FORWARD);
-		System.out.println("Move forward um" +x);
-	}
-	
-	/**
-	 * Move backward.
-	 *
-	 * @param x The distance the robot walks
-	 * @throws WRPException the wRP exception
-	 */
-	public void moveBackward(int x) throws WRPException{
-		this.getDiogenesconn().requestMoveBackward(x);
-		this.getDiogenesconn().waitFor(WRPCmd.MOVE_BACKWARD);
-		System.out.println("Move backward um" +x);
-	}
-	
-	/**
-	 * Turn left.
-	 *
-	 * @param x The angle the robot turns
-	 * @throws WRPException the wRP exception
-	 */
-	public void turnLeft(int x) throws WRPException{
-//		diogenes.requestStopMoving();
-//		diogenes.waitFor(WRPCmd.STOP_MOVING);
-		System.out.println("start rotating");
-		this.getDiogenesconn().requestRotateLeft(x);
-		this.getDiogenesconn().waitFor(WRPCmd.ROTATE_LEFT);
-		System.out.println("stopped rotating");
-//		System.out.println("Turn Left um" +x);
-		
-	}
-	
-	/**
-	 * Turn right.
-	 *
-	 * @param x The angle the robot turns
-	 * @throws WRPException the wRP exception
-	 */
-	public void turnRight(int x) throws WRPException{
-		this.getDiogenesconn().requestRotateRight(x);
-		this.getDiogenesconn().waitFor(WRPCmd.ROTATE_RIGHT);
-		System.out.println("TurnRight um" +x);
-	}
 	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {

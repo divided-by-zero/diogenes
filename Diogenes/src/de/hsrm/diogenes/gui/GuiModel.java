@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
-import de.hsrm.diogenes.connection.Client;
+import de.hsrm.diogenes.connection.Connection;
 
 
 public class GuiModel extends JFrame {
@@ -29,10 +29,10 @@ public class GuiModel extends JFrame {
 	private JLabel l4;
 	private ImageIcon screen;
 	private ImageIcon map;
-	private Client c;
+	private Connection c;
 	
 	
-	public GuiModel(Client c) {
+	public GuiModel(Connection c) {
 		this.c = c;
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -141,7 +141,7 @@ public class GuiModel extends JFrame {
 	
 	public static void main(String[] args) {
 		try {
-			new GuiModel(new Client());
+			new GuiModel(new Connection());
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

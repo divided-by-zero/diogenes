@@ -1,7 +1,7 @@
 package de.hsrm.diogenes.gui;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
-import de.hsrm.diogenes.connection.Client;
+import de.hsrm.diogenes.connection.Connection;
 
 public class GuiStarter {
 	
@@ -12,7 +12,7 @@ public class GuiStarter {
 	
 		GuiStarter gs = new GuiStarter();
 		
-		gs.gm = new GuiModel(new Client());
+		gs.gm = new GuiModel(new Connection());
 		gs.gc = new GuiController(gs.gm);
 	}
 
