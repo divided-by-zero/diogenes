@@ -12,7 +12,7 @@ public class GuiStarter {
 	
 		GuiStarter gs = new GuiStarter();
 		
-		gs.gm = new GuiModel(new Connection());
+		gs.gm = new GuiModel(new Connection("10.18.72.254", 33333));
 		gs.gc = new GuiController(gs.gm);
 	}
 
