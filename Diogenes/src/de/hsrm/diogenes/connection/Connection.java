@@ -35,12 +35,14 @@ public class Connection implements WRPPacketListener {
 	private WRPConnection diogenes;
 	private Diogenes diogenesconn;
 	private CameraData cameraData;
+	private boolean camData;
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
 	 */
-	public Connection() throws WRPException {
-		//run("10.18.72.254", 33333);
+	public Connection(String ip, int port) throws WRPException {
+		camData = false;
+		run(ip, port);
 	}
 	
 	/**
@@ -55,8 +57,8 @@ public class Connection implements WRPPacketListener {
 			//this.setDiogenes(DiogenesImpl.connect(ip, port));
 			this.diogenes = WRPConnection.connect(ip,port,ip,port);
 			this.diogenes.addPacketListener(this);
-			//this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
-			//this.diogenes.wait
+			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
+			this.diogenes.waitFor(WRPCmd.GET_VIDEO);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
@@ -92,6 +94,7 @@ public class Connection implements WRPPacketListener {
 	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
+		this.camData = true;
 		this.cameraData = new CameraData(packet);
 	}
 
@@ -142,6 +145,14 @@ public class Connection implements WRPPacketListener {
 
 	public void setCameraData(CameraData cameraData) {
 		this.cameraData = cameraData;
+	}
+
+	public boolean isCamData() {
+		return camData;
+	}
+
+	public void setCamData(boolean camData) {
+		this.camData = camData;
 	}
 
 	

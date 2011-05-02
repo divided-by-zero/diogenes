@@ -3,6 +3,11 @@ package de.hsrm.diogenes.gui;
 import java.awt.Color;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,8 +16,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
+import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.connection.Connection;
 
 
@@ -20,7 +27,7 @@ public class GuiModel extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel mapPanel;
-	private JPanel webcamPanel;
+	private final JPanel webcamPanel;
 	private JPanel coordsPanel;
 	private JPanel statusbarPanel;
 	private JLabel l1;
@@ -30,6 +37,8 @@ public class GuiModel extends JFrame {
 	private ImageIcon screen;
 	private ImageIcon map;
 	private Connection c;
+	private boolean camEnabled;
+
 	
 	
 	public GuiModel(Connection c) {
@@ -38,13 +47,13 @@ public class GuiModel extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
 		this.setJMenuBar(makeMenuBar());
+		this.camEnabled = true;
 
 		this.l1 = new JLabel("Status");
 		
-		this.screen = new ImageIcon(getClass().getResource("../img/scrat.jpg"));
+		
 		this.map = new ImageIcon(getClass().getResource("../img/map.jpg"));
 		
-		this.l2 = new JLabel(this.screen);
 		this.l3 = new JLabel(this.map);
 		this.l4 = new JLabel("X-Koordinate: 0 " +
 							"Y-Koordinate: 0");
@@ -68,9 +77,12 @@ public class GuiModel extends JFrame {
 		this.add(webcamPanel,GridBagConstraintsFactory.create(1,0,1,1));
 		this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
 		this.add(statusbarPanel,GridBagConstraintsFactory.create(0, 3, 1, 1));
-		
+	
 		this.pack();
 		this.setVisible(true);
+		
+		//refreshCamPanel(this.webcamPanel);
+		
 		
 	}
 	
@@ -85,10 +97,23 @@ public class GuiModel extends JFrame {
 	public void createPanels(){
 		
 		this.mapPanel.add(l3);
-		this.webcamPanel.add(c.getCameraData().getComponent(0));
+	
 		this.coordsPanel.add(l4);
 		this.statusbarPanel.add(l1);
 		
+		if(this.c.isCamData()){
+			webcamPanel.add(c.getCameraData().getCam());
+			Timer t = new Timer(210, new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					webcamPanel.removeAll();
+					webcamPanel.add(c.getCameraData().getCam());
+					webcamPanel.validate();				
+				}
+	
+			});
+			t.start();
+				
+		}
 	}
 	
 	
@@ -139,9 +164,24 @@ public class GuiModel extends JFrame {
 		return menuBar;
 	}
 	
+	public void refreshCamPanel(final JPanel panel){
+		Timer t = new Timer(20, new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				panel.repaint();
+
+			}
+
+		});
+		t.start();
+	}
+	
+
+	
 	public static void main(String[] args) {
 		try {
-			new GuiModel(new Connection());
+			Connection c = new Connection("10.18.72.254", 33333);
+			new GuiModel(c);
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,11 +9,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 
-public class CameraData extends JPanel {
+public class CameraData {
 	
 	private static final long serialVersionUID = 1L;
 	private WRPVideoPacket packet;
-	
+	private JLabel cam;
+
 	public CameraData(WRPVideoPacket packet) {
 		this.packet = packet;
 		setUpCamera();
@@ -24,15 +25,24 @@ public class CameraData extends JPanel {
 		System.out.println("handleVideoPacket(): Received image packet - "
 				+ "data size is " + this.packet.getJpegData().length + " bytes.");
 		
-		// Just to get an idea of how to work with the image data...
 		try {
 			final BufferedImage image = ImageIO.read(new ByteArrayInputStream(packet.getJpegData()));
-			final JLabel label = new JLabel(new ImageIcon(image));
-			this.add(label);
-		}
+			setCam(new JLabel(new ImageIcon(image)));
+			}
 		catch (IOException e) {
 			System.err.println("Could not create buffered image :(");
 		}
 	}
-	
+
+
+	public void setCam(JLabel cam) {
+		this.cam = cam;
+	}
+
+
+	public JLabel getCam() {
+		return cam;
+	}
+
+
 }
