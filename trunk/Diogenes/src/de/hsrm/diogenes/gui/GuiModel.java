@@ -164,23 +164,12 @@ public class GuiModel extends JFrame {
 		return menuBar;
 	}
 	
-	public void refreshCamPanel(final JPanel panel){
-		Timer t = new Timer(20, new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				panel.repaint();
-
-			}
-
-		});
-		t.start();
-	}
-	
 
 	
 	public static void main(String[] args) {
 		try {
-			Connection c = new Connection("10.18.72.254", 33333);
+			//Connection c = new Connection("10.18.72.254", 33333);
+			Connection c = new Connection("localhost", 33333);
 			new GuiModel(c);
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block

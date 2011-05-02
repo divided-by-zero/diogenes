@@ -1,5 +1,7 @@
 package de.hsrm.diogenes.logic;
 
+import java.awt.Point;
+
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
@@ -87,5 +89,22 @@ public class Movement {
 		c.getDiogenes().waitFor(WRPCmd.ROTATE_RIGHT);
 		System.out.println("TurnRight um" +x);
 	}
+	
+	/**
+	 * Lets the robot wander around visiting the given points
+	 * 
+	 * @param p the points the robot has to visit
+	 * @throws WRPException
+	 */
+	public void wander(Point... p) throws WRPException{
+		
+		for(Point pp : p){
+			c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
+			c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+		}
+		System.out.println("All points visited O_o");
+		
+	}
+	
 	
 }
