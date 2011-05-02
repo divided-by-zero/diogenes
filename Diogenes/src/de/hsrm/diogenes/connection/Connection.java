@@ -58,7 +58,7 @@ public class Connection implements WRPPacketListener {
 			this.diogenes = WRPConnection.connect(ip,port,ip,port);
 			this.diogenes.addPacketListener(this);
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
-			this.diogenes.waitFor(WRPCmd.GET_VIDEO);
+			//this.diogenes.waitFor(WRPCmd.GET_VIDEO);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
