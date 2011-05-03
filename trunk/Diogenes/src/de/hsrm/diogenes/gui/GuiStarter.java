@@ -5,7 +5,15 @@ import de.hsrm.diogenes.connection.Connection;
 
 public class GuiStarter {
 	
+	/**
+	 * @uml.property  name="gm"
+	 * @uml.associationEnd  
+	 */
 	private GuiModel gm;
+	/**
+	 * @uml.property  name="gc"
+	 * @uml.associationEnd  
+	 */
 	private GuiController gc;
 	
 	public static void main(String[] args) throws WRPException {

@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
  */
 public class GuiController {
 
-	/** A GuiModel */
+	/**
+	 * A GuiModel
+	 * @uml.property  name="m"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private GuiModel m;
 	
 	/**

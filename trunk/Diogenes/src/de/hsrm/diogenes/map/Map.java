@@ -18,11 +18,33 @@ import de.hsrm.diogenes.connection.Connection;
  */
 public class Map {
 
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
+	/**
+	 * @uml.property  name="mp"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private WRPMapPacket mp;
+	/**
+	 * @uml.property  name="data" multiplicity="(0 -1)" dimension="1"
+	 */
 	private byte[] data;
+	/**
+	 * @uml.property  name="w"
+	 */
 	private Writer w;
+	/**
+	 * @uml.property  name="roboParse"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private RobotMapParser roboParse;
+	/**
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private MapFile map;
 	
 	/**

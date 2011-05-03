@@ -9,6 +9,10 @@ import de.hsrm.diogenes.connection.Connection;
 
 public class Movement {
 
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
 	
 	public Movement(Connection c){
