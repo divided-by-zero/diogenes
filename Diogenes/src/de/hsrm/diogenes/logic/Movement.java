@@ -26,9 +26,9 @@ public class Movement {
 		try {
 			int[] coordinates = {x,y};
 			System.out.println("moving...");
-			c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, coordinates));
+			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, coordinates));
 			//this.getDiogenesconn().requestMove(x, y);
-			c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
 			System.out.println("...moving finished");
 		} catch (WRPException e) {
 			System.err.println("Couldn't move Diogenes to (" + x + "," + y + "):");
@@ -44,8 +44,8 @@ public class Movement {
 	 * @throws WRPException the wRP exception
 	 */
 	public void moveForward(int x) throws WRPException{
-		c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_FORWARD, x));
-		c.getDiogenes().waitFor(WRPCmd.MOVE_FORWARD);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_FORWARD, x));
+		this.c.getDiogenes().waitFor(WRPCmd.MOVE_FORWARD);
 		System.out.println("Move forward um" +x);
 	}
 	
@@ -56,8 +56,8 @@ public class Movement {
 	 * @throws WRPException the wRP exception
 	 */
 	public void moveBackward(int x) throws WRPException{
-		c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_BACKWARD, x));
-		c.getDiogenes().waitFor(WRPCmd.MOVE_BACKWARD);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_BACKWARD, x));
+		this.c.getDiogenes().waitFor(WRPCmd.MOVE_BACKWARD);
 		System.out.println("Move backward um" +x);
 	}
 	
@@ -71,8 +71,8 @@ public class Movement {
 //		diogenes.requestStopMoving();
 //		diogenes.waitFor(WRPCmd.STOP_MOVING);
 		System.out.println("start rotating");
-		c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_LEFT, x));
-		c.getDiogenes().waitFor(WRPCmd.ROTATE_LEFT);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_LEFT, x));
+		this.c.getDiogenes().waitFor(WRPCmd.ROTATE_LEFT);
 		System.out.println("stopped rotating");
 //		System.out.println("Turn Left um" +x);
 		
@@ -85,8 +85,8 @@ public class Movement {
 	 * @throws WRPException the wRP exception
 	 */
 	public void turnRight(int x) throws WRPException{
-		c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_RIGHT, x));
-		c.getDiogenes().waitFor(WRPCmd.ROTATE_RIGHT);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_RIGHT, x));
+		this.c.getDiogenes().waitFor(WRPCmd.ROTATE_RIGHT);
 		System.out.println("TurnRight um" +x);
 	}
 	
@@ -99,8 +99,8 @@ public class Movement {
 	public void wander(Point... p) throws WRPException{
 		
 		for(Point pp : p){
-			c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
-			c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
+			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
 		}
 		System.out.println("All points visited O_o");
 		
