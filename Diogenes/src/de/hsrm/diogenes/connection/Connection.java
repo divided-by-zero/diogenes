@@ -1,17 +1,6 @@
 package de.hsrm.diogenes.connection;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import de.fhwiesbaden.webrobbie.wrp.Diogenes;
-
-import de.fhwiesbaden.webrobbie.wrp.DiogenesImpl;
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPConnection;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -33,22 +22,21 @@ public class Connection implements WRPPacketListener {
 	 * @uml.property  name="diogenes"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	//private Diogenes diogenes;
 	private WRPConnection diogenes;
+	
 	/**
-	 * @uml.property  name="diogenesconn"
-	 * @uml.associationEnd  
-	 */
-	private Diogenes diogenesconn;
-	/**
+	 * Represents the camera
 	 * @uml.property  name="cameraData"
 	 * @uml.associationEnd  
 	 */
 	private CameraData cameraData;
+	
 	/**
+	 * Shows if any camera data is given
 	 * @uml.property  name="camData"
 	 */
 	private boolean camData;
+	
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
@@ -59,15 +47,13 @@ public class Connection implements WRPPacketListener {
 	}
 	
 	/**
-	 * Runs the robot
-	 * 
-	 * @param ip The IP of the robot
-	 * @param port The open port on the robot
+	 * Runs the robot or the simulator
+	 * @param ip The IP of the robot or the simulator
+	 * @param port The open port on the robot or the simulator
 	 * @throws WRPException 
 	 */
 	public void run(String ip, int port) throws WRPException {
 		try {
-			//this.setDiogenes(DiogenesImpl.connect(ip, port));
 			this.diogenes = WRPConnection.connect(ip,port,ip,port);
 			this.diogenes.addPacketListener(this);
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
@@ -76,18 +62,6 @@ public class Connection implements WRPPacketListener {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
 		}
-		/*finally{
-			this.diogenes.disconnect();
-		
-		}*/
-	}
-
-	@Override
-	public void handleStatusPacket(WRPStatusPacket packet) {
-		System.out.println("RobotInfo:"
-				+ "  X="     + packet.getX() 
-				+ "  Y="     + packet.getY() 
-				+ "  Angle=" + packet.getAngle());
 	}
 	
 //	/**
@@ -103,7 +77,13 @@ public class Connection implements WRPPacketListener {
 //					", Angle = " + connection.getRobotInfo().getAngle();
 //	}
 	
-	
+	@Override
+	public void handleStatusPacket(WRPStatusPacket packet) {
+		System.out.println("RobotInfo:"
+				+ "  X="     + packet.getX() 
+				+ "  Y="     + packet.getY() 
+				+ "  Angle=" + packet.getAngle());
+	}	
 	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
@@ -142,7 +122,8 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * @param diogenes
+	 * Sets a WRPConnection-Object
+	 * @param diogenes The new WRPConnection-Object
 	 * @uml.property  name="diogenes"
 	 */
 	public void setDiogenes(WRPConnection diogenes) {
@@ -150,7 +131,8 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * @return
+	 * Gets the WRPConnection-Object
+	 * @return The current WRPConnection-Object
 	 * @uml.property  name="diogenes"
 	 */
 	public WRPConnection getDiogenes() {
@@ -158,23 +140,8 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * @return
-	 * @uml.property  name="diogenesconn"
-	 */
-	public Diogenes getDiogenesconn() {
-		return this.diogenesconn;
-	}
-
-	/**
-	 * @param diogenesconn
-	 * @uml.property  name="diogenesconn"
-	 */
-	public void setDiogenesconn(Diogenes diogenesconn) {
-		this.diogenesconn = diogenesconn;
-	}
-
-	/**
-	 * @return
+	 * Gets the camera-data
+	 * @return The current camera-data
 	 * @uml.property  name="cameraData"
 	 */
 	public CameraData getCameraData() {
@@ -182,7 +149,8 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * @param cameraData
+	 * Sets the camera-data
+	 * @param cameraData The new camera-data
 	 * @uml.property  name="cameraData"
 	 */
 	public void setCameraData(CameraData cameraData) {
@@ -190,7 +158,8 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * @return
+	 * Checks if there has been any camera-data yet
+	 * @return true if there is data, false if not
 	 * @uml.property  name="camData"
 	 */
 	public boolean isCamData() {
@@ -198,13 +167,12 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
+	 * Sets the indicator if there has been any camera-data yet
 	 * @param camData
 	 * @uml.property  name="camData"
 	 */
 	public void setCamData(boolean camData) {
 		this.camData = camData;
 	}
-
-	
 	
 }
