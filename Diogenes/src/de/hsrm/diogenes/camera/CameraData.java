@@ -18,10 +18,18 @@ public class CameraData {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The packet. */
+	/**
+	 * The packet.
+	 * @uml.property  name="packet"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private WRPVideoPacket packet;
 	
-	/** A jlabel with text cam */
+	/**
+	 * A jlabel with text cam
+	 * @uml.property  name="cam"
+	 * @uml.associationEnd  
+	 */
 	private JLabel cam;
 
 	/**
@@ -54,8 +62,8 @@ public class CameraData {
 
 	/**
 	 * Sets the Camera.
-	 *
-	 * @param cam A new Camera
+	 * @param cam  A new Camera
+	 * @uml.property  name="cam"
 	 */
 	public void setCam(JLabel cam) {
 		this.cam = cam;
@@ -64,8 +72,8 @@ public class CameraData {
 
 	/**
 	 * Gets  the Camera.
-	 *
-	 * @return the cam
+	 * @return  the cam
+	 * @uml.property  name="cam"
 	 */
 	public JLabel getCam() {
 		return cam;

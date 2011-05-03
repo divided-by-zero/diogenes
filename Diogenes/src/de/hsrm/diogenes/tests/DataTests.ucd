@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="DataTests" size="1402,792" id="de.hsrm.diogenes.tests" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302044696F67656E6573">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.1/@sourceConnections.1" name="Connection" location="660,135" size="198,243" id="de.hsrm.diogenes.connection/Connection" runTimeClassModel="camData,run(Ljava.lang.String;I),handleRequestFinished(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;),handleVideoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;),handleStatusPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;),handleCameraInfoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;),handleCameraPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;),Connection(Ljava.lang.String;I),handleSensorDataPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;),handlePathPlanningPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="120,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="camData" id="de.hsrm.diogenes.connection/Connection#camData"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="175,162">
+      <children xsi:type="editmodel:MethodEditModel" name="Connection" id="de.hsrm.diogenes.connection/Connection#Connection(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleCameraInfoPacket" id="de.hsrm.diogenes.connection/Connection#handleCameraInfoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleCameraPacket" id="de.hsrm.diogenes.connection/Connection#handleCameraPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handlePathPlanningPacket" id="de.hsrm.diogenes.connection/Connection#handlePathPlanningPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleRequestFinished" id="de.hsrm.diogenes.connection/Connection#handleRequestFinished(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleSensorDataPacket" id="de.hsrm.diogenes.connection/Connection#handleSensorDataPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleStatusPacket" id="de.hsrm.diogenes.connection/Connection#handleStatusPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleVideoPacket" id="de.hsrm.diogenes.connection/Connection#handleVideoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="run" id="de.hsrm.diogenes.connection/Connection#run(Ljava.lang.String;I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="DataTests" location="180,195" size="115,104" id="de.hsrm.diogenes.tests/DataTests" runTimeClassModel="main([Ljava.lang.String;),DataTests(Lde.hsrm.diogenes.connection.Connection;),testBlub()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="84,54">
+      <children xsi:type="editmodel:MethodEditModel" name="DataTests" id="de.hsrm.diogenes.tests/DataTests#DataTests(Lde.hsrm.diogenes.connection.Connection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="main" id="de.hsrm.diogenes.tests/DataTests#main([Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="testBlub" id="de.hsrm.diogenes.tests/DataTests#testBlub()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="de.hsrm.diogenes.connection/Connection@c+de.hsrm.diogenes.tests/DataTests@" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="115,52" id="de.hsrm.diogenes.connection/Connection@c+de.hsrm.diogenes.tests/DataTests@|de.hsrm.diogenes.tests/DataTests#" attachSource="true" roleLabel="//@children.1/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="302,227" size="0,13" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="c" location="0,112" id="de.hsrm.diogenes.connection/Connection@c+de.hsrm.diogenes.tests/DataTests@|de.hsrm.diogenes.connection/Connection#c" multiplicityLabel="//@children.1/@sourceConnections.0/@children.2/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - c" location="637,227" size="16,13" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="646,254" size="7,13" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.tests/DataTests-Standard::Instantiate->de.hsrm.diogenes.connection/Connection*de.hsrm.diogenes.tests/DataTests-Soyatec::Import->de.hsrm.diogenes.connection/Connection" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.1/@children.2" label="//@children.1/@sourceConnections.1/@children.0" sourceEnd="//@children.1/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate»" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="115,32" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,82"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" properties="open=de.hsrm.diogenes.tests/DataTests;wireOptions=7;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

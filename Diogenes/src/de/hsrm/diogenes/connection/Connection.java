@@ -30,11 +30,24 @@ public class Connection implements WRPPacketListener {
 
 	/**
 	 * Reference to the robot-connection
+	 * @uml.property  name="diogenes"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	//private Diogenes diogenes;
 	private WRPConnection diogenes;
+	/**
+	 * @uml.property  name="diogenesconn"
+	 * @uml.associationEnd  
+	 */
 	private Diogenes diogenesconn;
+	/**
+	 * @uml.property  name="cameraData"
+	 * @uml.associationEnd  
+	 */
 	private CameraData cameraData;
+	/**
+	 * @uml.property  name="camData"
+	 */
 	private boolean camData;
 	/**
 	 * Creates an instance of the client
@@ -123,34 +136,66 @@ public class Connection implements WRPPacketListener {
 		System.out.println("Got RequestFinishedPacket.");
 	}
 
+	/**
+	 * @param diogenes
+	 * @uml.property  name="diogenes"
+	 */
 	public void setDiogenes(WRPConnection diogenes) {
 		this.diogenes = diogenes;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="diogenes"
+	 */
 	public WRPConnection getDiogenes() {
 		return this.diogenes;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="diogenesconn"
+	 */
 	public Diogenes getDiogenesconn() {
 		return this.diogenesconn;
 	}
 
+	/**
+	 * @param diogenesconn
+	 * @uml.property  name="diogenesconn"
+	 */
 	public void setDiogenesconn(Diogenes diogenesconn) {
 		this.diogenesconn = diogenesconn;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="cameraData"
+	 */
 	public CameraData getCameraData() {
 		return cameraData;
 	}
 
+	/**
+	 * @param cameraData
+	 * @uml.property  name="cameraData"
+	 */
 	public void setCameraData(CameraData cameraData) {
 		this.cameraData = cameraData;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="camData"
+	 */
 	public boolean isCamData() {
 		return this.camData;
 	}
 
+	/**
+	 * @param camData
+	 * @uml.property  name="camData"
+	 */
 	public void setCamData(boolean camData) {
 		this.camData = camData;
 	}

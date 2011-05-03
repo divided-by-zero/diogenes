@@ -26,17 +26,64 @@ import de.hsrm.diogenes.connection.Connection;
 public class GuiModel extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * @uml.property  name="mapPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JPanel mapPanel;
+	/**
+	 * @uml.property  name="webcamPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel webcamPanel;
+	/**
+	 * @uml.property  name="coordsPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JPanel coordsPanel;
+	/**
+	 * @uml.property  name="statusbarPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JPanel statusbarPanel;
+	/**
+	 * @uml.property  name="l1"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JLabel l1;
+	/**
+	 * @uml.property  name="l2"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	private JLabel l2;
+	/**
+	 * @uml.property  name="l3"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JLabel l3;
+	/**
+	 * @uml.property  name="l4"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JLabel l4;
+	/**
+	 * @uml.property  name="screen"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	private ImageIcon screen;
+	/**
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private ImageIcon map;
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
+	/**
+	 * @uml.property  name="camEnabled"
+	 */
 	private boolean camEnabled;
 
 	

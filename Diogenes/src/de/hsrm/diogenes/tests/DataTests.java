@@ -6,6 +6,10 @@ import junit.framework.TestCase;
 
 public class DataTests extends TestCase {
 
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
 	
 	public DataTests(Connection c) throws WRPException{

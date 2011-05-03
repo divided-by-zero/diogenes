@@ -7,7 +7,11 @@ import de.hsrm.diogenes.common.ModelListener;
  */
 public class GUI implements ModelListener {
 	
-	/** A gui model variable */
+	/**
+	 * A gui model variable
+	 * @uml.property  name="m"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private GuiModel m;
 	
 	/**

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="CameraData" size="1458,814" id="de.hsrm.diogenes.camera" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302044696F67656E6573">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0" name="Connection" location="540,60" size="198,243" id="de.hsrm.diogenes.connection/Connection" runTimeClassModel="camData,run(Ljava.lang.String;I),handleRequestFinished(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;),handleVideoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;),handleStatusPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;),handleCameraInfoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;),handleCameraPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;),Connection(Ljava.lang.String;I),handleSensorDataPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;),handlePathPlanningPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="120,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="camData" id="de.hsrm.diogenes.connection/Connection#camData"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="175,162">
+      <children xsi:type="editmodel:MethodEditModel" name="Connection" id="de.hsrm.diogenes.connection/Connection#Connection(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleCameraInfoPacket" id="de.hsrm.diogenes.connection/Connection#handleCameraInfoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraInfoPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleCameraPacket" id="de.hsrm.diogenes.connection/Connection#handleCameraPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handlePathPlanningPacket" id="de.hsrm.diogenes.connection/Connection#handlePathPlanningPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleRequestFinished" id="de.hsrm.diogenes.connection/Connection#handleRequestFinished(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleSensorDataPacket" id="de.hsrm.diogenes.connection/Connection#handleSensorDataPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleStatusPacket" id="de.hsrm.diogenes.connection/Connection#handleStatusPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleVideoPacket" id="de.hsrm.diogenes.connection/Connection#handleVideoPacket(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="run" id="de.hsrm.diogenes.connection/Connection#run(Ljava.lang.String;I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.connection/Connection-Standard::Instantiate->de.hsrm.diogenes.camera/CameraData*de.hsrm.diogenes.connection/Connection-Soyatec::Import->de.hsrm.diogenes.camera/CameraData" source="//@children.0" target="//@children.1" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate»" size="114,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,106" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="135,72"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.0/@sourceConnections.0" name="CameraData" location="120,120" size="135,86" id="de.hsrm.diogenes.camera/CameraData">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="104,36">
+      <children xsi:type="editmodel:MethodEditModel" name="CameraData" id="de.hsrm.diogenes.camera/CameraData#CameraData(Lde.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setUpCamera" id="de.hsrm.diogenes.camera/CameraData#setUpCamera()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="de.hsrm.diogenes.camera/CameraData@cameraData+de.hsrm.diogenes.connection/Connection@" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="cameraData" location="135,42" id="de.hsrm.diogenes.camera/CameraData@cameraData+de.hsrm.diogenes.connection/Connection@|de.hsrm.diogenes.camera/CameraData#cameraData" attachSource="true" multiplicityLabel="//@children.1/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - cameraData" location="262,142" size="77,13" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="262,169" size="20,13" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,102" id="de.hsrm.diogenes.camera/CameraData@cameraData+de.hsrm.diogenes.connection/Connection@|de.hsrm.diogenes.connection/Connection#"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" properties="open=de.hsrm.diogenes.camera/CameraData;wireOptions=7;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>
