@@ -41,7 +41,7 @@ public class Connection implements WRPPacketListener {
 	 * @throws WRPException 
 	 */
 	public Connection(String ip, int port) throws WRPException {
-		camData = false;
+		this.camData = false;
 		run(ip, port);
 	}
 	
@@ -128,11 +128,11 @@ public class Connection implements WRPPacketListener {
 	}
 
 	public WRPConnection getDiogenes() {
-		return diogenes;
+		return this.diogenes;
 	}
 
 	public Diogenes getDiogenesconn() {
-		return diogenesconn;
+		return this.diogenesconn;
 	}
 
 	public void setDiogenesconn(Diogenes diogenesconn) {
@@ -148,7 +148,7 @@ public class Connection implements WRPPacketListener {
 	}
 
 	public boolean isCamData() {
-		return camData;
+		return this.camData;
 	}
 
 	public void setCamData(boolean camData) {
