@@ -108,7 +108,12 @@ public class Connection implements WRPPacketListener {
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
 		this.camData = true;
-		this.cameraData = new CameraData(packet);
+		try {
+			this.cameraData = new CameraData(packet, this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
