@@ -2,11 +2,19 @@ package de.hsrm.diogenes.gui;
 
 import de.hsrm.diogenes.common.ModelListener;
 
-
+/**
+ * The Class GUI.
+ */
 public class GUI implements ModelListener {
 	
+	/** A gui model variable */
 	private GuiModel m;
 	
+	/**
+	 * Instantiates a new gUI.
+	 *
+	 * @param m  A GuiModel
+	 */
 	public GUI(GuiModel m){
 		
 		this.m = m;
@@ -14,6 +22,9 @@ public class GUI implements ModelListener {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see de.hsrm.diogenes.common.ModelListener#modelChanged()
+	 */
 	@Override
 	public void modelChanged() {
 	//	this.m.getStatusLabel().setText(this.m.getStatus());	
