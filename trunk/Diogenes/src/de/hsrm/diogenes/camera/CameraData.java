@@ -2,11 +2,17 @@ package de.hsrm.diogenes.camera;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
+import de.fhwiesbaden.webrobbie.wrp.WRPException;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
+import de.hsrm.diogenes.connection.Connection;
 
 /**
  * The Class CameraData.
@@ -30,13 +36,18 @@ public class CameraData {
 	 */
 	private JLabel cam;
 
+	private BufferedImage image; 
+	private Connection c;
 	/**
 	 * Instantiates a new camera data.
 	 * @param packet the packet
+	 * @throws IOException 
 	 */
-	public CameraData(WRPVideoPacket packet) {
+	public CameraData(WRPVideoPacket packet, Connection c) throws IOException {
 		this.packet = packet;
+		this.c = c;
 		setUpCamera();
+		takePhoto();
 	}
 	
 	/**
@@ -45,12 +56,25 @@ public class CameraData {
 	public void setUpCamera() {
 		System.out.println("handleVideoPacket(): Received image packet - "
 				+ "data size is " + this.packet.getJpegData().length + " bytes.");
+		
 		try {
-			final BufferedImage image = ImageIO.read(new ByteArrayInputStream(packet.getJpegData()));
+			image = ImageIO.read(new ByteArrayInputStream(packet.getJpegData()));
 			setCam(new JLabel(new ImageIcon(image)));
-		} catch (IOException e) {
+			}
+		catch (IOException e) {
 			System.err.println("Could not create buffered image :(");
 		}
+	}
+	
+	public void adjustCameraLeft(int angle) throws WRPException{
+		
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_MOVE, angle));
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_MOVE);
+		
+	}
+	
+	public void takePhoto() throws IOException{
+		ImageIO.write(this.image, "jpg", new File("photo"));
 	}
 
 	/**
