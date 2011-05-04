@@ -68,13 +68,13 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		
 		BufferedImage img = new BufferedImage(8000, 6000, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLUE);
 		for(MapLine ml : lines){
-			g.drawLine((int)ml.getP1().getX(), (int)ml.getP1().getY()+6000, (int)ml.getP2().getX(), (int)ml.getP2().getY()+6000);
+			g.drawLine((int)ml.getP1().getX(), (int)ml.getP1().getY()*-1, (int)ml.getP2().getX(), (int)ml.getP2().getY()*-1);
 		}
 		g.setColor(Color.WHITE);
 		for(MapPoint mp : points){
-			g.drawLine((int)mp.getX(), (int)mp.getY()+6000, (int)mp.getX()+5, (int)mp.getY()+6000+5);
+			g.drawLine((int)mp.getX(), (int)mp.getY()*-1, (int)mp.getX()+5, ((int)mp.getY()*-1));
 		}
 		
 		return img;
