@@ -1,11 +1,20 @@
 package de.hsrm.diogenes.map;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.fhwiesbaden.webrobbie.clientutil.map.Map2ImageTransformer;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapFile;
+import de.fhwiesbaden.webrobbie.clientutil.map.MapLine;
+import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 import de.fhwiesbaden.webrobbie.clientutil.map.RobotMapParser;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPMapPacket;
 import de.hsrm.diogenes.connection.Connection;
@@ -47,6 +56,10 @@ public class Map {
 	 */
 	private MapFile map;
 	
+	private List<MapLine> lines;
+	
+	private List<MapPoint> points;
+	
 	/**
 	 * 
 	 * @param c Object of the connection class
@@ -55,10 +68,17 @@ public class Map {
 	public Map(Connection c) throws IOException{
 		this.c = c;
 		this.w = new FileWriter("map.map");
+		this.lines = new ArrayList<MapLine>();
+		this.points = new ArrayList<MapPoint>();
 		parseMap();
+		this.lines = this.map.getLineList();
+		this.points = this.map.getPointList();
+		
 		
 	}
 	
+
+
 	/**
 	 * Creates the MapFile object, containing the map data of the robot
 	 * @throws IOException
@@ -77,6 +97,36 @@ public class Map {
 		this.roboParse = new RobotMapParser(new BufferedInputStream(new FileInputStream("map.map")));
 		this.map = this.roboParse.parse();
 		
+		
+	}
+	
+	
+	public List<MapLine> getLines() {
+		return lines;
+	}
+
+	public void setLines(List<MapLine> lines) {
+		this.lines = lines;
+	}
+
+	public List<MapPoint> getPoints() {
+		return points;
+	}
+
+	public void setPoints(List<MapPoint> points) {
+		this.points = points;
+	}
+
+
+
+	public MapFile getMap() {
+		return map;
+	}
+
+
+
+	public void setMap(MapFile map) {
+		this.map = map;
 	}
 	
 }

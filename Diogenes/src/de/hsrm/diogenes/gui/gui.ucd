@@ -6,12 +6,12 @@
       <children xsi:type="editmodel:MethodEditModel" name="main" id="de.hsrm.diogenes.gui/GuiStarter#main([Ljava.lang.String;)"/>
     </children>
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
-    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui/GuiStarter-Standard::Instantiate->de.hsrm.diogenes.gui/GuiController*de.hsrm.diogenes.gui/GuiStarter-Soyatec::Import->de.hsrm.diogenes.gui/GuiController" source="//@children.0" target="//@children.2" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui/GuiStarter->Standard::Instantiate" source="//@children.0" target="//@children.2" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
       <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate»" size="114,13" anchorKind="MiddlePart"/>
       <children xsi:type="editmodel:AssociationEndEditModel" location="22,68" attachSource="true"/>
       <children xsi:type="editmodel:AssociationEndEditModel" location="138,0"/>
     </sourceConnections>
-    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui/GuiStarter-Standard::Instantiate->de.hsrm.diogenes.gui/GuiModel*de.hsrm.diogenes.gui/GuiStarter-Soyatec::Import->de.hsrm.diogenes.gui/GuiModel" source="//@children.0" target="//@children.3" targetEnd="//@children.0/@sourceConnections.1/@children.2" label="//@children.0/@sourceConnections.1/@children.0" sourceEnd="//@children.0/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui/GuiStarter->Standard::Instantiate" source="//@children.0" target="//@children.3" targetEnd="//@children.0/@sourceConnections.1/@children.2" label="//@children.0/@sourceConnections.1/@children.0" sourceEnd="//@children.0/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
       <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate»" size="114,13" anchorKind="MiddlePart"/>
       <children xsi:type="editmodel:AssociationEndEditModel" location="0,33" attachSource="true"/>
       <children xsi:type="editmodel:AssociationEndEditModel" location="131,40"/>
@@ -32,7 +32,7 @@
     </sourceConnections>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.1 //@children.0/@sourceConnections.0" name="GuiController" location="391,629" size="159,104" id="de.hsrm.diogenes.gui/GuiController" runTimeClassModel="addListener(),GuiController(Lde.hsrm.diogenes.gui.GuiModel;),changeStatusValue(Ljava.lang.String;)">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.1 //@children.0/@sourceConnections.0" name="GuiController" location="391,629" size="159,104" id="de.hsrm.diogenes.gui/GuiController" runTimeClassModel="GuiController(Lde.hsrm.diogenes.gui.GuiModel;),addListener(),changeStatusValue(Ljava.lang.String;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="136,54">
       <children xsi:type="editmodel:MethodEditModel" name="GuiController" id="de.hsrm.diogenes.gui/GuiController#GuiController(Lde.hsrm.diogenes.gui.GuiModel;)"/>
@@ -55,10 +55,10 @@
     </sourceConnections>
     <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
   </children>
-  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.2/@sourceConnections.1 //@children.0/@sourceConnections.1" name="GuiModel" location="351,338" size="131,122" id="de.hsrm.diogenes.gui/GuiModel" runTimeClassModel="main([Ljava.lang.String;),createPanels(),GuiModel(Lde.hsrm.diogenes.connection.Connection;),makeMenuBar()">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.2/@sourceConnections.1 //@children.0/@sourceConnections.1" name="GuiModel" location="351,338" size="131,122" id="de.hsrm.diogenes.gui/GuiModel" runTimeClassModel="main([Ljava.lang.String;),createPanels(),makeMenuBar(),GuiModel(Lde.hsrm.diogenes.connection.Connection;)">
     <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
     <children xsi:type="editmodel:CompartmentEditModel" size="108,72">
-      <children xsi:type="editmodel:MethodEditModel" name="GuiModel" id="de.hsrm.diogenes.gui/GuiModel#GuiModel(Lde.hsrm.diogenes.connection.Connection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GuiModel" id="de.hsrm.diogenes.gui/GuiModel#GuiModel(Lde.hsrm.diogenes.connection.Connection;Lde.hsrm.diogenes.map.Map;)"/>
       <children xsi:type="editmodel:MethodEditModel" name="createPanels" id="de.hsrm.diogenes.gui/GuiModel#createPanels()"/>
       <children xsi:type="editmodel:MethodEditModel" name="main" id="de.hsrm.diogenes.gui/GuiModel#main([Ljava.lang.String;)"/>
       <children xsi:type="editmodel:MethodEditModel" name="makeMenuBar" id="de.hsrm.diogenes.gui/GuiModel#makeMenuBar()"/>

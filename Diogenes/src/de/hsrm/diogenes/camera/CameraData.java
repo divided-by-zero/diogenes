@@ -14,6 +14,7 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.connection.Connection;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CameraData.
  */
@@ -36,7 +37,10 @@ public class CameraData {
 	 */
 	private JLabel cam;
 
+	/** The image. */
 	private BufferedImage image; 
+	
+	/** The c. */
 	private Connection c;
 	/**
 	 * Instantiates a new camera data.
@@ -66,6 +70,12 @@ public class CameraData {
 		}
 	}
 	
+	/**
+	 * Adjust camera left.
+	 *
+	 * @param angle the angle
+	 * @throws WRPException the wRP exception
+	 */
 	public void adjustCameraLeft(int angle) throws WRPException{
 		
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_MOVE, angle));
@@ -73,6 +83,11 @@ public class CameraData {
 		
 	}
 	
+	/**
+	 * Takes a photo.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void takePhoto() throws IOException{
 		ImageIO.write(this.image, "jpg", new File("photo"));
 	}

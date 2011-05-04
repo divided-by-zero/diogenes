@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 
@@ -21,6 +22,7 @@ import javax.swing.Timer;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.connection.Connection;
+import de.hsrm.diogenes.map.Map;
 
 
 public class GuiModel extends JFrame {
@@ -72,10 +74,7 @@ public class GuiModel extends JFrame {
 	 */
 	private ImageIcon screen;
 	/**
-	 * @uml.property  name="map"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
-	private ImageIcon map;
+
 	/**
 	 * @uml.property  name="c"
 	 * @uml.associationEnd  multiplicity="(1 1)"
@@ -85,11 +84,14 @@ public class GuiModel extends JFrame {
 	 * @uml.property  name="camEnabled"
 	 */
 	private boolean camEnabled;
+	
+	private Map map;
 
 	
 	
-	public GuiModel(Connection c) {
+	public GuiModel(Connection c, Map map) {
 		this.c = c;
+		this.map = map;
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
@@ -99,9 +101,9 @@ public class GuiModel extends JFrame {
 		this.l1 = new JLabel("Status");
 		
 		
-		this.map = new ImageIcon(getClass().getResource("../img/map.jpg"));
+		//this.map = new ImageIcon(getClass().getResource("../img/map.jpg"));
 		
-		this.l3 = new JLabel(this.map);
+		//this.l3 = new JLabel(this.map);
 		this.l4 = new JLabel("X-Koordinate: 0 " +
 							"Y-Koordinate: 0");
 		
@@ -143,7 +145,7 @@ public class GuiModel extends JFrame {
 	 */
 	public void createPanels(){
 		
-		this.mapPanel.add(l3);
+		//this.mapPanel.add(l3);
 	
 		this.coordsPanel.add(l4);
 		this.statusbarPanel.add(l1);
@@ -213,11 +215,11 @@ public class GuiModel extends JFrame {
 	
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		try {
-			Connection c = new Connection("10.18.72.254", 33333);
-			//Connection c = new Connection("localhost", 33333);
-			new GuiModel(c);
+			//Connection c = new Connection("10.18.72.254", 33333);
+			Connection c = new Connection("localhost", 33333);
+			new GuiModel(c, new Map(c));
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

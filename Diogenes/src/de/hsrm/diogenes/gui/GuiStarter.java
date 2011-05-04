@@ -1,7 +1,10 @@
 package de.hsrm.diogenes.gui;
 
+import java.io.IOException;
+
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
+import de.hsrm.diogenes.map.Map;
 
 public class GuiStarter {
 	
@@ -16,11 +19,11 @@ public class GuiStarter {
 	 */
 	private GuiController gc;
 	
-	public static void main(String[] args) throws WRPException {
+	public static void main(String[] args) throws WRPException, IOException {
 	
 		GuiStarter gs = new GuiStarter();
-		
-		gs.gm = new GuiModel(new Connection("10.18.72.254", 33333));
+		Connection c = new Connection("10.18.72.254", 33333);
+		gs.gm = new GuiModel(c, new Map(c));
 		gs.gc = new GuiController(gs.gm);
 	}
 
