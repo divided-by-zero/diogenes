@@ -19,8 +19,8 @@ public class Main {
 		//c.run("localhost", 33333);
 		// settings for the robbie
 	 	Map map = new Map(c);
-		ConvertMap2Image cv = new ConvertMap2Image(map.getMap(), map.getMap().getMapWidth());
-		
+	 	ConvertMap2Image cv = new ConvertMap2Image(map.getMap(), map.getMap().getMapWidth());
+	 
 		
 		//Movement move = new Movement(c);
 		
