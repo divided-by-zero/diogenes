@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
+import java.awt.Point;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -202,7 +203,21 @@ public class GuiModel extends JFrame {
 				}
 			}
 		});
+        
         menu_kamera.add(menuItem);
+        
+        menuItem = new JMenuItem("Wander");
+        menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)  {
+				try {
+					c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
+				} catch (WRPException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
+		});
+        menu_funktionen.add(menuItem);
         menuItem = new JMenuItem("Personen finden");
         menu_kamera.add(menuItem);
         menuItem = new JMenuItem("Modus umschalten");

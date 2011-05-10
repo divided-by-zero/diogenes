@@ -14,6 +14,7 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.camera.CameraData;
+import de.hsrm.diogenes.logic.Movement;
 
 public class Connection implements WRPPacketListener {
 
@@ -37,6 +38,8 @@ public class Connection implements WRPPacketListener {
 	 */
 	private boolean camData;
 	
+	private Movement move;
+	
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
@@ -44,6 +47,7 @@ public class Connection implements WRPPacketListener {
 	public Connection(String ip, int port) throws WRPException {
 		this.camData = false;
 		run(ip, port);
+		this.move =  new Movement(this);
 	}
 	
 	/**
@@ -173,6 +177,14 @@ public class Connection implements WRPPacketListener {
 	 */
 	public void setCamData(boolean camData) {
 		this.camData = camData;
+	}
+
+	public void setMove(Movement move) {
+		this.move = move;
+	}
+
+	public Movement getMove() {
+		return move;
 	}
 	
 }
