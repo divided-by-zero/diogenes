@@ -2,8 +2,11 @@ package de.hsrm.diogenes.map;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +14,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import de.fhwiesbaden.webrobbie.clientutil.awt.Map2ImageTransformerImpl;
 import de.fhwiesbaden.webrobbie.clientutil.map.Map2ImageTransformer;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapFile;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapLine;
@@ -60,6 +66,8 @@ public class Map {
 	
 	private List<MapPoint> points;
 	
+	private Image img;
+	
 	/**
 	 * 
 	 * @param c Object of the connection class
@@ -92,12 +100,15 @@ public class Map {
 		//Write the map data into a file
 		this.w.write(new String(data));
 		this.w.close();
-		
+	
 		//Parse the map file and create the MapFile object
 		this.roboParse = new RobotMapParser(new BufferedInputStream(new FileInputStream("map.map")));
 		this.map = this.roboParse.parse();
 		
-		
+		Map2ImageTransformerImpl transformer = new Map2ImageTransformerImpl(this.map, 256);
+		this.img = transformer.transform();
+		ImageIO.write((RenderedImage) img, "png", new File("mapimg"));
+		System.out.println("Image written");
 	}
 	
 	
@@ -127,6 +138,18 @@ public class Map {
 
 	public void setMap(MapFile map) {
 		this.map = map;
+	}
+
+
+
+	public void setImg(Image img) {
+		this.img = img;
+	}
+
+
+
+	public Image getImg() {
+		return img;
 	}
 	
 }
