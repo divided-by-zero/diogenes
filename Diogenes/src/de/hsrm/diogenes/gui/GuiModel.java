@@ -86,7 +86,7 @@ public class GuiModel extends JFrame {
 	private boolean camEnabled;
 	
 	private Map map;
-
+	private ImageIcon mapImg;
 	
 	
 	public GuiModel(Connection c, Map map) {
@@ -100,10 +100,7 @@ public class GuiModel extends JFrame {
 
 		this.l1 = new JLabel("Status");
 		
-		
-		//this.map = new ImageIcon(getClass().getResource("../img/map.jpg"));
-		
-		//this.l3 = new JLabel(this.map);
+		this.l2 = new JLabel(new ImageIcon(map.getImg()));
 		this.l4 = new JLabel("X-Koordinate: 0 " +
 							"Y-Koordinate: 0");
 		
@@ -149,6 +146,7 @@ public class GuiModel extends JFrame {
 	
 		this.coordsPanel.add(l4);
 		this.statusbarPanel.add(l1);
+		this.mapPanel.add(this.l2);
 		
 		if(this.c.isCamData()){
 			webcamPanel.add(c.getCameraData().getCam());
@@ -193,6 +191,17 @@ public class GuiModel extends JFrame {
         menu_funktionen.add(menuItem);
         
         menuItem = new JMenuItem("Bild machen");
+        
+        menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					c.getCameraData().takePhoto();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
         menu_kamera.add(menuItem);
         menuItem = new JMenuItem("Personen finden");
         menu_kamera.add(menuItem);
@@ -217,8 +226,8 @@ public class GuiModel extends JFrame {
 	
 	public static void main(String[] args) throws IOException {
 		try {
-			//Connection c = new Connection("10.18.72.254", 33333);
-			Connection c = new Connection("localhost", 33333);
+			Connection c = new Connection("10.18.72.254", 33333);
+			//Connection c = new Connection("localhost", 33333);
 			new GuiModel(c, new Map(c));
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block

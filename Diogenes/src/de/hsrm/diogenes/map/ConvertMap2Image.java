@@ -2,6 +2,7 @@ package de.hsrm.diogenes.map;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	/** The image. */
 	private BufferedImage image;
 	
+	private int scaleFactor;
+	
 	/**
 	 * Instantiates a new convert map2 image.
 	 *
@@ -48,7 +51,7 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		this.points = new ArrayList<MapPoint>();
 		this.lines = map.getLineList();
 		this.points = map.getPointList();
-		
+		this.scaleFactor = 100;
 		this.image = transform();
 		writeMap();
 	}
@@ -66,16 +69,20 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		//BufferedImage img = new BufferedImage(this.mapFile.getMapWidth(), this.mapFile.getMapHeight(), BufferedImage.TYPE_INT_RGB);
 		
 		
-		BufferedImage img = new BufferedImage(8000, 6000, BufferedImage.TYPE_INT_RGB);
-		Graphics g = img.getGraphics();
-		g.setColor(Color.BLUE);
+		BufferedImage img = new BufferedImage(250, 310, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D)img.getGraphics();
+		g.setBackground(Color.WHITE);
+		g.setColor(Color.RED);
 		for(MapLine ml : lines){
-			g.drawLine((int)ml.getP1().getX(), (int)ml.getP1().getY()*-1, (int)ml.getP2().getX(), (int)ml.getP2().getY()*-1);
+			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+250,
+						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+250);
 		}
-		g.setColor(Color.WHITE);
+		g.setColor(Color.YELLOW);
 		for(MapPoint mp : points){
-			g.drawLine((int)mp.getX(), (int)mp.getY()*-1, (int)mp.getX()+5, ((int)mp.getY()*-1));
+			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+250, 
+						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+250));
 		}
+		g.setBackground(Color.WHITE);
 		
 		return img;
 	}

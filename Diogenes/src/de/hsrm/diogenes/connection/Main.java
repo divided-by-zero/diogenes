@@ -13,13 +13,13 @@ import de.hsrm.diogenes.map.Map;
 public class Main {
 
 	public static void main(String[] args) throws WRPException, IOException {
-		//Connection c = new Connection("10.18.72.254", 33333);
-		Connection c = new Connection("localhost", 33333);
+		Connection c = new Connection("10.18.72.254", 33333);
+		//Connection c = new Connection("localhost", 33333);
 		// settings for the simulator
 		//c.run("localhost", 33333);
 		// settings for the robbie
 	 	Map map = new Map(c);
-	 	ConvertMap2Image cv = new ConvertMap2Image(map.getMap(), map.getMap().getMapWidth());
+	 	//ConvertMap2Image cv = new ConvertMap2Image(map.getMap(), map.getMap().getMapWidth());
 	 
 		
 		//Movement move = new Movement(c);

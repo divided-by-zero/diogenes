@@ -51,7 +51,7 @@ public class CameraData {
 		this.packet = packet;
 		this.c = c;
 		setUpCamera();
-		takePhoto();
+		//takePhoto();
 	}
 	
 	/**
@@ -89,6 +89,7 @@ public class CameraData {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void takePhoto() throws IOException{
+		 
 		ImageIO.write(this.image, "jpg", new File("photo"));
 	}
 
