@@ -197,6 +197,7 @@ public class GuiModel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					c.getCameraData().takePhoto();
+					l1.setText("Photo taken!");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -211,6 +212,7 @@ public class GuiModel extends JFrame {
 			public void actionPerformed(ActionEvent e)  {
 				try {
 					c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
+					l1.setText("Wander initiated");
 				} catch (WRPException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -248,6 +250,14 @@ public class GuiModel extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public JLabel getL1() {
+		return l1;
+	}
+
+	public void setL1(JLabel l1) {
+		this.l1 = l1;
 	}
 
 }

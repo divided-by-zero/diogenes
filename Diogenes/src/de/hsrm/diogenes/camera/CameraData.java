@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
@@ -91,6 +92,16 @@ public class CameraData {
 	public void takePhoto() throws IOException{
 		 
 		ImageIO.write(this.image, "jpg", new File("photo"));
+		JFrame f = new JFrame("Picture preview");
+		JLabel j = new JLabel(new ImageIcon("photo"));
+		f.validate();
+		f.add(j);
+		f.validate();
+		f.pack();
+		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		f.setVisible(true);
+		f.repaint();
+	
 	}
 
 	/**
