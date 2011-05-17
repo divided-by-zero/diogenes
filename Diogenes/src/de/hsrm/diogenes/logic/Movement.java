@@ -49,11 +49,12 @@ public class Movement {
 		 */
 		// get robot's current position data
 		int alpha = c.getLocation().getAngle();
+		if (alpha < 0) alpha *= -1;
 		int x = c.getLocation().getX();
 		int y = c.getLocation().getY();
 		// calculating delta of x and y coordinates to target 							TODO: WRONG CALCULATION!
-		int dy = (int) (Math.cos(alpha) * d);
-		int dx = (int) (Math.sin(alpha) * d);
+		int dy = (int) -(Math.cos(alpha) * d);
+		int dx = (int) -(Math.sin(alpha) * d);
 		System.out.println("angle:"+alpha+", x:"+x+", y:"+y+", dx:"+dx+", dy:"+dy);
 		// target-position is current coordinates plus delta-coordinates
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, x+dx, y+dy));
