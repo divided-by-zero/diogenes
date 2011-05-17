@@ -26,12 +26,6 @@ public class Connection implements WRPPacketListener {
 	private WRPConnection diogenes;
 	
 	/**
-	 * Holds information about the x- and y-coordinate as well
-	 * as the angle of the robot. Updated every 100ms.
-	 */
-	private WRPStatusPacket location;
-	
-	/**
 	 * Represents the camera
 	 * @uml.property  name="cameraData"
 	 * @uml.associationEnd  
@@ -46,6 +40,15 @@ public class Connection implements WRPPacketListener {
 	
 	private Movement move;
 	
+	private boolean connected;
+	
+	private int cameraPan;
+	
+	private int cameraTilt;
+	
+	private int cameraZoom;
+	
+	private WRPStatusPacket location;
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
@@ -53,6 +56,7 @@ public class Connection implements WRPPacketListener {
 	public Connection(String ip, int port) throws WRPException {
 		this.camData = false;
 		run(ip, port);
+		connected = true;
 		this.move =  new Movement(this);
 	}
 	
@@ -66,9 +70,8 @@ public class Connection implements WRPPacketListener {
 		try {
 			this.diogenes = WRPConnection.connect(ip,port,ip,port);
 			this.diogenes.addPacketListener(this);
+			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_INFO));
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
-			// enable sending WRPStatusPackets every 100ms from robot
-			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_STATUS_DATA));
 			//this.diogenes.waitFor(WRPCmd.GET_VIDEO);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
@@ -76,13 +79,25 @@ public class Connection implements WRPPacketListener {
 		}
 	}
 	
-	/**
-	 * Recieves WRPStatusPackets sent by the robot every 100ms
-	 * and updates the private location field's values
-	 */
+//	/**
+//	 * Returns information about the robot
+//	 * 
+//	 * @return A string of values like coordinates etc.
+//	 */
+//	public String getRobotInfo() {
+//		return "X = " + connection.getRobotInfo().getX() + 
+//					", Y = " + connection.getRobotInfo().getY() + 
+//					", Width = " + connection.getRobotInfo().getWidth() + 
+//					", Length = " + connection.getRobotInfo().getLength() +
+//					", Angle = " + connection.getRobotInfo().getAngle();
+//	}
+	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
-		this.location = packet;
+		System.out.println("RobotInfo:"
+				+ "  X="     + packet.getX() 
+				+ "  Y="     + packet.getY() 
+				+ "  Angle=" + packet.getAngle());
 	}	
 	
 	@Override
@@ -109,11 +124,17 @@ public class Connection implements WRPPacketListener {
 	@Override
 	public void handleCameraPacket(WRPCameraPacket packet) {
 		System.out.println("Got CameraPacket.");
+		this.cameraPan = packet.getPan();
+		this.cameraTilt = packet.getTilt();
+		this.cameraZoom = packet.getZoom();
 	}
 
 	@Override
 	public void handleCameraInfoPacket(WRPCameraInfoPacket arg0) {
 		System.out.println("Got CameraInfoPacket.");
+		System.out.println(arg0.getPan());
+		System.out.println(arg0.getTilt());
+		System.out.println(arg0.getZoom());
 	}
 
 	@Override
@@ -138,15 +159,7 @@ public class Connection implements WRPPacketListener {
 	public WRPConnection getDiogenes() {
 		return this.diogenes;
 	}
-	
-	/**
-	 * Gets the robot-location as WRPStatusPacket
-	 * @return The robot's location as WRPStatusPacket
-	 */
-	public WRPStatusPacket getLocation() {
-		return location;
-	}
-	
+
 	/**
 	 * Gets the camera-data
 	 * @return The current camera-data
@@ -189,6 +202,46 @@ public class Connection implements WRPPacketListener {
 
 	public Movement getMove() {
 		return move;
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	public int getCameraPan() {
+		return cameraPan;
+	}
+
+	public void setCameraPan(int cameraPan) {
+		this.cameraPan = cameraPan;
+	}
+
+	public int getCameraTilt() {
+		return cameraTilt;
+	}
+
+	public void setCameraTilt(int cameraTilt) {
+		this.cameraTilt = cameraTilt;
+	}
+
+	public int getCameraZoom() {
+		return cameraZoom;
+	}
+
+	public void setCameraZoom(int cameraZoom) {
+		this.cameraZoom = cameraZoom;
+	}
+
+	public WRPStatusPacket getLocation() {
+		return location;
+	}
+
+	public void setLocation(WRPStatusPacket location) {
+		this.location = location;
 	}
 	
 }

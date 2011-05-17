@@ -59,9 +59,9 @@ public class CameraData {
 	 * Sets the up camera.
 	 */
 	public void setUpCamera() {
-		System.out.println("handleVideoPacket(): Received image packet - "
+		/*System.out.println("handleVideoPacket(): Received image packet - "
 				+ "data size is " + this.packet.getJpegData().length + " bytes.");
-		
+		*/
 		try {
 			image = ImageIO.read(new ByteArrayInputStream(packet.getJpegData()));
 			setCam(new JLabel(new ImageIcon(image)));
@@ -78,9 +78,11 @@ public class CameraData {
 	 * @throws WRPException the wRP exception
 	 */
 	public void adjustCameraLeft(int angle) throws WRPException{
-		
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_MOVE, angle));
-		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_MOVE);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, angle/*+c.getCameraPan()*/));
+		System.out.println("CamPan sent");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_PAN);
 		
 	}
 	

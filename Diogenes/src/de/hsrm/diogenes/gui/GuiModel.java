@@ -176,22 +176,68 @@ public class GuiModel extends JFrame {
 		JMenuItem menuItem;
 		
 		menuBar = new JMenuBar();
-        menu_datei = new JMenu("Datei");
-        menu_funktionen = new JMenu("Funktionen");
-        menu_kamera = new JMenu("Kamera");
+        menu_datei = new JMenu("File");
+        menu_funktionen = new JMenu("Functions");
+        menu_kamera = new JMenu("Camera");
         menu_ueber = new JMenu("About");
         
-        menuItem = new JMenuItem("Verbinden");
+        menuItem = new JMenuItem("Connect");
+        menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(!c.isConnected()){
+						c.run("10.18.72.254", 33333);
+						l1.setText("connected");
+						c.setConnected(true);
+					}
+				} catch (WRPException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
+		});
         menu_datei.add(menuItem);
+        menuItem = new JMenuItem("Disconnect");
+        menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					c.getDiogenes().disconnect();
+					l1.setText("disconnected");
+					c.setConnected(false);
+				} catch (WRPException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
+		});
+        menu_datei.add(menuItem);
+        
         menuItem = new JMenuItem("Simulator?");
         menu_datei.add(menuItem);
         
         menuItem = new JMenuItem("Map");
         menu_funktionen.add(menuItem);
-        menuItem = new JMenuItem("Map visualisieren");
+        menuItem = new JMenuItem("Visualize map");
         menu_funktionen.add(menuItem);
         
-        menuItem = new JMenuItem("Bild machen");
+        
+        
+        menuItem = new JMenuItem("Turn camera left");
+        menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					c.getCameraData().adjustCameraLeft(2000);
+				} 
+				 catch (WRPException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
+		});
+        menu_kamera.add(menuItem);
+        
+        menuItem = new JMenuItem("Take photo");
+          
         
         menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -220,16 +266,15 @@ public class GuiModel extends JFrame {
 			}
 		});
         menu_funktionen.add(menuItem);
-        menuItem = new JMenuItem("Personen finden");
+        menuItem = new JMenuItem("Find person");
         menu_kamera.add(menuItem);
-        menuItem = new JMenuItem("Modus umschalten");
+        menuItem = new JMenuItem("Switch modi");
         menu_kamera.add(menuItem);
         
-        menuItem = new JMenuItem("about");
-        menu_ueber.add(menuItem);
+        
         menuItem = new JMenuItem("Info");
         menu_ueber.add(menuItem);
-        menuItem = new JMenuItem("Hilfe");
+        menuItem = new JMenuItem("Help");
         menu_ueber.add(menuItem);
         
         menuBar.add(menu_datei);
