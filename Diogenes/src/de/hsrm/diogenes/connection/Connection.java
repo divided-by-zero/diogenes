@@ -10,7 +10,9 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPRobotInfoPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;
+import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatus;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.camera.CameraData;
@@ -58,6 +60,11 @@ public class Connection implements WRPPacketListener {
 		run(ip, port);
 		connected = true;
 		this.move =  new Movement(this);
+		// initiate location values with starting position of WRPRobotInfoPackets.
+		// after a successful run() the robot will send current positioning
+		// values using WRPStatusPackets instead
+		WRPRobotInfoPacket rip = diogenes.getRobotInfo();
+		this.location = new WRPStatusPacket(WRPStatus.FINISHED, rip.getX(), rip.getY(), rip.getAngle());
 	}
 	
 	/**
@@ -72,6 +79,7 @@ public class Connection implements WRPPacketListener {
 			this.diogenes.addPacketListener(this);
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_INFO));
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
+			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_STATUS_DATA));
 			//this.diogenes.waitFor(WRPCmd.GET_VIDEO);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
