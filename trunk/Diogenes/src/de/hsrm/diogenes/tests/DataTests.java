@@ -1,8 +1,9 @@
 package de.hsrm.diogenes.tests;
 
+import junit.framework.TestCase;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
-import junit.framework.TestCase;
+
 
 public class DataTests extends TestCase {
 
