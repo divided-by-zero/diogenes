@@ -87,19 +87,6 @@ public class Connection implements WRPPacketListener {
 		}
 	}
 	
-//	/**
-//	 * Returns information about the robot
-//	 * 
-//	 * @return A string of values like coordinates etc.
-//	 */
-//	public String getRobotInfo() {
-//		return "X = " + connection.getRobotInfo().getX() + 
-//					", Y = " + connection.getRobotInfo().getY() + 
-//					", Width = " + connection.getRobotInfo().getWidth() + 
-//					", Length = " + connection.getRobotInfo().getLength() +
-//					", Angle = " + connection.getRobotInfo().getAngle();
-//	}
-	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
 		System.out.println("RobotInfo:"
