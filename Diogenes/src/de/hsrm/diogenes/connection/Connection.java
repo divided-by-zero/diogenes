@@ -50,7 +50,13 @@ public class Connection implements WRPPacketListener {
 	
 	private int cameraZoom;
 	
+	/**
+	 * The location will be sent by the robot every 100ms (initialized
+	 * when connecting) to the client and saved in the local member
+	 * location.
+	 */
 	private WRPStatusPacket location;
+	
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
@@ -89,10 +95,7 @@ public class Connection implements WRPPacketListener {
 	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
-		System.out.println("RobotInfo:"
-				+ "  X="     + packet.getX() 
-				+ "  Y="     + packet.getY() 
-				+ "  Angle=" + packet.getAngle());
+		location = packet;
 	}	
 	
 	@Override
@@ -231,12 +234,16 @@ public class Connection implements WRPPacketListener {
 		this.cameraZoom = cameraZoom;
 	}
 
+	/**
+	 * Returns the current robot's location values (x, y, angle).
+	 * The location will be sent by the robot every 100ms (initialized
+	 * when connecting) to the client and saved in the local member
+	 * location.
+	 * @return An Object with x and y coordinates and the angle of the 
+	 * 			robot within
+	 */
 	public WRPStatusPacket getLocation() {
 		return location;
-	}
-
-	public void setLocation(WRPStatusPacket location) {
-		this.location = location;
 	}
 	
 }
