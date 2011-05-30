@@ -15,8 +15,18 @@ public class PresentationPacket {
 		return picture;
 	}
 	
+	// used mainly for testing, maybe not neccessary in final class
+	public void setPicture(int picture) {
+		this.picture = picture;
+	}
+	
 	public String getText() {
 		return text;
+	}
+	
+	// used mainly for testing, maybe not neccessary in final class
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 }

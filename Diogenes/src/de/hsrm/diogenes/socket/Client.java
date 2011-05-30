@@ -1,42 +1,53 @@
 package de.hsrm.diogenes.socket;
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
+//TODO proper exception handling!!
 public class Client {
 
-	// members neccessary for client?
+	private Socket server;
 	
-	public Client(String dest_addr, int port) {
-		/* Tell client to what server he shall connect */
-		Socket server;
-		try {
-			server = new Socket(dest_addr, port);
-//			ObjectInputStream obIn = new ObjectInputStream(server.getInputStream());
-//			OutputStream obOut = new ObjectOutputStream(server.getOutputStream());
-			// simple tests with integers first, needs to be done for objects!
-			InputStream input = server.getInputStream();
-			OutputStream output = server.getOutputStream();
-			output.write(5);
-			output.write(10);
-			output.flush();
-			System.out.println("answer: " + input.read());
-			server.close();
-			input.close();
-			output.close();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	/**
+	 * Input from server to client not necessary or used here yet
+	 */
+	private ObjectInputStream input;
+	
+	private ObjectOutputStream output;
+	
+	public Client() {}
+
+	public void connect(String dest_addr, int port) throws IOException {
+		System.out.println("client: connecting");
+		server = new Socket(dest_addr, port);
+		input = new ObjectInputStream(server.getInputStream());
+		output = new ObjectOutputStream(server.getOutputStream());
+	}
+	
+	public void disconnect() throws IOException {
+		System.out.println("client: disconnecting");
+		server.close();
+		input.close();
+		output.close();
+	}
+	
+	public void send(PresentationPacket packet) throws IOException {
+		System.out.println("client: sending presentationpacket to server");
+		output.writeObject(packet);
+		output.flush();
 	}
 
-	public static void main(String[] args) {
-		System.out.println("connecting client");
-		new Client("localhost", 55555);
-		System.out.println("client closed");
+	public void recieve() throws IOException, ClassNotFoundException {
+		System.out.println("client: recieving presentationpacket from server");
+		PresentationPacket spp = (PresentationPacket) input.readObject();
+		System.out.println("answer: picture=" + spp.getPicture() + " text=" + spp.getText());
 	}
-
+	
+	public static void main(String[] args) throws IOException {
+		Client c = new Client();
+		c.connect("localhost", 55555);
+	}
+	
 }
