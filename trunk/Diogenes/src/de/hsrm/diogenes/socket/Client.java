@@ -1,53 +1,71 @@
 package de.hsrm.diogenes.socket;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
-//TODO proper exception handling!!
 public class Client {
 
+	/**
+	 * Holding the socket-connection
+	 */
 	private Socket server;
 	
 	/**
-	 * Input from server to client not necessary or used here yet
+	 * Holding the output-stream (for PresentationPacket-Objects)
 	 */
-	private ObjectInputStream input;
-	
 	private ObjectOutputStream output;
 	
-	public Client() {}
-
-	public void connect(String dest_addr, int port) throws IOException {
+	/**
+	 * Connects the client to a server with the address and port given.
+	 * @param dest_addr Destination-Address of the running Server
+	 * @param port Port of the running Server
+	 * @throws UnknownHostException If the host couldn't be reached
+	 * @throws IOException If streams within the connection couldn't be established 
+	 */
+	public void connect(String dest_addr, int port) throws UnknownHostException, IOException {
 		System.out.println("client: connecting");
 		server = new Socket(dest_addr, port);
-		input = new ObjectInputStream(server.getInputStream());
 		output = new ObjectOutputStream(server.getOutputStream());
+		output.flush();
+		System.out.println("client: connection established");
 	}
 	
-	public void disconnect() throws IOException {
-		System.out.println("client: disconnecting");
-		server.close();
-		input.close();
-		output.close();
-	}
-	
+	/**
+	 * Sends a PresentationPacket to the Server who stores it locally.
+	 * @param packet The packet to be sent to the Server
+	 * @throws IOException If streams within the connection couldn't be established
+	 */
 	public void send(PresentationPacket packet) throws IOException {
 		System.out.println("client: sending presentationpacket to server");
 		output.writeObject(packet);
 		output.flush();
 	}
 
-	public void recieve() throws IOException, ClassNotFoundException {
-		System.out.println("client: recieving presentationpacket from server");
-		PresentationPacket spp = (PresentationPacket) input.readObject();
-		System.out.println("answer: picture=" + spp.getPicture() + " text=" + spp.getText());
+	/**
+	 * Disconnects the client from the server and closes the streams.
+	 * @throws IOException If closing the socket or the stream didn't work
+	 */
+	public void disconnect() throws IOException {
+		System.out.println("client: disconnecting");
+		server.close();
+		output.close();
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws ClassNotFoundException {
 		Client c = new Client();
-		c.connect("localhost", 55555);
+		try {
+			// this could be a button:
+			c.connect("localhost", 55555);
+			// this could be a button too:
+			c.send(new PresentationPacket(42, "the answer to everything"));
+			// also this:
+			c.disconnect();
+		} catch (IOException e) {
+			System.err.println("Streams couldn't be established");
+			e.printStackTrace();
+		}
 	}
 	
 }

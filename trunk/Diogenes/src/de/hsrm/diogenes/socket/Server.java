@@ -2,66 +2,66 @@ package de.hsrm.diogenes.socket;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//TODO proper exception handling!!
 public class Server {
 
-	private ServerSocket server_sock;
-	
-	private Socket current_client;
-	
-	private ObjectInputStream client_input;
-	
 	/**
-	 * Output from server to client not necessary or used here yet.
+	 * A packet containing a picture and a text to be displayed by a
+	 * GUI (use getPacket). Will be updated by a remote client using sockets.
 	 */
-	private ObjectOutputStream client_output;
-	
 	private PresentationPacket packet;
 	
-	public Server(int port) throws IOException {
+	/**
+	 * Instantiating a ServerSocket using the given portnumber. Will automagically
+	 * accept incoming client-queries in an infinite loop, receive their PresentationPacket
+	 * and storing it locally in the member-variable. Disconnects the client afterwards
+	 * and accepts new incoming client-queries again.
+	 * @param port The portnumber to be used for remote access
+	 * @throws IOException If streams within the connection couldn't be established
+	 * @throws ClassNotFoundException If the Object sent by the client couldn't be read 
+	 */
+	public Server(int port) throws IOException, ClassNotFoundException {
 		System.out.println("server: initializing serversocket");
-		server_sock = new ServerSocket(port);
+		ServerSocket server_sock = new ServerSocket(port);
+		// infinite loop for accepting clients, receiving data and disconnecting them
+		while (true) {
+			// accept client
+			System.out.println("server: accepting clients...");
+			Socket current_client = server_sock.accept();
+			ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
+			System.out.println("server: client accepted, holding connection");
+			// receive data
+			System.out.println("server: receiving presentationpacket");
+			packet = (PresentationPacket) client_input.readObject();
+			// show what you got
+			System.out.println("server: stored: " + packet.getPicture() + ", " + packet.getText());
+			// close connection
+			current_client.close();
+			client_input.close();
+		}
 	}
 
-	public void waitForClient() throws IOException {
-		System.out.println("server: accepting clients...");
-		current_client = server_sock.accept();
-		client_input = new ObjectInputStream(current_client.getInputStream());
-		client_output = new ObjectOutputStream(current_client.getOutputStream());
-		System.out.println("server: client accepted, holding connection");
+	/**
+	 * Returns a packet containing a picture and a text to be displayed by a
+	 * GUI. Will be updated by a remote client using sockets. 
+	 * @return The packet containing a picture and a text for visualization
+	 */
+	public PresentationPacket getPacket() {
+		return packet;
 	}
 	
-	public void closeCurrentClient() throws IOException {
-		System.out.println("server: closing current client");
-		client_input.close();
-		client_output.close();
-		current_client.close();
-	}
-	
-	public void send() throws IOException {
-		System.out.println("server: sending current presentationpacket back to client");
-		client_output.writeObject(packet);
-		client_output.flush();
-	}
-	
-	public void send(PresentationPacket packet) throws IOException {
-		System.out.println("server: sending new presentationpacket back to client");
-		client_output.writeObject(packet);
-		client_output.flush();
-	}
-	
-	public void recieve() throws IOException, ClassNotFoundException {
-		System.out.println("server: recieving presentationpacket");
-		packet = (PresentationPacket) client_input.readObject();
-	}
-	
-	public static void main(String[] args) throws IOException {
-		Server s = new Server(55555);
-		s.waitForClient();
+	public static void main(String[] args) {
+			try {
+				new Server(55555);
+			} catch (IOException e) {
+				System.err.println("Error handling server-input/output");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.err.println("Error recieving PresentationPacket-Object");
+				e.printStackTrace();
+			}
 	}
 
 }
