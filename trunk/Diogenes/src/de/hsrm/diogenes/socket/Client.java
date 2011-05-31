@@ -23,7 +23,7 @@ public class Client {
 	
 	
 	
-	public ImageIcon loadPic(String pic){
+	public static ImageIcon loadPic(String pic){
 		URL picUrl = ImageIcon.class.getResource( pic );
 		ImageIcon icon = new ImageIcon( picUrl );
 		
@@ -74,6 +74,7 @@ public class Client {
 		Client c = new Client();
 		
 		try {
+			String url = null;
 			ImageIcon bild = loadPic(url);
 			// this could be a button:
 			c.connect("localhost", 55555);
