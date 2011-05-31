@@ -4,7 +4,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,13 +22,11 @@ public class PresentationGUI extends JFrame {
 	private JMenuBar menu;
 	
 	public PresentationGUI(int port) throws IOException, ClassNotFoundException {
-		
-		// set up server for receiving packets 		TODO: threads!
-		/*server = new Server(port);
-		packet = server.getPacket();*/
-		// workaround to show gui anyway:
-		packet = new PresentationPacket(new ImageIcon("photo"), "<html><B>No Information gathered so far...</B>");
-		
+		// set up server for receiving packets
+		server = new Server(port);
+		server.start();
+		packet = server.getPacket();
+
 		// set up main frame
 		this.setTitle("Presentation Window");
 		this.setLayout(new GridBagLayout());
