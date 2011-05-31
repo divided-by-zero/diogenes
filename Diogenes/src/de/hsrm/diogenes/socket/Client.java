@@ -3,7 +3,10 @@ package de.hsrm.diogenes.socket;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
+
+import javax.swing.ImageIcon;
 
 public class Client {
 
@@ -16,6 +19,20 @@ public class Client {
 	 * Holding the output-stream (for PresentationPacket-Objects)
 	 */
 	private ObjectOutputStream output;
+	
+	
+	
+	
+	public ImageIcon loadPic(String pic){
+		URL picUrl = ImageIcon.class.getResource( pic );
+		ImageIcon icon = new ImageIcon( picUrl );
+		
+		
+		return icon;
+	}
+	
+	
+	
 	
 	/**
 	 * Connects the client to a server with the address and port given.
@@ -55,11 +72,13 @@ public class Client {
 	
 	public static void main(String[] args) throws ClassNotFoundException {
 		Client c = new Client();
+		
 		try {
+			ImageIcon bild = loadPic(url);
 			// this could be a button:
 			c.connect("localhost", 55555);
 			// this could be a button too:
-			c.send(new PresentationPacket(42, "the answer to everything"));
+			c.send(new PresentationPacket(bild, "the answer to everything"));
 			// also this:
 			c.disconnect();
 		} catch (IOException e) {

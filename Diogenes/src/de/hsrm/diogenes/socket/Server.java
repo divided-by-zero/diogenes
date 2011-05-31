@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JFrame;
+
 public class Server {
 
 	/**
@@ -52,8 +54,13 @@ public class Server {
 		return packet;
 	}
 	
+	
+	
 	public static void main(String[] args) {
-			try {
+			
+		
+		
+		try {
 				new Server(55555);
 			} catch (IOException e) {
 				System.err.println("Error handling server-input/output");

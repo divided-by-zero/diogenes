@@ -1,6 +1,9 @@
 package de.hsrm.diogenes.socket;
 
+
 import java.io.Serializable;
+import java.net.URL;
+import javax.swing.*;
 
 public class PresentationPacket implements Serializable {
 
@@ -9,19 +12,22 @@ public class PresentationPacket implements Serializable {
 	 */
 	private static final long serialVersionUID = 4444413373095067281L;
 	
+	public ImageIcon icon;
+	
+	
 	/**
 	 * PLACEHOLDER
 	 * This will be a picture in the future!
 	 */
-	private int picture;
+	
 	
 	/**
 	 * A text with additional information
 	 */
 	private String text;
 	
-	public PresentationPacket(int picture, String text) {
-		this.picture = picture;
+	public PresentationPacket(ImageIcon icon, String text) {
+		this.icon = icon;
 		this.text = text;
 	}
 	
@@ -30,8 +36,8 @@ public class PresentationPacket implements Serializable {
 	 * by a remote client
 	 * @return The picture for visualization 
 	 */
-	public int getPicture() {
-		return picture;
+	public ImageIcon getPicture() {
+		return icon;
 	}
 
 	/**
