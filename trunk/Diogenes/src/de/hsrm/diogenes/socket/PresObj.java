@@ -17,12 +17,12 @@ public class PresObj {
 		
 		//konstruktor
 		public PresObj(ImageIcon icon, String text, double fromCoordX, double toCoordX, double fromCoordY, double toCoordY){
-				this.icon   = icon;
-				this.text   = text;
+				this.icon       = icon;
+				this.text       = text;
 				this.fromCoordX = fromCoordX;
-				this.toCoordX = toCoordX;
+				this.toCoordX   = toCoordX;
 				this.fromCoordY = fromCoordY;
-				this.toCoordY = toCoordY;
+				this.toCoordY   = toCoordY;
 		}
 		//bild laden
 		public ImageIcon loadPic(String pic){
