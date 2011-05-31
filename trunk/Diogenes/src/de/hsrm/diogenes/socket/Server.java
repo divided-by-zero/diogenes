@@ -17,22 +17,9 @@ public class Server extends Thread {
 
 	private int port;
 
-	/**
-	 * Instantiating a ServerSocket using the given portnumber. Will
-	 * automagically accept incoming client-queries in an infinite loop, receive
-	 * their PresentationPacket and storing it locally in the member-variable.
-	 * Disconnects the client afterwards and accepts new incoming client-queries
-	 * again.
-	 * 
-	 * @param port
-	 *            The portnumber to be used for remote access
-	 * @throws IOException
-	 *             If streams within the connection couldn't be established
-	 * @throws ClassNotFoundException
-	 *             If the Object sent by the client couldn't be read
-	 */
 	public Server(int port) {
 		this.port = port;
+		// first "welcome"-paket
 		packet = new PresentationPacket(new ImageIcon("photo"), "<html><B>No Information gathered so far...</B>");
 	}
 
