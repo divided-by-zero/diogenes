@@ -2,7 +2,6 @@ package de.hsrm.diogenes.socket;
 
 
 import java.io.Serializable;
-import java.net.URL;
 import javax.swing.*;
 
 public class PresentationPacket implements Serializable {
@@ -26,9 +25,9 @@ public class PresentationPacket implements Serializable {
 	 */
 	private String text;
 	
-	public PresentationPacket(ImageIcon icon, String text) {
-		this.icon = icon;
-		this.text = text;
+	public PresentationPacket(PresObj pObj) {
+		pObj.icon = icon;
+		pObj.text = text;
 	}
 	
 	/**
