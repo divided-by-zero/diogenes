@@ -20,17 +20,7 @@ public class Client {
 	 */
 	private ObjectOutputStream output;
 	
-	
-	
-	
-	public static ImageIcon loadPic(String pic){
-		URL picUrl = ImageIcon.class.getResource( pic );
-		ImageIcon icon = new ImageIcon( picUrl );
-		
-		
-		return icon;
-	}
-	
+
 	
 	
 	
@@ -74,12 +64,10 @@ public class Client {
 		Client c = new Client();
 		
 		try {
-			String url = null;
-			ImageIcon bild = loadPic(url);
 			// this could be a button:
 			c.connect("localhost", 55555);
 			// this could be a button too:
-			c.send(new PresentationPacket(bild, "the answer to everything"));
+			c.send(new PresentationPacket(new ImageIcon(), "the answer to everything"));
 			// also this:
 			c.disconnect();
 		} catch (IOException e) {
