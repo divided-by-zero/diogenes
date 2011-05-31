@@ -39,17 +39,11 @@ public class Connection implements WRPPacketListener {
 	 * @uml.property  name="camData"
 	 */
 	private boolean camData;
-	
 	private Movement move;
-	
 	private boolean connected;
-	
 	private int cameraPan;
-	
 	private int cameraTilt;
-	
 	private int cameraZoom;
-	
 	/**
 	 * The location will be sent by the robot every 100ms (initialized
 	 * when connecting) to the client and saved in the local member
@@ -64,7 +58,7 @@ public class Connection implements WRPPacketListener {
 	public Connection(String ip, int port) throws WRPException {
 		this.camData = false;
 		run(ip, port);
-		connected = true;
+		this.connected = true;
 		this.move =  new Movement(this);
 		// initiate location values with starting position of WRPRobotInfoPackets.
 		// after a successful run() the robot will send current positioning
@@ -95,7 +89,7 @@ public class Connection implements WRPPacketListener {
 	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
-		location = packet;
+		this.location = packet;
 	}	
 	
 	@Override
@@ -164,7 +158,7 @@ public class Connection implements WRPPacketListener {
 	 * @uml.property  name="cameraData"
 	 */
 	public CameraData getCameraData() {
-		return cameraData;
+		return this.cameraData;
 	}
 
 	/**
@@ -199,11 +193,11 @@ public class Connection implements WRPPacketListener {
 	}
 
 	public Movement getMove() {
-		return move;
+		return this.move;
 	}
 
 	public boolean isConnected() {
-		return connected;
+		return this.connected;
 	}
 
 	public void setConnected(boolean connected) {
@@ -211,7 +205,7 @@ public class Connection implements WRPPacketListener {
 	}
 
 	public int getCameraPan() {
-		return cameraPan;
+		return this.cameraPan;
 	}
 
 	public void setCameraPan(int cameraPan) {
@@ -227,7 +221,7 @@ public class Connection implements WRPPacketListener {
 	}
 
 	public int getCameraZoom() {
-		return cameraZoom;
+		return this.cameraZoom;
 	}
 
 	public void setCameraZoom(int cameraZoom) {
