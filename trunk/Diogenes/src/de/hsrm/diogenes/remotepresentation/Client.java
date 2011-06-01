@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 
 public class Client extends Thread {
 
@@ -36,7 +37,6 @@ public class Client extends Thread {
 			output.flush();
 			System.out.println("client: connection established");
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
