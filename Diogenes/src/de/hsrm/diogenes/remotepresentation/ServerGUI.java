@@ -46,6 +46,7 @@ public class ServerGUI extends JFrame {
 		this.add(text_label, GridBagConstraintsFactory.create(2, 1));
 		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
 		
+		// finish
 		this.pack();
 		this.setVisible(true);
 		

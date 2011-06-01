@@ -7,46 +7,46 @@ import javax.swing.ImageIcon;
 //klasse um objekte zu erzeugen die ein bild, text und koordinaten enthalten, was wir dann alles unserem tollen server rüberballern damit der das anzeigen tut
 public class ContentImpl implements Content {
 
-		public ImageIcon icon;
-		public String text;
-		public double fromCoordX;
-		public double toCoordX;
-		public double fromCoordY;
-		public double toCoordY;
+		private ImageIcon image;
+		private String text;
+		private int fromCoordX;
+		private int toCoordX;
+		private int fromCoordY;
+		private int toCoordY;
 		
 		//konstruktor
-		public ContentImpl(ImageIcon icon, String text, double fromCoordX, double toCoordX, double fromCoordY, double toCoordY){
-				this.icon       = icon;
-				this.text       = text;
-				this.fromCoordX = fromCoordX;
-				this.toCoordX   = toCoordX;
-				this.fromCoordY = fromCoordY;
-				this.toCoordY   = toCoordY;
+		public ContentImpl(ImageIcon icon, String text, int fromCoordX, int toCoordX, int fromCoordY, int toCoordY) {
+				this.image 		= icon;
+				this.text		= text;
+				this.fromCoordX	= fromCoordX;
+				this.toCoordX	= toCoordX;
+				this.fromCoordX	= fromCoordY;
+				this.toCoordY	= toCoordY;
 		}
-		//bild laden
-		public ImageIcon loadPic(String pic){
+		
+							
+		//bild laden										/* TODO: not necessary, ImageIcon(String)! */
+		public static ImageIcon loadPic(String pic) {
 			URL picUrl = ImageIcon.class.getResource( pic );
 			ImageIcon icon = new ImageIcon( picUrl );
 			return icon;
 		}
+		
 		@Override
 		public ImageIcon getImage() {
-			// TODO Auto-generated method stub
-			return null;
+			return image;
 		}
+		
 		@Override
 		public String getDescriptionText() {
-			// TODO Auto-generated method stub
-			return null;
+			return text;
 		}
+		
 		@Override
 		public String getAdditionalText() {
-			// TODO Auto-generated method stub
-			return null;
+			String result = "Invoked between (" + fromCoordX + "," + fromCoordY + ") " +
+							"and (" + toCoordX + "," + toCoordY + ")";
+			return result;
 		}
-		
-		//testaufruf
-		//Trinity bla = new Trinity(loadPic("sack.jpg"), "Hier steht irgendein text", 123.2, 132.4, 123.2, 132.4);
-		
 		
 }

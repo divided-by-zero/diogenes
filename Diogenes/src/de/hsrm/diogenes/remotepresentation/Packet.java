@@ -11,6 +11,10 @@ public class Packet implements Serializable {
 
 	private Content content;
 	
+	public Packet(Content c) {
+		this.content = c;
+	}
+	
 	public Content getContent() {
 		return content;
 	}

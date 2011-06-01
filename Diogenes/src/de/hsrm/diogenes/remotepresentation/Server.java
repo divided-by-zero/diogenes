@@ -19,8 +19,11 @@ public class Server extends Thread {
 
 	public Server(int port) {
 		this.port = port;
-		// first "welcome"-paket
-		packet = new Packet(new ImageIcon("photo"), "<html><B>No Information gathered so far...</B>");
+		// initial "welcome"-packet
+		packet = new Packet(new ContentImpl(
+									new ImageIcon("example.jpg"), 
+									"<html><B>No Information gathered so far...</B>", 
+									0, 0, 0, 0));
 	}
 
 	public void run() {
@@ -39,7 +42,9 @@ public class Server extends Thread {
 				System.out.println("server: receiving presentationpacket");
 				packet = (Packet) client_input.readObject();
 				// show what you got
-				System.out.println("server: stored: " + packet.getPicture() + ", " + packet.getText());
+				System.out.println("server: stored: " + 
+										packet.getContent().getImage() + ", " + 
+										packet.getContent().getDescriptionText());
 				// close connection
 				current_client.close();
 				client_input.close();

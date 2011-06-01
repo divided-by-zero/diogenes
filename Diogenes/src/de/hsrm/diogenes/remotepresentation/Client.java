@@ -3,13 +3,16 @@ package de.hsrm.diogenes.remotepresentation;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
 
 import javax.swing.ImageIcon;
 
-public class Client {
+public class Client extends Thread {
 
+	private String dest_addr;
+	
+	private int port;
+	
 	/**
 	 * Holding the socket-connection
 	 */
@@ -20,23 +23,25 @@ public class Client {
 	 */
 	private ObjectOutputStream output;
 	
-
+	public Client(String dest_addr, int port) {
+		this.dest_addr = dest_addr;
+		this.port = port;
+	}
 	
-	
-	
-	/**
-	 * Connects the client to a server with the address and port given.
-	 * @param dest_addr Destination-Address of the running Server
-	 * @param port Port of the running Server
-	 * @throws UnknownHostException If the host couldn't be reached
-	 * @throws IOException If streams within the connection couldn't be established 
-	 */
-	public void connect(String dest_addr, int port) throws UnknownHostException, IOException {
+	public void run() {
 		System.out.println("client: connecting");
-		server = new Socket(dest_addr, port);
-		output = new ObjectOutputStream(server.getOutputStream());
-		output.flush();
-		System.out.println("client: connection established");
+		try {
+			server = new Socket(dest_addr, port);
+			output = new ObjectOutputStream(server.getOutputStream());
+			output.flush();
+			System.out.println("client: connection established");
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -61,14 +66,10 @@ public class Client {
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException {
-		Client c = new Client();
-		
+		Client c = new Client("localhost", 55555);
 		try {
-			// this could be a button:
-			c.connect("localhost", 55555);
-			// this could be a button too:
-			c.send(new Packet(new ImageIcon(), "the answer to everything"));
-			// also this:
+			c.start();
+			c.send(new Packet(new ContentImpl(new ImageIcon("example.jpg"), "that's new!", 17, 4, 0, 42)));
 			c.disconnect();
 		} catch (IOException e) {
 			System.err.println("Streams couldn't be established");
