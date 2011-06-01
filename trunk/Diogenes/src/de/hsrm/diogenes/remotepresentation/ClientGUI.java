@@ -15,9 +15,10 @@ public class ClientGUI extends JFrame {
 	private ContentContainer container;
 	private JMenuBar menu;
 
-	public ClientGUI(int port) {
+	public ClientGUI(String dest_addr, int port) {
 		// set up client for receiving packets
-		client = new Client();
+		client = new Client(dest_addr, port);
+		client.start();
 
 		// set up container
 		container = new ContentContainer();
@@ -30,6 +31,7 @@ public class ClientGUI extends JFrame {
 		// set up menubar
 		setUpMenuBar();
 
+		// finish
 		this.pack();
 		this.setVisible(true);
 	}
@@ -50,7 +52,7 @@ public class ClientGUI extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new ClientGUI(55555);
+		new ClientGUI("localhost", 55555);
 	}
 
 }
