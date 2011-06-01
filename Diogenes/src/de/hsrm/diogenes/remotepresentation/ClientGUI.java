@@ -25,7 +25,9 @@ public class ClientGUI extends JFrame {
 		this.setTitle("Presentation Window");
 		this.setLayout(new GridLayout(4, 2));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// 
+		// center on screen
+		this.setLocationRelativeTo(null);
+		// not connected at startup
 		connected = false;
 		// initial GUI items
 		JLabel hostlabel = new JLabel("Host:");
@@ -68,7 +70,7 @@ public class ClientGUI extends JFrame {
 	}
 
 	private void connect() {
-		// set up container
+		// TODO set up container
 		container = new ContentContainer();
 		// set up client for receiving packets
 		client = new Client(getHost(), getPort());
@@ -76,6 +78,7 @@ public class ClientGUI extends JFrame {
 	}
 	
 	private void disconnect() {
+		
 	}
 	
 	private String getHost() {

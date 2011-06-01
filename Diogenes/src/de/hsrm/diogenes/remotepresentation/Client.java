@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 
 public class Client extends Thread {
 
