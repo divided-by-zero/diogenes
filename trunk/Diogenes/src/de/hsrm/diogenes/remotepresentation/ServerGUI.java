@@ -4,8 +4,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
 
@@ -27,9 +26,12 @@ public class ServerGUI extends JFrame {
 	private JMenuBar menu;
 	
 	public ServerGUI() {
+		// starts a dialog to get port from user
 		final JFrame frame = new JFrame("Insert port-number");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(2, 2));
+		// center on screen
+		frame.setLocationRelativeTo(null);
 		JLabel label = new JLabel("Port:");
 		final JTextField portfield = new JTextField("55555");
 		JButton ok = new JButton("OK");
@@ -37,6 +39,7 @@ public class ServerGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				port = Integer.valueOf(portfield.getText());
+				// here the main gui actually starts (on OK-click)
 				startGUI();
 				frame.dispose();
 			}
@@ -54,10 +57,11 @@ public class ServerGUI extends JFrame {
 		frame.add(cancel);
 		frame.pack();
 		frame.setVisible(true);
+		// if ok is clicked, the main gui will show up
 	}
 	
 	private void startGUI() {
-		// set up server for receiving packets
+		// set up server for receiving packets (own thread)
 		server = new Server(port);
 		server.start();
 		// set up main frame
@@ -65,7 +69,7 @@ public class ServerGUI extends JFrame {
 		this.setLayout(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setUndecorated(true); 
+		this.setUndecorated(true);
 		// set up menubar
 		setUpMenuBar();
 		// load picture and text initially
@@ -78,14 +82,17 @@ public class ServerGUI extends JFrame {
 		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
 		// finish
 		this.pack();
-		this.setVisible(true);		
-		// refresh loop
-		while(true) {
-			// TODO wait-method
-			picture_label.setIcon(server.getPacket().getContent().getImage());
-			text_label.setText(server.getPacket().getContent().getDescriptionText());
-			status_label.setText(server.getPacket().getContent().getAdditionalText());
-		}
+		this.setVisible(true);
+		// refresh loop (every half second)
+		Timer refreshtimer = new Timer(500, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				picture_label.setIcon(server.getPacket().getContent().getImage());
+				text_label.setText(server.getPacket().getContent().getDescriptionText());
+				status_label.setText(server.getPacket().getContent().getAdditionalText());
+			}
+		});
+		refreshtimer.start();
 	}
 	
 	private void setUpMenuBar() {
