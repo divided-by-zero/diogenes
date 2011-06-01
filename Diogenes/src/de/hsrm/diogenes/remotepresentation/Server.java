@@ -19,11 +19,10 @@ public class Server extends Thread {
 
 	public Server(int port) {
 		this.port = port;
-		// initial "welcome"-packet
 		packet = new Packet(new ContentImpl(
-									new ImageIcon("example.jpg"), 
-									"<html><B>No Information gathered so far...</B>", 
-									0, 0, 0, 0));
+				new ImageIcon("example.jpg"), 
+				"<html><B>No Information gathered so far...</B>", 
+				0, 0, 0, 0));
 	}
 
 	public void run() {

@@ -1,58 +1,93 @@
 package de.hsrm.diogenes.remotepresentation;
 
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class ClientGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Client client;
+	boolean connected;
 	private ContentContainer container;
-	private JMenuBar menu;
+	private JTextField hostfield;
+	private JTextField portfield;
+	private JTextField containerfield;
+	private JLabel status;
+	private JButton button;
 
-	public ClientGUI(String dest_addr, int port) {
-		// set up client for receiving packets
-		client = new Client(dest_addr, port);
-		client.start();
-
-		// set up container
-		container = new ContentContainer();
-		
+	public ClientGUI() {
 		// set up main frame
 		this.setTitle("Presentation Window");
-		this.setLayout(new GridBagLayout());
+		this.setLayout(new GridLayout(4, 2));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// set up menubar
-		setUpMenuBar();
-
+		// 
+		connected = false;
+		// initial GUI items
+		JLabel hostlabel = new JLabel("Host:");
+		JLabel portlabel = new JLabel("Port:");
+		JLabel containerlabel = new JLabel("Container:");
+		hostfield = new JTextField("localhost");
+		portfield = new JTextField(String.valueOf(55555));
+		containerfield = new JTextField("/path/to/xml/");
+		status = new JLabel("disconnected");
+		button = new JButton("Connect");
+		// buttonaction	
+		button.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (connected) {
+					disconnect();
+					connected = false;
+					button.setText("Connect");
+					status.setText("disconnected");
+				} else {
+					connect();
+					connected = true;
+					button.setText("Disconnect");
+					status.setText("connected/running");
+				}
+			}
+		});
+		// assemble
+		this.add(hostlabel);
+		this.add(hostfield);
+		this.add(portlabel);
+		this.add(portfield);
+		this.add(containerlabel);
+		this.add(containerfield);
+		this.add(status);
+		this.add(button);
 		// finish
 		this.pack();
 		this.setVisible(true);
 	}
 
-	private void setUpMenuBar() {
-		menu = new JMenuBar();
-		JMenu file = new JMenu("File");
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		file.add(exit);
-		menu.add(file);
-		this.setJMenuBar(menu);
+	private void connect() {
+		// set up container
+		container = new ContentContainer();
+		// set up client for receiving packets
+		client = new Client(getHost(), getPort());
+		client.start();
 	}
-
+	
+	private void disconnect() {
+	}
+	
+	private String getHost() {
+		return hostfield.getText();
+	}
+	
+	private Integer getPort() {
+		return Integer.valueOf(portfield.getText());
+	}
+	
 	public static void main(String[] args) {
-		new ClientGUI("localhost", 55555);
+		new ClientGUI();
 	}
 
 }
