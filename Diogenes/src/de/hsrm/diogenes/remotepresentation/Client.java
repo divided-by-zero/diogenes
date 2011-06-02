@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import javax.swing.ImageIcon;
 
 public class Client extends Thread {
 
 	private String dest_addr;
 	
 	private int port;
+	
+	private ThreadExceptionListener tel;
 	
 	/**
 	 * Holding the socket-connection
@@ -22,9 +23,10 @@ public class Client extends Thread {
 	 */
 	private ObjectOutputStream output;
 	
-	public Client(String dest_addr, int port) {
+	public Client(String dest_addr, int port, ThreadExceptionListener tel) {
 		this.dest_addr = dest_addr;
 		this.port = port;
+		this.tel = tel;
 	}
 	
 	public void run() {
@@ -35,10 +37,9 @@ public class Client extends Thread {
 			output.flush();
 			System.out.println("client: connection established");
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			tel.notifyException(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			tel.notifyException(e);
 		}
 	}
 	
@@ -63,16 +64,16 @@ public class Client extends Thread {
 		output.close();
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-		Client c = new Client("localhost", 55555);
-		try {
-			c.start();
-			c.send(new Packet(new ContentImpl(new ImageIcon("example.jpg"), "that's new!", 17, 4, 0, 42)));
-			c.disconnect();
-		} catch (IOException e) {
-			System.err.println("Streams couldn't be established");
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) throws ClassNotFoundException {
+//		Client c = new Client("localhost", 55555);
+//		try {
+//			c.start();
+//			c.send(new Packet(new ContentImpl(new ImageIcon("example.jpg"), "that's new!", 17, 4, 0, 42)));
+//			c.disconnect();
+//		} catch (IOException e) {
+//			System.err.println("Streams couldn't be established");
+//			e.printStackTrace();
+//		}
+//	}
 	
 }
