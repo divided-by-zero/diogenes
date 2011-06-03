@@ -1,10 +1,10 @@
 package de.hsrm.diogenes.remotepresentation;
 
-public class ThreadExceptionListener {
+public class ExceptionListener {
 
 	private Throwable exception;
 	
-	public ThreadExceptionListener() {
+	public ExceptionListener() {
 		exception = null;
 	}
 	
@@ -12,8 +12,9 @@ public class ThreadExceptionListener {
 		this.exception = t;
 	}
 	
-	public void getException() throws Throwable {
+	public void throwException() throws Throwable {
 		if (exception == null) {
+			System.out.println("ExceptionListener: throwing nothing");
 			return;
 		} else {
 			// save occurred exception
@@ -21,6 +22,7 @@ public class ThreadExceptionListener {
 			// reset local exception for next round
 			exception = null;
 			// throw the actual occurred exception
+			System.out.println("ExceptionListener: throwing Exception: " + result.getMessage());
 			throw result;
 		}
 	}
