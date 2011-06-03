@@ -8,25 +8,21 @@ import java.net.UnknownHostException;
 public class Client extends Thread {
 
 	private String dest_addr;
-	
 	private int port;
-	
-	private ThreadExceptionListener tel;
-	
+	private ExceptionListener exceptionlistener;
 	/**
 	 * Holding the socket-connection
 	 */
 	private Socket server;
-	
 	/**
 	 * Holding the output-stream (for PresentationPacket-Objects)
 	 */
 	private ObjectOutputStream output;
 	
-	public Client(String dest_addr, int port, ThreadExceptionListener tel) {
+	public Client(String dest_addr, int port, ExceptionListener el) {
 		this.dest_addr = dest_addr;
 		this.port = port;
-		this.tel = tel;
+		this.exceptionlistener = el;
 	}
 	
 	public void run() {
@@ -37,9 +33,14 @@ public class Client extends Thread {
 			output.flush();
 			System.out.println("client: connection established");
 		} catch (UnknownHostException e) {
-			tel.notifyException(e);
+			System.out.println("client throwing: " + e.getMessage());
+			exceptionlistener.notifyException(e);
 		} catch (IOException e) {
-			tel.notifyException(e);
+			System.out.println("client throwing: " + e.getMessage());
+			exceptionlistener.notifyException(e);
+		}
+		synchronized (exceptionlistener) {
+			exceptionlistener.notify();
 		}
 	}
 	

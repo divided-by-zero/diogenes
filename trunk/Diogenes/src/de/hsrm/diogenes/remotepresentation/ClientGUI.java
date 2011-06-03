@@ -9,12 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class ClientGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Client client;
-	private ThreadExceptionListener tel;
+	private ExceptionListener exceptionlistener;
 	boolean connected;
 	private ContentContainer container;
 	private JTextField hostfield;
@@ -24,15 +25,15 @@ public class ClientGUI extends JFrame {
 	private JButton button;
 
 	public ClientGUI() {
+		// internal stuff
+		connected = false;
+		exceptionlistener = new ExceptionListener();
 		// set up main frame
 		this.setTitle("Presentation Window");
 		this.setLayout(new GridLayout(4, 2));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// center on screen
 		this.setLocationRelativeTo(null);
-		// not connected at startup
-		connected = false;
-		tel = new ThreadExceptionListener();
 		// initial GUI items
 		JLabel hostlabel = new JLabel("Host:");
 		JLabel portlabel = new JLabel("Port:");
@@ -48,20 +49,12 @@ public class ClientGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (connected) {
 					disconnect();
-					connected = false;
-					button.setText("Connect");
-					status.setText("disconnected");
 				} else {
 					connect();
-					try {
-						tel.getException();
-					} catch (Throwable e1) {
-						JOptionPane.showMessageDialog(new JFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
-					}
 				}
 			}
 		});
-		// assemble
+		// assemble window
 		this.add(hostlabel);
 		this.add(hostfield);
 		this.add(portlabel);
@@ -79,12 +72,46 @@ public class ClientGUI extends JFrame {
 		// TODO set up container
 		container = new ContentContainer();
 		// set up client for receiving packets
-		client = new Client(getHost(), getPort(), this.tel);
+		client = new Client(getHost(), getPort(), this.exceptionlistener);
 		client.start();
+		// TODO: workaround - not finished yet. waiting for client to set exception
+		synchronized (exceptionlistener) {
+			try {
+				exceptionlistener.wait();
+			} catch (InterruptedException e) {
+				System.out.println("whoops");
+			}
+		}
+		// check for occurred exception in thread
+		try {
+			// throws exception if client got exception, else does nothing
+			System.out.println("GUI: getting exceptions...");
+			exceptionlistener.throwException();
+			// if no exception do this
+			connected = true;
+			button.setText("Disconnect");
+			status.setText("connected/running");
+		} catch (Throwable e1) {
+			// popup exception, don't change the button+label
+			System.out.println("GUI: popping exceptions...");
+			JOptionPane.showMessageDialog(new JFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+		}
 	}
 	
 	private void disconnect() {
-		
+		// check for occurred exception in thread
+		try {
+			client.disconnect();
+			// throws exception if client got exception, else does nothing
+			exceptionlistener.throwException();
+			// if no exception do this
+			connected = false;
+			button.setText("Connect");
+			status.setText("disconnected");
+		} catch (Throwable e1) {
+			// popup exception, don't change the button+label
+			JOptionPane.showMessageDialog(new JFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+		}		
 	}
 	
 	private String getHost() {
