@@ -10,22 +10,81 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
 
+/**
+ * This GUI is a comfortable way of using a Server-Object
+ * for gaining Packets by a Client for a remote presentation.
+ * @see Server
+ * @author Daniel Ernst
+ */
 public class ServerGUI extends JFrame {
 
+	/**
+	 * SerialVersionUID
+	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Holds a Server-Object who can be connected by a Client-Object
+	 */
 	private Server server;
+	
+	/**
+	 * The port to be used for incoming Packets
+	 */
 	private Integer port;
-	private JLabel picture_label;
+	
+	/**
+	 * A shared Object of ServerGUI and Server, so that the Server
+	 * as a Thread is able to throw an Exception to the ExceptionListener
+	 * and the ServerGUI can read the Servers' Exception out of it.
+	 * Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 */
+	private ExceptionListener exceptionlistener;
+	
+	/** 
+	 * A label for the image
+	 */
+	private JLabel image_label;
+	
+	/** 
+	 * A label for the description-text
+	 */	
 	private JLabel text_label;
+	
+	/** 
+	 * A label for the status-text
+	 */
 	private JLabel status_label;
+	
+	/**
+	 * The menubar
+	 */
 	private JMenuBar menu;
 	
+	/**
+	 * Instantiates the GUI and starts a DialogWindow
+	 * at startup, which asks the user for the port
+	 * to be used. Then starts the actual MainWindow
+	 */
 	public ServerGUI() {
+		exceptionlistener = new ExceptionListener();
+		startDialogWindow();
+		// if ok in the DialogWindow is clicked, 
+		// the main gui will show up
+	}
+
+	/**
+	 * Starts a DialogWindow which asks the user for the port
+	 * to be used.
+	 * On hitting the OK-button the MainWindow will show up.
+	 */
+	private void startDialogWindow() {
 		// starts a dialog to get port from user
 		final JFrame frame = new JFrame("Insert port-number");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +99,7 @@ public class ServerGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				port = Integer.valueOf(portfield.getText());
 				// here the main gui actually starts (on OK-click)
-				startGUI();
+				startMainWindow();
 				frame.dispose();
 			}
 		});
@@ -57,15 +116,57 @@ public class ServerGUI extends JFrame {
 		frame.add(cancel);
 		frame.pack();
 		frame.setVisible(true);
-		// if ok is clicked, the main gui will show up
+		// if ok in the DialogWindow is clicked, 
+		// the main gui will show up
 	}
 	
-	private void startGUI() {
+	/**
+	 * Starts the MainWindow with the information of the Packets
+	 * (e.g. images, text...) displayed. The display will updated by
+	 * a connected Client-Object sending a new Packet.
+	 * This method also starts the Server-Object in an own Thread
+	 * an waits for the Server-Object to finish initialization and
+	 * notifying that it has done so. If an Exception occurred
+	 * this will be shown in an errormessage, aborts showing the
+	 * MainWindow and starts the DialogWindow again.
+	 * As the MainWindow runs, it's displayed information will be
+	 * updated every 500ms.
+	 */
+	private void startMainWindow() {
 		// set up server for receiving packets (own thread)
-		server = new Server(port);
+		server = new Server(port, exceptionlistener);
 		server.start();
+		// waiting for server to finish initialization (exceptions possible)
+		synchronized (exceptionlistener) {
+			try {
+				exceptionlistener.wait();
+			} catch (InterruptedException e) {
+				// ignore interruptions as the server does not do it
+				// but warn the user
+				JOptionPane.showMessageDialog(
+						new JFrame(), 
+						e.getMessage() + "\nServers' synchronization interrupted:\n" +
+								"This may cause bad Exception-Handling", 
+						"Warning", 
+						JOptionPane.WARNING_MESSAGE, null);
+			}
+		}
+		try {
+			exceptionlistener.throwException();
+		} catch (Throwable e1) {
+			// popup exception
+			JOptionPane.showMessageDialog(
+									new JFrame(), 
+									e1.getMessage(), 
+									"Error", 
+									JOptionPane.ERROR_MESSAGE, null);
+			// start all over again with the DialogWindow and
+			// quit building the MainWindow
+			startDialogWindow();
+			return;
+		}
 		// set up main frame
-		this.setTitle("Presentation Window");
+		this.setTitle("Presentation Window (Server)");
 		this.setLayout(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -73,11 +174,11 @@ public class ServerGUI extends JFrame {
 		// set up menubar
 		setUpMenuBar();
 		// load picture and text initially
-		picture_label = new JLabel(server.getPacket().getContent().getImage());
+		image_label = new JLabel(server.getPacket().getContent().getImage());
 		text_label = new JLabel(server.getPacket().getContent().getDescriptionText());
 		status_label = new JLabel("Awaiting connection on port " + port + ", " + 
 								server.getPacket().getContent().getAdditionalText());
-		this.add(picture_label, GridBagConstraintsFactory.create(1, 1));
+		this.add(image_label, GridBagConstraintsFactory.create(1, 1));
 		this.add(text_label, GridBagConstraintsFactory.create(2, 1));
 		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
 		// finish
@@ -87,7 +188,7 @@ public class ServerGUI extends JFrame {
 		Timer refreshtimer = new Timer(500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				picture_label.setIcon(server.getPacket().getContent().getImage());
+				image_label.setIcon(server.getPacket().getContent().getImage());
 				text_label.setText(server.getPacket().getContent().getDescriptionText());
 				status_label.setText(server.getPacket().getContent().getAdditionalText());
 			}
@@ -95,6 +196,9 @@ public class ServerGUI extends JFrame {
 		refreshtimer.start();
 	}
 	
+	/**
+	 * Assembles the Menubar of the MainWindow
+	 */
 	private void setUpMenuBar() {
 		menu = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -110,7 +214,6 @@ public class ServerGUI extends JFrame {
 		this.setJMenuBar(menu);
 	}
 
-	// test
 	public static void main(String[] args) {
 		new ServerGUI();
 	}

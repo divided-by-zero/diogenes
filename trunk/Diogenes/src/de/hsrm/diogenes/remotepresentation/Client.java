@@ -102,7 +102,6 @@ public class Client extends Thread {
 	 * @throws IOException If closing the socket or the stream didn't work
 	 */
 	public void disconnect() throws IOException {
-		System.out.println("client: disconnecting");
 		server.close();
 		output.close();
 		synchronized (exceptionlistener) {
@@ -116,7 +115,6 @@ public class Client extends Thread {
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
 	public void send(Packet packet) throws IOException {
-		System.out.println("client: sending presentationpacket to server");
 		output.writeObject(packet);
 		output.flush();
 	}

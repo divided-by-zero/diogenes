@@ -29,7 +29,7 @@ public class ClientGUI extends JFrame {
 	
 	/**
 	 * A shared Object of ClientGUI and Client, so that the Client
-	 * as a Thread is able to throw a connection to the ExceptionListener
+	 * as a Thread is able to throw an Exception to the ExceptionListener
 	 * and the ClientGUI can read the Clients' Exception out of it.
 	 * Also used as a lock for synchronizing ClientGUI and Client-Thread
 	 */
