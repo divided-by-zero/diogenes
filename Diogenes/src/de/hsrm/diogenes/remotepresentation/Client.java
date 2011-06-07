@@ -87,6 +87,7 @@ public class Client extends Thread {
 			server = new Socket(dest_addr, port);
 			output = new ObjectOutputStream(server.getOutputStream());
 			output.flush();
+			System.out.println("Presentation Clien started");
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
 		}
