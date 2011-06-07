@@ -1,14 +1,8 @@
 package de.hsrm.diogenes.remotepresentation;
 
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
 import de.hsrm.diogenes.connection.Location;
 
 /**
@@ -49,7 +43,7 @@ public class Client extends Thread {
 	 */
 	private ObjectOutputStream output;
 	
-	private Timer refreshtimer;
+	private Thread locationlistener;
 	
 	private PacketContainer container;
 	
@@ -75,9 +69,42 @@ public class Client extends Thread {
 		this.exceptionlistener = el;
 		this.container = container;
 		this.location = location;
+		initLocationListener();
 		this.run();
 	}
 
+	private void initLocationListener() {
+		this.locationlistener = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Client: start listening!");
+				while(true) {
+					System.out.println("Client: TICK:");
+					// check all content-objects if within the current position
+					for (Presentable p : container) {
+						if (p.surrounds(location)) {
+							System.out.println("Client: hit in triggerbox, sending content in packet...");
+							try {
+								send(p);
+								System.out.println("Client: ...package sent!");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+					try {
+						sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		});
+	}
+	
 	/**
 	 * Runs the Client in an own Thread and starts connecting
 	 * to the address of the Server.
@@ -108,39 +135,17 @@ public class Client extends Thread {
 	public void disconnect() throws IOException {
 		server.close();
 		output.close();
-		refreshtimer.stop();
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
 		}
 	}
 	
 	public void startListening() {
-		System.out.println("Client: start listening!");
-		refreshtimer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Client: TICK:");
-				System.out.println("Client: comparing location with contents, robolocation = " + location.toString());
-				// check all content-objects if within the current position
-				for (Presentable p : container) {
-					if (p.surrounds(location)) {
-						System.out.println("Client: hit in triggerbox, sending content in packet...");
-						try {
-							send(p);
-							System.out.println("Client: ...package sent!");
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				}
-			}
-		});
-		refreshtimer.start();
+		locationlistener.start();
 	}
 
 	public void stopListening() {
-		refreshtimer.stop();
+		//TODO locationlistener.stop() ?
 	}
 	
 	/**
@@ -157,11 +162,7 @@ public class Client extends Thread {
 	
 	public static void main(String[] args) throws IOException {
 		System.out.println("starting client test");
-		Client c = new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(1, 2, 3));
-		c.send(new Packet(
-				new ImageIcon("test1.jpg"), 
-				"The answer is 42", 
-				new Rectangle(-1000, 1000, 1300, 1300)));
+		new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(3400, -1500, 0));
 		System.out.println("end client test");
 	}
 	
