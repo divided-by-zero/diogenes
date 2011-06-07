@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -49,7 +50,7 @@ public class ClientGUI extends JFrame {
 		containerfield = new JTextField("/path/to/xml/");
 		status = new JLabel("disconnected");
 		button = new JButton("Connect");
-		button.addActionListener(new ActionListener() {			
+		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (connected) {
@@ -70,7 +71,7 @@ public class ClientGUI extends JFrame {
 		this.pack();
 		this.setVisible(true);
 	}
-	
+
 	private void connect() {
 		// example connection+movement
 		try {
@@ -81,20 +82,20 @@ public class ClientGUI extends JFrame {
 			e2.printStackTrace();
 		}
 		// start clientthread
-		client = new Client(getHost(), getPort(), this.exceptionlistener, new PacketContainer(), connection.getLocation());
+		client = new Client(getHost(), getPort(), this.exceptionlistener,
+				new PacketContainer(), connection.getLocation());
 		client.start();
-		// waiting for client-thread to finish initialization (exceptions possible)
+		// waiting for client-thread to finish initialization (exceptions
+		// possible)
 		synchronized (exceptionlistener) {
 			try {
 				exceptionlistener.wait();
 			} catch (InterruptedException e) {
 				// ignore interruptions as the client does not do it
 				// but warn the user
-				JOptionPane.showMessageDialog(
-						new JFrame(), 
-						e.getMessage() + "\nClients' synchronization interrupted:\n" +
-								"This may cause bad Exception-Handling", 
-						"Warning", 
+				JOptionPane.showMessageDialog(new JFrame(), e.getMessage()
+						+ "\nClients' synchronization interrupted:\n"
+						+ "This may cause bad Exception-Handling", "Warning",
 						JOptionPane.WARNING_MESSAGE, null);
 			}
 		}
@@ -102,31 +103,34 @@ public class ClientGUI extends JFrame {
 		try {
 			// throws exception if client got exception, else does nothing
 			exceptionlistener.throwException();
-			// if no exception, it's connected, 
+			// if no exception, it's connected,
 			// so set the buttons and labels correctly
 			connected = true;
 			button.setText("Disconnect");
 			status.setText("connected/running");
 		} catch (Throwable e1) {
 			// popup exception, don't change the button and labels
-			JOptionPane.showMessageDialog(
-									new JFrame(), 
-									e1.getMessage(), 
-									"Error", 
-									JOptionPane.ERROR_MESSAGE, null);
+			JOptionPane.showMessageDialog(new JFrame(), e1.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE, null);
 		}
 		// connection + mutual exclusion + exceptionlistening done
 		doSomething();
 	}
-	
+
 	private void doSomething() {
-//		// here: something = movement
-//		try {
-//			move.wander(new Point(3400, -1500));
-//		} catch (WRPException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// move to desk and back to initial pose
+					move.wander(new Point(3400, -1500), new Point(-268, 1585));
+				} catch (WRPException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
 	}
 
 	private void disconnect() {
@@ -137,19 +141,15 @@ public class ClientGUI extends JFrame {
 			// no synchronized procedure to check for exceptions via
 			// exceptionlistener is needed here as the method disconnect
 			// is able to throw directly.
-			// if no exception, it's disconnected, 
+			// if no exception, it's disconnected,
 			// so set the buttons and labels correctly
 			connected = false;
 			button.setText("Connect");
 			status.setText("disconnected");
 		} catch (Throwable e1) {
 			// popup exception, don't change the button+label
-			JOptionPane.showMessageDialog(
-									new JFrame(), 
-									e1.getMessage(), 
-									"Error", 
-									JOptionPane.ERROR_MESSAGE, 
-									null);
+			JOptionPane.showMessageDialog(new JFrame(), e1.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE, null);
 		}
 	}
 
@@ -160,9 +160,9 @@ public class ClientGUI extends JFrame {
 	private Integer getPort() {
 		return Integer.valueOf(portfield.getText());
 	}
-	
+
 	public static void main(String[] args) throws WRPException {
 		new ClientGUI();
 	}
-		
+
 }
