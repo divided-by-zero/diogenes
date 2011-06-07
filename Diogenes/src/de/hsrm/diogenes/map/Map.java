@@ -105,7 +105,7 @@ public class Map {
 		this.roboParse = new RobotMapParser(new BufferedInputStream(new FileInputStream("map.map")));
 		this.map = this.roboParse.parse();
 		
-		Map2ImageTransformerImpl transformer = new Map2ImageTransformerImpl(this.map, 256);
+		Map2ImageTransformerImpl transformer = new Map2ImageTransformerImpl(this.map, 300);
 		this.img = transformer.transform();
 		ImageIO.write((RenderedImage) img, "png", new File("mapimg"));
 		System.out.println("Image written");
