@@ -126,7 +126,7 @@ public class GuiModel extends JFrame {
 		this.add(mapPanel,GridBagConstraintsFactory.create(0, 0, 1, 2));
 		this.add(webcamPanel,GridBagConstraintsFactory.create(1,0,1,1));
 		//this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
-		this.add(new ButtonPanel(),GridBagConstraintsFactory.create(1,1,1,1));
+		this.add(new ButtonPanel(this.c),GridBagConstraintsFactory.create(1,1,1,1));
 		this.add(statusbarPanel,GridBagConstraintsFactory.create(0, 3, 1, 1));
 	
 		this.pack();
@@ -165,6 +165,8 @@ public class GuiModel extends JFrame {
 			});
 			t.start();
 				
+		}else{
+			this.webcamPanel.add(new JLabel(new ImageIcon(getClass().getResource("../img/scrat.png"))));
 		}
 	}
 	

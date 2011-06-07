@@ -15,7 +15,6 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.connection.Connection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CameraData.
  */
