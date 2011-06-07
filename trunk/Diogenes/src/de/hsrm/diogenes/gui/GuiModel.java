@@ -24,6 +24,7 @@ import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.connection.Connection;
 import de.hsrm.diogenes.map.Map;
+import de.hsrm.diogenes.remotepresentation.Client;
 
 
 public class GuiModel extends JFrame {
@@ -88,6 +89,8 @@ public class GuiModel extends JFrame {
 	
 	private Map map;
 	private ImageIcon mapImg;
+	
+	private Client praesi_client;
 	
 	
 	public GuiModel(Connection c, Map map) {
@@ -220,6 +223,35 @@ public class GuiModel extends JFrame {
         menuItem = new JMenuItem("Visualize map");
         menu_funktionen.add(menuItem);
         
+        menuItem = new JMenuItem("Start presentation mode");
+        menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				praesi_client = new Client("localhost", 55555);
+				praesi_client.run();
+				l1.setText("Presentation mode started");
+				
+			}
+		});
+        menu_funktionen.add(menuItem);
+        
+        menuItem = new JMenuItem("Stop presentation mode");
+        menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					praesi_client.disconnect();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				l1.setText("Presentation mode stopped");
+				
+			}
+		});
+        menu_funktionen.add(menuItem);
         
         
         menuItem = new JMenuItem("Turn camera left");
@@ -288,8 +320,8 @@ public class GuiModel extends JFrame {
 	
 	public static void main(String[] args) throws IOException {
 		try {
-			Connection c = new Connection("10.18.72.254", 33333);
-			//Connection c = new Connection("localhost", 33333);
+			//Connection c = new Connection("10.18.72.254", 33333);
+			Connection c = new Connection("localhost", 33333);
 			new GuiModel(c, new Map(c));
 		} catch (WRPException e) {
 			// TODO Auto-generated catch block
@@ -303,6 +335,14 @@ public class GuiModel extends JFrame {
 
 	public void setL1(JLabel l1) {
 		this.l1 = l1;
+	}
+
+	public void setPraesi_client(Client praesi_client) {
+		this.praesi_client = praesi_client;
+	}
+
+	public Client getPraesi_client() {
+		return praesi_client;
 	}
 
 }

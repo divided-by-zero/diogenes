@@ -136,6 +136,7 @@ public class ServerGUI extends JFrame {
 		// set up server for receiving packets (own thread)
 		server = new Server(port, exceptionlistener);
 		server.start();
+		System.out.println("PresentationServer started");
 		// waiting for server to finish initialization (exceptions possible)
 		synchronized (exceptionlistener) {
 			try {
