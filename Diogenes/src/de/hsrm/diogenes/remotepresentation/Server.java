@@ -1,5 +1,6 @@
 package de.hsrm.diogenes.remotepresentation;
 
+import java.awt.Rectangle;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +12,6 @@ import javax.swing.ImageIcon;
  * It's use is to display information of Packets sent by the Client-Object.
  * This class will start connecting using the run-method, which
  * also runs this Object in an own Thread.
- * @author Daniel Ernst
  */
 public class Server extends Thread {
 
@@ -51,10 +51,10 @@ public class Server extends Thread {
 		this.port = port;
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
-		packet = new Packet(new ContentImpl(
+		packet = new Packet(
 				new ImageIcon("example.jpg"), 
 				"<html><B>No Information gathered so far...</B>", 
-				0, 0, 0, 0));
+				new Rectangle(0, 0, 0, 0));
 	}
 
 	/**
@@ -75,9 +75,12 @@ public class Server extends Thread {
 			while (true) {
 				// accept client
 				Socket current_client = server_sock.accept();
+				System.out.println("Server: client accepted");
 				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
+				System.out.println("Server: got clients inputstream");
 				// receive data
 				packet = (Packet) client_input.readObject();
+				System.out.println("Server: got clients packet: " + packet.getDescriptionText());
 				// close connection
 				current_client.close();
 				client_input.close();

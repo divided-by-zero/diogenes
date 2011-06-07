@@ -1,8 +1,15 @@
 package de.hsrm.diogenes.remotepresentation;
 
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
+import de.hsrm.diogenes.connection.Location;
 
 /**
  * A Client-Object connects to a Server-Object via a network.
@@ -42,6 +49,12 @@ public class Client extends Thread {
 	 */
 	private ObjectOutputStream output;
 	
+	private Timer refreshtimer;
+	
+	private PacketContainer container;
+	
+	private Location location;
+	
 	/**
 	 * Instantiates the Client with the address.
 	 * The ExceptionListener should be owned by a class
@@ -56,24 +69,12 @@ public class Client extends Thread {
 	 * @param el An ExceptionListener of the class 
 	 * 			holding this Object (e.g. a GUI)
 	 */
-	public Client(String dest_addr, int port, ExceptionListener el) {
+	public Client(String dest_addr, int port, ExceptionListener el, PacketContainer container, Location location) {
 		this.dest_addr = dest_addr;
 		this.port = port;
 		this.exceptionlistener = el;
-	}
-	
-	/**
-	 * Instantiates the Client with the address.
-	 * An empty ExceptionListener will be used as default.
-	 * Note that most of the Exceptions of this Client
-	 * will then be lost.
-	 * @param dest_addr The address to the host (Server)
-	 * @param port The port of the host (Server)
-	 */
-	public Client(String dest_addr, int port) {
-		this.dest_addr = dest_addr;
-		this.port = port;
-		this.exceptionlistener = new ExceptionListener();
+		this.container = container;
+		this.location = location;
 		this.run();
 	}
 
@@ -88,9 +89,10 @@ public class Client extends Thread {
 			server = new Socket(dest_addr, port);
 			output = new ObjectOutputStream(server.getOutputStream());
 			output.flush();
-			System.out.println("Presentation Clien started");
+			startListening();
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
+			t.printStackTrace();
 		}
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
@@ -106,19 +108,61 @@ public class Client extends Thread {
 	public void disconnect() throws IOException {
 		server.close();
 		output.close();
+		refreshtimer.stop();
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
 		}
 	}
 	
+	public void startListening() {
+		System.out.println("Client: start listening!");
+		refreshtimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Client: TICK:");
+				System.out.println("Client: comparing location with contents, robolocation = " + location.toString());
+				// check all content-objects if within the current position
+				for (Presentable p : container) {
+					if (p.surrounds(location)) {
+						System.out.println("Client: hit in triggerbox, sending content in packet...");
+						try {
+							send(p);
+							System.out.println("Client: ...package sent!");
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+		refreshtimer.start();
+	}
+
+	public void stopListening() {
+		refreshtimer.stop();
+	}
+	
 	/**
 	 * Sends a Packet to the Server who stores it locally.
-	 * @param packet The packet to be sent to the Server
+	 * @param p The packet to be sent to the Server
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
-	public void send(Packet packet) throws IOException {
-		output.writeObject(packet);
+	public void send(Presentable p) throws IOException {
+		System.out.println("Client: sending packet");
+		output.writeObject(p);
 		output.flush();
+		System.out.println("Client: packet sent");
+	}
+	
+	public static void main(String[] args) throws IOException {
+		System.out.println("starting client test");
+		Client c = new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(1, 2, 3));
+		c.send(new Packet(
+				new ImageIcon("test1.jpg"), 
+				"The answer is 42", 
+				new Rectangle(-1000, 1000, 1300, 1300)));
+		System.out.println("end client test");
 	}
 	
 }
