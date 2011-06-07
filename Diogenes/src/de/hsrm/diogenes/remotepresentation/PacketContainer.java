@@ -16,11 +16,11 @@ public class PacketContainer extends ArrayList<Presentable> {
 				new ImageIcon("test1.jpg"), 
 				"The answer is 42", 
 				new Rectangle(-1000, 1000, 1300, 1300)));
-		// 2. rectangle in front of the middle-desk ???
+		// 2. rectangle in front of the middle-desk
 		this.add(new Packet(
 				new ImageIcon("test2.jpg"), 
 				"Life is NOT a malfunction.", 
-				new Rectangle(3415, -588, 1000, 1100)));
+				new Rectangle(2400, -2500, 1300, 2500)));
 		// 3. rectangle at coffee-mashine ???
 		this.add(new Packet(
 				new ImageIcon("test3.jpg"), 
