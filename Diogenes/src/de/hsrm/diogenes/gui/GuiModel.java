@@ -23,8 +23,11 @@ import javax.swing.Timer;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.connection.Connection;
+import de.hsrm.diogenes.connection.Location;
 import de.hsrm.diogenes.map.Map;
 import de.hsrm.diogenes.remotepresentation.Client;
+import de.hsrm.diogenes.remotepresentation.ExceptionListener;
+import de.hsrm.diogenes.remotepresentation.PacketContainer;
 
 
 public class GuiModel extends JFrame {
@@ -231,7 +234,7 @@ public class GuiModel extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				praesi_client = new Client("localhost", 55555);
+				praesi_client = new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(1, 2, 3));
 				//praesi_client.run();
 				l1.setText("Presentation mode started");
 				
@@ -291,13 +294,20 @@ public class GuiModel extends JFrame {
         menuItem = new JMenuItem("Wander");
         menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)  {
-				try {
-					c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
-					l1.setText("Wander initiated");
-				} catch (WRPException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+				Thread t = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
+							l1.setText("Wander initiated");
+						} catch (WRPException e2) {
+							e2.printStackTrace();
+						}
+						
+					}
+				});
+				t.start();
 			}
 		});
         menu_funktionen.add(menuItem);
