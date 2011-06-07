@@ -74,6 +74,7 @@ public class Client extends Thread {
 		this.dest_addr = dest_addr;
 		this.port = port;
 		this.exceptionlistener = new ExceptionListener();
+		this.run();
 	}
 
 	/**

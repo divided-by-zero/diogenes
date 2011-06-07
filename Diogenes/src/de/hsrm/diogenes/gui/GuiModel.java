@@ -229,7 +229,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				praesi_client = new Client("localhost", 55555);
-				praesi_client.run();
+				//praesi_client.run();
 				l1.setText("Presentation mode started");
 				
 			}
