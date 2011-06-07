@@ -10,9 +10,7 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCameraPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPFinishedPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPPathPlanningPacket;
-import de.fhwiesbaden.webrobbie.wrp.packet.WRPRobotInfoPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPSensorDataPacket;
-import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatus;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPStatusPacket;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.camera.CameraData;
@@ -49,7 +47,7 @@ public class Connection implements WRPPacketListener {
 	 * when connecting) to the client and saved in the local member
 	 * location.
 	 */
-	private WRPStatusPacket location;
+	private Location location;
 	
 	/**
 	 * Creates an instance of the client
@@ -63,8 +61,10 @@ public class Connection implements WRPPacketListener {
 		// initiate location values with starting position of WRPRobotInfoPackets.
 		// after a successful run() the robot will send current positioning
 		// values using WRPStatusPackets instead
-		WRPRobotInfoPacket rip = diogenes.getRobotInfo();
-		this.location = new WRPStatusPacket(WRPStatus.FINISHED, rip.getX(), rip.getY(), rip.getAngle());
+		this.location = new Location(
+							diogenes.getRobotInfo().getX(), 
+							diogenes.getRobotInfo().getY(), 
+							diogenes.getRobotInfo().getAngle());
 	}
 	
 	/**
@@ -89,8 +89,8 @@ public class Connection implements WRPPacketListener {
 	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
-		this.location = packet;
-	}	
+		this.location = new Location(packet.getX(), packet.getY(), packet.getAngle());
+	}
 	
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
@@ -236,7 +236,7 @@ public class Connection implements WRPPacketListener {
 	 * @return An Object with x and y coordinates and the angle of the 
 	 * 			robot within
 	 */
-	public WRPStatusPacket getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 	
