@@ -46,10 +46,10 @@ public class Packet implements Serializable, Presentable {
 	@Override
 	public boolean surrounds(Point p) {
 		if (triggerBox.contains(p)) {
-			System.out.println("Packet: triggerBox " + triggerBox.toString() + " surrounds " + p.toString());
+//			System.out.println("Packet: triggerBox " + triggerBox.toString() + " surrounds " + p.toString());
 			return true;
 		}
-		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
+//		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
 		return false;
 	}
 	
@@ -57,9 +57,10 @@ public class Packet implements Serializable, Presentable {
 		Packet p = new Packet(
 				new ImageIcon("test1.jpg"), 
 				"The answer is 42", 
-				new Rectangle(-1000, 1000, 1300, 1300));
+//				new Rectangle(-1000, 1000, 1300, 1300));
+				new Rectangle(2400, -2500, 1300, 2500));
 		System.out.println(p.triggerBox.getMinX() +", "+ p.triggerBox.getMinY() +", "+ p.triggerBox.getMaxX() +", "+ p.triggerBox.getMaxY());
-		System.out.println(p.surrounds(new Point(-268, 1585)));
+		System.out.println(p.surrounds(new Point(3400, -1500)));
 	}
 	
 }
