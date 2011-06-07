@@ -1,8 +1,8 @@
 package de.hsrm.diogenes.remotepresentation;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
-public class ContentContainer extends LinkedList<Content> {
+public class ContentContainer extends ArrayList<Content> {
 
 	private static final long serialVersionUID = 1L;
 
