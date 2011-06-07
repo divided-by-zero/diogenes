@@ -17,7 +17,7 @@ import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.logic.Movement;
 
 public class Connection implements WRPPacketListener {
-
+	
 	/**
 	 * Reference to the robot-connection
 	 * @uml.property  name="diogenes"
@@ -89,7 +89,8 @@ public class Connection implements WRPPacketListener {
 	
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
-		this.location = new Location(packet.getX(), packet.getY(), packet.getAngle());
+		location.setAll(packet.getX(), packet.getY(), packet.getAngle());
+//		System.out.println("Connection: " + location.toString());
 	}
 	
 	@Override
