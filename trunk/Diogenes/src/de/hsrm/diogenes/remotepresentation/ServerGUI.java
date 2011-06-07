@@ -20,7 +20,6 @@ import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
  * This GUI is a comfortable way of using a Server-Object
  * for gaining Packets by a Client for a remote presentation.
  * @see Server
- * @author Daniel Ernst
  */
 public class ServerGUI extends JFrame {
 
@@ -136,7 +135,6 @@ public class ServerGUI extends JFrame {
 		// set up server for receiving packets (own thread)
 		server = new Server(port, exceptionlistener);
 		server.start();
-		System.out.println("PresentationServer started");
 		// waiting for server to finish initialization (exceptions possible)
 		synchronized (exceptionlistener) {
 			try {
@@ -175,10 +173,10 @@ public class ServerGUI extends JFrame {
 		// set up menubar
 		setUpMenuBar();
 		// load picture and text initially
-		image_label = new JLabel(server.getPacket().getContent().getImage());
-		text_label = new JLabel(server.getPacket().getContent().getDescriptionText());
+		image_label = new JLabel(server.getPacket().getImage());
+		text_label = new JLabel(server.getPacket().getDescriptionText());
 		status_label = new JLabel("Awaiting connection on port " + port + ", " + 
-								server.getPacket().getContent().getAdditionalText());
+								server.getPacket().getAdditionalText());
 		this.add(image_label, GridBagConstraintsFactory.create(1, 1));
 		this.add(text_label, GridBagConstraintsFactory.create(2, 1));
 		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
@@ -189,9 +187,9 @@ public class ServerGUI extends JFrame {
 		Timer refreshtimer = new Timer(500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				image_label.setIcon(server.getPacket().getContent().getImage());
-				text_label.setText(server.getPacket().getContent().getDescriptionText());
-				status_label.setText(server.getPacket().getContent().getAdditionalText());
+				image_label.setIcon(server.getPacket().getImage());
+				text_label.setText(server.getPacket().getDescriptionText());
+				status_label.setText(server.getPacket().getAdditionalText());
 			}
 		});
 		refreshtimer.start();

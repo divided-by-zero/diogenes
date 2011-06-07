@@ -1,22 +1,65 @@
 package de.hsrm.diogenes.remotepresentation;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.Serializable;
+import javax.swing.ImageIcon;
 
-public class Packet implements Serializable {
+import de.hsrm.diogenes.connection.Location;
 
-	/**
-	 * Serialization needed for sending objects via sockets
-	 */
-	private static final long serialVersionUID = 4444413373095067281L;
+public class Packet implements Serializable, Presentable {
 
-	private Content content;
+	private static final long serialVersionUID = 1L;
+	private ImageIcon image;
+	private String text;
+	private Rectangle triggerBox;
 	
-	public Packet(Content c) {
-		this.content = c;
+	public Packet(ImageIcon icon, String text, Rectangle triggerBox) {
+			this.image 		= icon;
+			this.text		= text;
+			this.triggerBox = triggerBox;
 	}
 	
-	public Content getContent() {
-		return content;
+	@Override
+	public ImageIcon getImage() {
+		return image;
+	}
+	
+	@Override
+	public String getDescriptionText() {
+		return text;
+	}
+	
+	@Override
+	public String getAdditionalText() {
+		return "Invoked between (" 
+			+ (int)triggerBox.getMinX() + "," + (int)triggerBox.getMinY() 
+			+ ") and (" 
+			+ (int)triggerBox.getMaxX() + "," + (int)triggerBox.getMaxY() + ")";
+	}
+	
+	@Override
+	public boolean surrounds(Location l) {
+		return surrounds(new Point(l.getX(), l.getY()));
+	}
+	
+	@Override
+	public boolean surrounds(Point p) {
+		if (triggerBox.contains(p)) {
+			System.out.println("Packet: triggerBox " + triggerBox.toString() + " surrounds " + p.toString());
+			return true;
+		}
+		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		Packet p = new Packet(
+				new ImageIcon("test1.jpg"), 
+				"The answer is 42", 
+				new Rectangle(-1000, 1000, 1300, 1300));
+		System.out.println(p.triggerBox.getMinX() +", "+ p.triggerBox.getMinY() +", "+ p.triggerBox.getMaxX() +", "+ p.triggerBox.getMaxY());
+		System.out.println(p.surrounds(new Point(-268, 1585)));
 	}
 	
 }
