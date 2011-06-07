@@ -63,6 +63,7 @@ public class ButtonPanel extends JPanel{
 		this.down = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRu.JPG")));
 		this.param = new JTextField("40");
 		
+		
 		doListener();
 		
 		this.setLayout(new GridBagLayout());
@@ -73,6 +74,15 @@ public class ButtonPanel extends JPanel{
 		this.add(this.param, GridBagConstraintsFactory.create(1, 2, 1, 1));
 		this.add(this.right, GridBagConstraintsFactory.create(2, 2, 1, 1));
 		this.add(this.down, GridBagConstraintsFactory.create(1, 3, 1, 1));
+		
+		this.robi.setToolTipText("Enable robot control mode");
+		this.cam.setToolTipText("Enable camera control mode");
+		this.up.setToolTipText("Move robot/camera forward/up");
+		this.left.setToolTipText("Move robot/camera left");
+		this.right.setToolTipText("Move robot/camera right");
+		this.down.setToolTipText("Move robot/camera backwards/down");
+		this.param.setToolTipText("The moving factor");
+		
 	}
 	
 	public void doListener(){
