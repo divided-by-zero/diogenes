@@ -3,6 +3,8 @@ package de.hsrm.diogenes.connection;
 import java.io.IOException;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.logic.Movement;
+import de.hsrm.diogenes.map.ConvertMap2Image;
+import de.hsrm.diogenes.map.Map;
 
 public class Main {
 
@@ -10,8 +12,8 @@ public class Main {
 //		Connection c = new Connection("10.18.72.254", 33333);
 		Connection c = new Connection("localhost", 33333);
 
-//		Map map = new Map(c);
-//	 	ConvertMap2Image cv = new ConvertMap2Image(map.getMap(), map.getMap().getMapWidth());
+		Map map = new Map(c);
+	 	ConvertMap2Image cv = new ConvertMap2Image(map.getMap(),310);
 	 		
 		Movement move = new Movement(c);
 		//move.moveTo(3000, -1500);

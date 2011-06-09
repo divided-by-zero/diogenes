@@ -15,6 +15,7 @@ import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ButtonPanel, a Panel to control the movement
  * of the robot and the camera.
@@ -45,12 +46,16 @@ public class ButtonPanel extends JPanel{
 	/** The param. */
 	private JTextField param;
 	
+	/** The c. */
 	private Connection c;
 	
+	/** The robo enabled. */
 	private boolean roboEnabled;
 	
 	/**
 	 * Instantiates a new button panel.
+	 *
+	 * @param c the connection
 	 */
 	public ButtonPanel(Connection c){
 		this.roboEnabled = false;
@@ -61,7 +66,7 @@ public class ButtonPanel extends JPanel{
 		this.right = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRe.JPG")));
 		this.up = new JButton(new ImageIcon(getClass().getResource("../img/pfeilHo.JPG")));
 		this.down = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRu.JPG")));
-		this.param = new JTextField("40");
+		this.param = new JTextField("4");
 		
 		
 		doListener();
@@ -85,6 +90,9 @@ public class ButtonPanel extends JPanel{
 		
 	}
 	
+	/**
+	 * Adds the needed logic to the buttons
+	 */
 	public void doListener(){
 					
 		robi.addActionListener(new ActionListener() {
@@ -97,7 +105,7 @@ public class ButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if (roboEnabled){
 					try {
-						c.getMove().turnLeft(Integer.parseInt(param.getText()));
+						c.getMove().turnLeft(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
 					} catch (WRPException e2) {
@@ -111,7 +119,7 @@ public class ButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(roboEnabled){
 					try {
-						c.getMove().turnRight(Integer.parseInt(param.getText()));
+						c.getMove().turnRight(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
 					} catch (WRPException e2) {
@@ -125,7 +133,7 @@ public class ButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(roboEnabled){
 					try {
-						c.getMove().moveBackward(Integer.parseInt(param.getText()));
+						c.getMove().moveBackward(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
 					} catch (WRPException e2) {
@@ -139,7 +147,7 @@ public class ButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(roboEnabled){
 					try {
-						c.getMove().moveForward(Integer.parseInt(param.getText()));
+						c.getMove().moveForward(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
 					} catch (WRPException e2) {
@@ -158,7 +166,7 @@ public class ButtonPanel extends JPanel{
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws WRPException 
+	 * @throws WRPException the wRP exception
 	 */
 	public static void main(String[] args) throws WRPException {
 		JFrame f = new JFrame();
