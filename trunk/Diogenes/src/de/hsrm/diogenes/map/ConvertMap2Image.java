@@ -69,20 +69,20 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		//BufferedImage img = new BufferedImage(this.mapFile.getMapWidth(), this.mapFile.getMapHeight(), BufferedImage.TYPE_INT_RGB);
 		
 		
-		BufferedImage img = new BufferedImage(340, 400, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(350, 410, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D)img.getGraphics();
 		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, 340, 400);
+		g.clearRect(0, 0, 350, 410);
 		
 		g.setColor(Color.BLACK);
 		for(MapLine ml : lines){
-			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+340,
-						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+340);
+			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+350,
+						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+350);
 		}
 		g.setColor(Color.BLACK);
 		for(MapPoint mp : points){
-			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+340, 
-						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+340));
+			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+350, 
+						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+350));
 		}
 		
 		return img;

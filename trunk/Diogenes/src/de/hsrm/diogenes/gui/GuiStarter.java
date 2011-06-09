@@ -19,7 +19,7 @@ public class GuiStarter {
 	 */
 	private GuiController gc;
 	
-	public static void main(String[] args) throws WRPException, IOException {
+	public static void main(String[] args) throws WRPException, IOException, InterruptedException {
 	
 		GuiStarter gs = new GuiStarter();
 		Connection c = new Connection("10.18.72.254", 33333);

@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 
@@ -20,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -27,6 +29,7 @@ import de.hsrm.diogenes.camera.CameraData;
 import de.hsrm.diogenes.connection.Connection;
 import de.hsrm.diogenes.connection.Location;
 import de.hsrm.diogenes.map.Map;
+import de.hsrm.diogenes.map.Robbie;
 import de.hsrm.diogenes.remotepresentation.Client;
 import de.hsrm.diogenes.remotepresentation.ExceptionListener;
 import de.hsrm.diogenes.remotepresentation.PacketContainer;
@@ -97,8 +100,9 @@ public class GuiModel extends JFrame {
 	
 	private Client praesi_client;
 	
+	private Robbie robi;
 	
-	public GuiModel(Connection c, Map map) {
+	public GuiModel(Connection c, Map map) throws IOException, InterruptedException {
 		this.c = c;
 		this.map = map;
 		this.setTitle("Diogenes robot control");
@@ -109,16 +113,16 @@ public class GuiModel extends JFrame {
 
 		this.l1 = new JLabel("Status");
 		
-		this.l2 = new JLabel(new ImageIcon(map.getImg()));
+		//this.l2 = new JLabel(new ImageIcon(map.getImg()));
 		
-		this.mapPanel = new JPanel();
-		this.mapPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		//this.mapPanel = new JPanel();
+		
 		this.webcamPanel = new JPanel();
 		this.webcamPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.coordsPanel = new JPanel();
 		this.coordsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.statusbarPanel = new JPanel();
-		
+		this.robi = new Robbie(c);
 		
 		
 		createPanels();
@@ -129,11 +133,11 @@ public class GuiModel extends JFrame {
 		 * Adds the different panels onto our JFrame with the given GridBagConstraints
 		 * create(x, y, gridwidth, gridheight) 
 		 */
-		this.add(mapPanel,GridBagConstraintsFactory.create(0, 0, 1, 2));
-		this.add(webcamPanel,GridBagConstraintsFactory.create(1,0,1,1));
+		this.add(new MapPanel(this.map, this.c), GridBagConstraintsFactory.create(0, 0, 1, 2));
+		this.add(webcamPanel, GridBagConstraintsFactory.create(1,0,1,1));
 		//this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
-		this.add(new ButtonPanel(this.c),GridBagConstraintsFactory.create(1,1,1,1));
-		this.add(statusbarPanel,GridBagConstraintsFactory.create(0, 3, 2, 1));
+		this.add(new ButtonPanel(this.c), GridBagConstraintsFactory.create(1,1,1,1));
+		this.add(statusbarPanel, GridBagConstraintsFactory.create(0, 3, 2, 1));
 	
 		this.pack();
 		this.setVisible(true);
@@ -155,7 +159,8 @@ public class GuiModel extends JFrame {
 		
 		//this.mapPanel.add(l3);
 		this.statusbarPanel.add(l1);
-		this.mapPanel.add(this.l2);
+		//this.mapPanel.add(this.l2);
+		//this.mapPanel.add(new JLabel(this.robi.getImg()));
 		
 		if(this.c.isCamData()){
 			webcamPanel.add(c.getCameraData().getCam());
@@ -330,18 +335,32 @@ public class GuiModel extends JFrame {
 		return menuBar;
 	}
 	
-
 	
 	public static void main(String[] args) throws IOException {
-		try {
-			//Connection c = new Connection("10.18.72.254", 33333);
-			Connection c = new Connection("localhost", 33333);
-			new GuiModel(c, new Map(c));
-		} catch (WRPException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+		
+		
+		 SwingUtilities.invokeLater(new Runnable() {
+
+		      @Override
+		      public void run() {
+		     
+		    		try {
+		    			//Connection c = new Connection("10.18.72.254", 33333);
+		    			Connection c = new Connection("localhost", 33333);
+		    			new GuiModel(c, new Map(c));
+		    		} catch (WRPException e) {
+		    			// TODO Auto-generated catch block
+		    			e.printStackTrace();
+		    		} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		      }
+		    });
+		  }
 
 	public JLabel getL1() {
 		return l1;
