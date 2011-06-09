@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Point;
 
 import java.awt.GridBagLayout;
@@ -18,6 +19,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -108,8 +110,6 @@ public class GuiModel extends JFrame {
 		this.l1 = new JLabel("Status");
 		
 		this.l2 = new JLabel(new ImageIcon(map.getImg()));
-		this.l4 = new JLabel("X-Koordinate: 0 " +
-							"Y-Koordinate: 0");
 		
 		this.mapPanel = new JPanel();
 		this.mapPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -118,9 +118,12 @@ public class GuiModel extends JFrame {
 		this.coordsPanel = new JPanel();
 		this.coordsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.statusbarPanel = new JPanel();
-				
+		
+		
 		
 		createPanels();
+		
+		
 		
 		/**
 		 * Adds the different panels onto our JFrame with the given GridBagConstraints
@@ -130,7 +133,7 @@ public class GuiModel extends JFrame {
 		this.add(webcamPanel,GridBagConstraintsFactory.create(1,0,1,1));
 		//this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
 		this.add(new ButtonPanel(this.c),GridBagConstraintsFactory.create(1,1,1,1));
-		this.add(statusbarPanel,GridBagConstraintsFactory.create(0, 3, 1, 1));
+		this.add(statusbarPanel,GridBagConstraintsFactory.create(0, 3, 2, 1));
 	
 		this.pack();
 		this.setVisible(true);
@@ -151,8 +154,6 @@ public class GuiModel extends JFrame {
 	public void createPanels(){
 		
 		//this.mapPanel.add(l3);
-	
-		this.coordsPanel.add(l4);
 		this.statusbarPanel.add(l1);
 		this.mapPanel.add(this.l2);
 		
@@ -299,8 +300,8 @@ public class GuiModel extends JFrame {
 					@Override
 					public void run() {
 						try {
-							c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
 							l1.setText("Wander initiated");
+							c.getMove().wander(new Point(3367, -1747), new Point(6274, 1620), new Point(-334, 1570));
 						} catch (WRPException e2) {
 							e2.printStackTrace();
 						}
@@ -355,7 +356,8 @@ public class GuiModel extends JFrame {
 	}
 
 	public Client getPraesi_client() {
-		return praesi_client;
+		return praesi_client;//this.add(this.robi, GridBagConstraintsFactory.create(0, 0, 1, 1));
+		//this.add(this.cam, GridBagConstraintsFactory.create(2, 0, 1, 1));
 	}
 
 }

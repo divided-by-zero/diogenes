@@ -1,14 +1,18 @@
 
 package de.hsrm.diogenes.gui;
 
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -52,36 +56,56 @@ public class ButtonPanel extends JPanel{
 	/** The robo enabled. */
 	private boolean roboEnabled;
 	
+	private boolean camEnabled;
+	
+	private ButtonGroup bGroup;
+	
+	private JRadioButton roboRadio;
+	
+	private JRadioButton camRadio;
+	
+	
 	/**
 	 * Instantiates a new button panel.
 	 *
 	 * @param c the connection
 	 */
 	public ButtonPanel(Connection c){
+		//this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		
 		this.roboEnabled = false;
+		this.camEnabled = false;
 		this.c = c;
 		this.robi = new JButton("Robot");
 		this.cam = new JButton("Camera");
+		this.bGroup = new ButtonGroup();
+		this.roboRadio = new JRadioButton("Robot");
+		this.camRadio = new JRadioButton("Camera");
 		this.left = new JButton(new ImageIcon(getClass().getResource("../img/pfeilLi.JPG")));
 		this.right = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRe.JPG")));
 		this.up = new JButton(new ImageIcon(getClass().getResource("../img/pfeilHo.JPG")));
 		this.down = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRu.JPG")));
-		this.param = new JTextField("4");
+		this.param = new JTextField("4", 2);
 		
+		this.bGroup.add(roboRadio);
+		this.bGroup.add(camRadio);
 		
 		doListener();
 		
 		this.setLayout(new GridBagLayout());
-		this.add(this.robi, GridBagConstraintsFactory.create(0, 0, 1, 1));
-		this.add(this.cam, GridBagConstraintsFactory.create(2, 0, 1, 1));
+		
+		this.add(this.roboRadio, GridBagConstraintsFactory.create(0, 0, 1, 1));
+		this.add(this.camRadio, GridBagConstraintsFactory.create(2, 0, 1, 1));
+		
 		this.add(this.up, GridBagConstraintsFactory.create(1, 1, 1, 1));
 		this.add(this.left, GridBagConstraintsFactory.create(0, 2, 1, 1));
 		this.add(this.param, GridBagConstraintsFactory.create(1, 2, 1, 1));
 		this.add(this.right, GridBagConstraintsFactory.create(2, 2, 1, 1));
 		this.add(this.down, GridBagConstraintsFactory.create(1, 3, 1, 1));
 		
-		this.robi.setToolTipText("Enable robot control mode");
-		this.cam.setToolTipText("Enable camera control mode");
+		this.roboRadio.setToolTipText("Enable robot control mode");
+		this.camRadio.setToolTipText("Enable camera control mode");
 		this.up.setToolTipText("Move robot/camera forward/up");
 		this.left.setToolTipText("Move robot/camera left");
 		this.right.setToolTipText("Move robot/camera right");
@@ -95,9 +119,18 @@ public class ButtonPanel extends JPanel{
 	 */
 	public void doListener(){
 					
-		robi.addActionListener(new ActionListener() {
+		roboRadio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				camEnabled = false;
 				roboEnabled = true;
+			}
+		});
+		
+		camRadio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				roboEnabled = false;
+				camEnabled = true;
+				
 			}
 		});
 
