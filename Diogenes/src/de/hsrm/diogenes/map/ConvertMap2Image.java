@@ -69,20 +69,21 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		//BufferedImage img = new BufferedImage(this.mapFile.getMapWidth(), this.mapFile.getMapHeight(), BufferedImage.TYPE_INT_RGB);
 		
 		
-		BufferedImage img = new BufferedImage(250, 310, BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(340, 400, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D)img.getGraphics();
 		g.setBackground(Color.WHITE);
-		g.setColor(Color.RED);
+		g.clearRect(0, 0, 340, 400);
+		
+		g.setColor(Color.BLACK);
 		for(MapLine ml : lines){
-			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+250,
-						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+250);
+			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+340,
+						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+340);
 		}
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.BLACK);
 		for(MapPoint mp : points){
-			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+250, 
-						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+250));
+			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+340, 
+						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+340));
 		}
-		g.setBackground(Color.WHITE);
 		
 		return img;
 	}
@@ -93,7 +94,7 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void writeMap() throws IOException{
-		ImageIO.write(this.image, "png", new File("mapimg"));
+		ImageIO.write(this.image, "png", new File("mapimg.png"));
 		System.out.println("Image written");
 	}
 
