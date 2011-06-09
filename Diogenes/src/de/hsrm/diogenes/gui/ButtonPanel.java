@@ -204,7 +204,7 @@ public class ButtonPanel extends JPanel{
 	public static void main(String[] args) throws WRPException {
 		JFrame f = new JFrame();
 		//f.setLayout(new GridBagLayout());
-		f.add(new ButtonPanel(new Connection("localhost", 55555)));
+		f.getContentPane().add((new ButtonPanel(new Connection("localhost", 33333))));
 		f.pack();
 		f.setVisible(true);
 	}
