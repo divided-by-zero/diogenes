@@ -15,6 +15,7 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.connection.Connection;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CameraData.
  */
@@ -23,18 +24,10 @@ public class CameraData {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * The packet with the cam-data
-	 * @uml.property  name="packet"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	/** The packet with the cam-data. @uml.property  name="packet" @uml.associationEnd  multiplicity="(1 1)" */
 	private WRPVideoPacket packet;
 	
-	/**
-	 * A label to display the camera images
-	 * @uml.property  name="cam"
-	 * @uml.associationEnd  
-	 */
+	/** A label to display the camera images. @uml.property  name="cam" @uml.associationEnd */
 	private JLabel cam;
 
 	/** The image. */
@@ -42,10 +35,13 @@ public class CameraData {
 	
 	/** The c. */
 	private Connection c;
+	
 	/**
 	 * Instantiates a new camera data.
+	 *
 	 * @param packet the packet
-	 * @throws IOException 
+	 * @param c the c
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public CameraData(WRPVideoPacket packet, Connection c) throws IOException {
 		this.packet = packet;
@@ -79,11 +75,57 @@ public class CameraData {
 	public void adjustCameraLeft(int angle) throws WRPException{
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
 		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, angle/*+c.getCameraPan()*/));
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, c.getCameraPan()+angle));
 		System.out.println("CamPan sent");
 		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_PAN);
 		
 	}
+	
+	/**
+	 * Adjust camera right.
+	 *
+	 * @param angle the angle
+	 * @throws WRPException the wRP exception
+	 */
+	public void adjustCameraRight(int angle) throws WRPException{
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, c.getCameraPan()-angle));
+		System.out.println("CamPan sent");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_PAN);
+		
+	}
+	
+	/**
+	 * Adjust camera up.
+	 *
+	 * @param angle the angle
+	 * @throws WRPException the wRP exception
+	 */
+	public void adjustCameraUp(int angle) throws WRPException{
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, c.getCameraTilt()-angle));
+		System.out.println("CamPan sent");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_TILT);
+		
+	}
+	
+	/**
+	 * Adjust camera down.
+	 *
+	 * @param angle the angle
+	 * @throws WRPException the wRP exception
+	 */
+	public void adjustCameraDown(int angle) throws WRPException{
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, c.getCameraTilt()+angle));
+		System.out.println("CamPan sent");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_TILT);
+		
+	}
+	
 	
 	/**
 	 * Takes a photo.
