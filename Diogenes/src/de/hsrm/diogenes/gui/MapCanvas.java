@@ -1,7 +1,9 @@
 package de.hsrm.diogenes.gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,6 +30,13 @@ public class MapCanvas extends JPanel {
 		this.scale = s;
 		this.setPreferredSize(this.getSize());
 	}
+	
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(350, 480);
+	}
+	
 	
 	@Override
 	public void paint(final Graphics g) {
@@ -57,9 +66,28 @@ public class MapCanvas extends JPanel {
 //		}
 		int robbie_x = (l.getX()/scale)+50;
 		int robbie_y = (-l.getY()/scale)+400;
-		System.out.println("drawing Robbie to " + robbie_x + "," + robbie_y);
+		//System.out.println("drawing Robbie to " + robbie_x + "," + robbie_y);
 		g.drawOval(robbie_x, robbie_y, 5, 5);
 		g.drawString("robbie", robbie_x+5, robbie_y);
+		
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+	
+				repaint();
+				try {
+					Thread.sleep(1000);
+					System.out.println("height: "+getSize().height);
+					System.out.println("width: "+getSize().width);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		t.start();
 	}
 	
 	public static void main(String[] args) throws WRPException, IOException, InterruptedException {
