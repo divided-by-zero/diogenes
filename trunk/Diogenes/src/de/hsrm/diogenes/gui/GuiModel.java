@@ -138,7 +138,7 @@ public class GuiModel extends JFrame {
 		 */
 		
 		
-		this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.scroller.setPreferredSize(new Dimension(350, 410));
 		this.add(scroller, GridBagConstraintsFactory.create(0, 0, 1, 2));
 		this.add(webcamPanel, GridBagConstraintsFactory.create(1,0,1,1));
