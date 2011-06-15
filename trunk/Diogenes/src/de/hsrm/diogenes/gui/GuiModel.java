@@ -137,8 +137,8 @@ public class GuiModel extends JFrame {
 		 * create(x, y, gridwidth, gridheight) 
 		 */
 		
-		
-		this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scroller = new JScrollPane(new MapCanvas(new Map(this.c), this.c, 70), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.scroller.setPreferredSize(new Dimension(350, 410));
 		this.add(scroller, GridBagConstraintsFactory.create(0, 0, 1, 2));
 		this.add(webcamPanel, GridBagConstraintsFactory.create(1,0,1,1));
@@ -352,8 +352,8 @@ public class GuiModel extends JFrame {
 		      public void run() {
 		     
 		    		try {
-		    			Connection c = new Connection("10.18.72.254", 33333);
-		    			//Connection c = new Connection("localhost", 33333);
+		    			//Connection c = new Connection("10.18.72.254", 33333);
+		    			Connection c = new Connection("localhost", 33333);
 		    			new GuiModel(c, new Map(c));
 		    		} catch (WRPException e) {
 		    			// TODO Auto-generated catch block
