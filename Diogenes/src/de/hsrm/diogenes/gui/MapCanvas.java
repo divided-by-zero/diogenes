@@ -1,16 +1,21 @@
 package de.hsrm.diogenes.gui;
 
-import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapLine;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
+import de.hsrm.diogenes.connection.Location;
 import de.hsrm.diogenes.map.Map;
 
-public class MapCanvas extends Canvas {
+public class MapCanvas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Map map;
@@ -21,6 +26,7 @@ public class MapCanvas extends Canvas {
 		this.map = m;
 		this.connection = c;
 		this.scale = s;
+		this.setPreferredSize(this.getSize());
 	}
 	
 	@Override
@@ -36,10 +42,10 @@ public class MapCanvas extends Canvas {
 		// print lines
 		for (MapLine l : map.getLines()) {
 //			System.out.println("drawing Line somewhere");
-			g.drawLine((int)l.getP1().getX(), (int)l.getP1().getY(), (int)l.getP2().getX(), (int)l.getP2().getY());
+//			g.drawLine((int)l.getP1().getX(), (int)l.getP1().getY(), (int)l.getP2().getX(), (int)l.getP2().getY());
 		}
 		// print robbie
-//		Location l = connection.getLocation();
+		Location l = connection.getLocation();
 //		Image i;
 //		try {
 //			i = ImageIO.read(new File("test1.jpg"));
@@ -49,9 +55,14 @@ public class MapCanvas extends Canvas {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		int robbie_x = (l.getX()/scale)+50;
+		int robbie_y = (-l.getY()/scale)+400;
+		System.out.println("drawing Robbie to " + robbie_x + "," + robbie_y);
+		g.drawOval(robbie_x, robbie_y, 5, 5);
+		g.drawString("robbie", robbie_x+5, robbie_y);
 	}
 	
-	public static void main(String[] args) throws WRPException, IOException {
+	public static void main(String[] args) throws WRPException, IOException, InterruptedException {
 		JFrame f = new JFrame();
 		Connection c = new Connection("localhost", 33333);
 		MapCanvas mg = new MapCanvas(new Map(c), c, 70);
@@ -59,6 +70,13 @@ public class MapCanvas extends Canvas {
 		f.setSize(800, 600);
 		f.pack();
 		f.setVisible(true);
+		
+		while(true) {
+			System.out.println("repainting frame");
+			f.repaint();
+			Thread.sleep(1000);
+			c.getMove().moveForward(1000);
+		}
 	}
 	
 }
