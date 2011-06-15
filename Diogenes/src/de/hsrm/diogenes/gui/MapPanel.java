@@ -30,7 +30,6 @@ public class MapPanel extends JPanel {
 	private Connection c;
 	private int width;
 	private int height;
-	private JScrollPane scroller;
 	
 	public MapPanel(Map map, Connection c) throws InterruptedException{
 		this.setMap(map);
@@ -59,7 +58,7 @@ public class MapPanel extends JPanel {
 	
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(350, 410);
+		return new Dimension(this.width, this.height);
 	}
 	
 	
