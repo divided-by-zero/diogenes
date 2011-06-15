@@ -345,8 +345,8 @@ public class GuiModel extends JFrame {
 		      public void run() {
 		     
 		    		try {
-		    			//Connection c = new Connection("10.18.72.254", 33333);
-		    			Connection c = new Connection("localhost", 33333);
+		    			Connection c = new Connection("10.18.72.254", 33333);
+		    			//Connection c = new Connection("localhost", 33333);
 		    			new GuiModel(c, new Map(c));
 		    		} catch (WRPException e) {
 		    			// TODO Auto-generated catch block

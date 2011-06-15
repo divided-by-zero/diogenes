@@ -75,7 +75,7 @@ public class CameraData {
 	public void adjustCameraLeft(int angle) throws WRPException{
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
 		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, c.getCameraPan()+angle));
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, +angle));
 		System.out.println("CamPan sent");
 		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_PAN);
 		
@@ -90,7 +90,7 @@ public class CameraData {
 	public void adjustCameraRight(int angle) throws WRPException{
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
 		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, c.getCameraPan()-angle));
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_PAN, -angle));
 		System.out.println("CamPan sent");
 		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_PAN);
 		
@@ -105,7 +105,7 @@ public class CameraData {
 	public void adjustCameraUp(int angle) throws WRPException{
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
 		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, c.getCameraTilt()-angle));
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, -angle));
 		System.out.println("CamPan sent");
 		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_TILT);
 		
@@ -120,10 +120,26 @@ public class CameraData {
 	public void adjustCameraDown(int angle) throws WRPException{
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
 		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
-		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, c.getCameraTilt()+angle));
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_TILT, +angle));
 		System.out.println("CamPan sent");
 		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_TILT);
 		
+	}
+	
+	public void zoomIn(int factor) throws WRPException{
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_ZOOM, factor));
+		System.out.println("Zooming in");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_ZOOM);
+	}
+	
+	public void zoomOut(int factor) throws WRPException{
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_DATA));
+		this.c.getDiogenes().waitFor(WRPCmd.GET_CAMERA_DATA);
+		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.CAMERA_ZOOM, -factor));
+		System.out.println("Zooming in");
+		this.c.getDiogenes().waitFor(WRPCmd.CAMERA_ZOOM);
 	}
 	
 	

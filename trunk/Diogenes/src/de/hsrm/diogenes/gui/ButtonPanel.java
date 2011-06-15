@@ -148,7 +148,7 @@ public class ButtonPanel extends JPanel{
 				if(camEnabled){
 					if(c.isCamData()){
 						try {
-							c.getCameraData().adjustCameraLeft(Integer.parseInt(param.getText())*10);
+							c.getCameraData().adjustCameraLeft(Integer.parseInt(param.getText())*100);
 						} catch (NumberFormatException e1) {
 							e1.printStackTrace();
 						} catch (WRPException e1) {
@@ -176,7 +176,7 @@ public class ButtonPanel extends JPanel{
 				if(camEnabled){
 					if(c.isCamData()){
 						try {
-							c.getCameraData().adjustCameraRight(Integer.parseInt(param.getText())*10);
+							c.getCameraData().adjustCameraRight(Integer.parseInt(param.getText())*100);
 						} catch (NumberFormatException e1) {
 							e1.printStackTrace();
 						} catch (WRPException e1) {
@@ -204,7 +204,7 @@ public class ButtonPanel extends JPanel{
 				if(camEnabled){
 					if(c.isCamData()){
 						try {
-							c.getCameraData().adjustCameraDown(Integer.parseInt(param.getText())*10);
+							c.getCameraData().adjustCameraDown(Integer.parseInt(param.getText())*100);
 						} catch (NumberFormatException e1) {
 							e1.printStackTrace();
 						} catch (WRPException e1) {
@@ -232,7 +232,7 @@ public class ButtonPanel extends JPanel{
 				if(camEnabled){
 					if(c.isCamData()){
 						try {
-							c.getCameraData().adjustCameraUp(Integer.parseInt(param.getText())*10);
+							c.getCameraData().adjustCameraUp(Integer.parseInt(param.getText())*100);
 						} catch (NumberFormatException e1) {
 							e1.printStackTrace();
 						} catch (WRPException e1) {
