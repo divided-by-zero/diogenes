@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -20,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -101,6 +103,7 @@ public class GuiModel extends JFrame {
 	private Client praesi_client;
 	
 	private Robbie robi;
+	private JScrollPane scroller;
 	
 	public GuiModel(Connection c, Map map) throws IOException, InterruptedException {
 		this.c = c;
@@ -133,7 +136,11 @@ public class GuiModel extends JFrame {
 		 * Adds the different panels onto our JFrame with the given GridBagConstraints
 		 * create(x, y, gridwidth, gridheight) 
 		 */
-		this.add(new MapPanel(this.map, this.c), GridBagConstraintsFactory.create(0, 0, 1, 2));
+		
+		
+		this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.scroller.setPreferredSize(new Dimension(350, 410));
+		this.add(scroller, GridBagConstraintsFactory.create(0, 0, 1, 2));
 		this.add(webcamPanel, GridBagConstraintsFactory.create(1,0,1,1));
 		//this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
 		this.add(new ButtonPanel(this.c), GridBagConstraintsFactory.create(1,1,1,1));
