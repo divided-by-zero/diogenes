@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
@@ -29,6 +30,7 @@ public class MapPanel extends JPanel {
 	private Connection c;
 	private int width;
 	private int height;
+	private JScrollPane scroller;
 	
 	public MapPanel(Map map, Connection c) throws InterruptedException{
 		this.setMap(map);
@@ -37,6 +39,10 @@ public class MapPanel extends JPanel {
 		this.mapImg = map.getImg();
 		this.robiImg = Toolkit.getDefaultToolkit().createImage(getClass().getResource("../img/robi.jpg"));
 		checkSize();
+		
+		
+		
+		//scroller.setPreferredSize(new Dimension(50, 50));
 	}
 	
 	public void checkSize() throws InterruptedException{
@@ -53,7 +59,7 @@ public class MapPanel extends JPanel {
 	
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(this.width, this.height);
+		return new Dimension(350, 410);
 	}
 	
 	
