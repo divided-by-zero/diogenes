@@ -13,9 +13,11 @@ public class Movement {
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private Connection c;
+	private boolean robiMoving;
 	
 	public Movement(Connection c) {
 		this.c = c;
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -27,8 +29,10 @@ public class Movement {
 	 */
 	public void moveTo(int x, int y) throws WRPException {
 		// works fine
+		this.robiMoving = true;
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, x, y));
 		this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -42,8 +46,10 @@ public class Movement {
 		 * the MOVE_FORWARD WRPCmd is broken in WRP-3.0.2-beta.jar
 		 * this is how it should work: 
 		 */
+		this.robiMoving = true;
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_FORWARD, d));
 		this.c.getDiogenes().waitFor(WRPCmd.MOVE_FORWARD);
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -51,14 +57,17 @@ public class Movement {
 	 *
 	 * @param d The distance to travel
 	 * @throws WRPException the wRP exception
+	 * @throws InterruptedException 
 	 */
-	public void moveBackward(int d) throws WRPException {
+	public void moveBackward(int d) throws WRPException, InterruptedException {
 		/* 
 		 * the MOVE_BACKWARD WRPCmd is broken in WRP-3.0.2-beta.jar
 		 * this is how it should work:
 		 */
+		this.robiMoving = true;
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.MOVE_BACKWARD, d));
 		this.c.getDiogenes().waitFor(WRPCmd.MOVE_BACKWARD);
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -72,8 +81,10 @@ public class Movement {
 		 * the TURN_LEFT WRPCmd is broken in WRP-3.0.2-beta.jar
 		 * this is how it should work:
 		 */
+		this.robiMoving = true;
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_LEFT, x));
 		this.c.getDiogenes().waitFor(WRPCmd.ROTATE_LEFT);
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -81,14 +92,17 @@ public class Movement {
 	 *
 	 * @param x The angle the robot turns
 	 * @throws WRPException the wRP exception
+	 * @throws InterruptedException 
 	 */
-	public void turnRight(int x) throws WRPException {
+	public void turnRight(int x) throws WRPException, InterruptedException {
 		/* 
 		 * the TURN_RIGHT WRPCmd is broken in WRP-3.0.2-beta.jar
 		 * this is how it should work:
 		 */
+		this.robiMoving = true;
 		this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.ROTATE_RIGHT, x));
 		this.c.getDiogenes().waitFor(WRPCmd.ROTATE_RIGHT);
+		this.robiMoving = false;
 	}
 	
 	/**
@@ -99,10 +113,21 @@ public class Movement {
 	 */
 	public void wander(Point... p) throws WRPException {
 		// works fine
+		this.robiMoving = true;
+		
 		for(Point pp : p) {
 			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
 			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
 		}
+		this.robiMoving = false;
+	}
+
+	public boolean isRobiMoving() {
+		return robiMoving;
+	}
+
+	public void setRobiMoving(boolean robiMoving) {
+		this.robiMoving = robiMoving;
 	}
 	
 	

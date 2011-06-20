@@ -1,5 +1,6 @@
 package de.hsrm.diogenes.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,13 +18,39 @@ import de.hsrm.diogenes.connection.Connection;
 import de.hsrm.diogenes.connection.Location;
 import de.hsrm.diogenes.map.Map;
 
+/**
+ * The Class MapCanvas.
+ */
 public class MapCanvas extends JPanel {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The map. */
 	private Map map;
+	
+	/** The connection. */
 	private Connection connection;
+	
+	/** The scale. */
 	private int scale;
 	
+	/** The l. */
+	private Location l;
+	
+	/** The robbie_x. */
+	private int robbie_x;
+	
+	/** The robbie_y. */
+	private int robbie_y ;
+	
+	/**
+	 * Instantiates a new map canvas.
+	 *
+	 * @param m the map
+	 * @param c the connection
+	 * @param s the scale
+	 */
 	public MapCanvas(Map m, Connection c, int s) {
 		this.map = m;
 		this.connection = c;
@@ -32,15 +59,21 @@ public class MapCanvas extends JPanel {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(350, 480);
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
-	public void paint(final Graphics g) {
-		super.paint(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		// print points
 		for (MapPoint p : map.getPoints()) {
 			int x = (int) (p.getX() / scale);
@@ -51,45 +84,42 @@ public class MapCanvas extends JPanel {
 		// print lines
 		for (MapLine l : map.getLines()) {
 //			System.out.println("drawing Line somewhere");
-//			g.drawLine((int)l.getP1().getX(), (int)l.getP1().getY(), (int)l.getP2().getX(), (int)l.getP2().getY());
+			g.drawLine((int)l.getP1().getX(), (int)l.getP1().getY(), (int)l.getP2().getX(), (int)l.getP2().getY());
 		}
-		// print robbie
-		Location l = connection.getLocation();
-//		Image i;
-//		try {
-//			i = ImageIO.read(new File("test1.jpg"));
-//			System.out.println("drawing RoboImg to " + l.getX() / scale + "," + l.getY() / scale);
-//			g.drawImage(i, l.getX() / scale, l.getY() / scale, this);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		int robbie_x = (l.getX()/scale)+50;
-		int robbie_y = (-l.getY()/scale)+400;
-		//System.out.println("drawing Robbie to " + robbie_x + "," + robbie_y);
-		g.drawOval(robbie_x, robbie_y, 5, 5);
-		g.drawString("robbie", robbie_x+5, robbie_y);
 		
-		Thread t = new Thread(new Runnable() {
+		// print robbie
+		this.l = connection.getLocation();
+		this.robbie_x = (l.getX()/scale)+50;
+		this.robbie_y = (-l.getY()/scale)+400;
+		
+		g.setColor(Color.RED);
+		g.drawOval(robbie_x, robbie_y, 5, 5);
+		g.setColor(Color.BLACK);
+		g.drawString("robbie", robbie_x, robbie_y);
+		//g.setColor(Color.YELLOW);
+		//g.drawLine(robbie_x, robbie_y, robbie_x+10, robbie_y+10);
+		
+		
+	 	Thread t = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-	
-				repaint();
-				try {
-					Thread.sleep(1000);
-					System.out.println("height: "+getSize().height);
-					System.out.println("width: "+getSize().width);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+				//if(connection.getMove().isRobiMoving()){
+					repaint();
+				//}
 			}
 		});
-		t.start();
+		t.start(); 
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws WRPException the wRP exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException the interrupted exception
+	 */
 	public static void main(String[] args) throws WRPException, IOException, InterruptedException {
 		JFrame f = new JFrame();
 		Connection c = new Connection("localhost", 33333);

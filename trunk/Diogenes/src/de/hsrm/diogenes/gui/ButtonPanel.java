@@ -170,6 +170,9 @@ public class ButtonPanel extends JPanel{
 						e1.printStackTrace();
 					} catch (WRPException e2) {
 						e2.printStackTrace();
+					} catch (InterruptedException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
 					}
 				}
 				
@@ -198,6 +201,9 @@ public class ButtonPanel extends JPanel{
 						e1.printStackTrace();
 					} catch (WRPException e2) {
 						e2.printStackTrace();
+					} catch (InterruptedException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
 					}
 				}
 				
