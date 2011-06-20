@@ -1,6 +1,10 @@
 package de.hsrm.diogenes.logic;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
@@ -121,6 +125,25 @@ public class Movement {
 		}
 		this.robiMoving = false;
 	}
+	
+	public void wander(List<Point> points) throws WRPException {
+		// works fine
+		this.robiMoving = true;
+		
+		for(Point pp : points) {
+			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
+			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+		}
+		
+		/*for(Iterator<Point> it = points.iterator(); it.hasNext();){
+			Point p = it.next();
+			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)p.getX(), (int)p.getY()));
+			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
+		}*/
+		
+		this.robiMoving = false;
+	}
+	
 
 	public boolean isRobiMoving() {
 		return robiMoving;
