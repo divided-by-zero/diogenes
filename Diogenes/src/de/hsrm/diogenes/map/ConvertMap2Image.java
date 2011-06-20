@@ -35,7 +35,10 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	/** The image. */
 	private BufferedImage image;
 	
-	private int scaleFactor;
+	private static int scaleFactor;
+	private static int zoomFactor;
+	private static int width;
+	private static int height;
 	
 	/**
 	 * Instantiates a new convert map2 image.
@@ -51,12 +54,20 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		this.points = new ArrayList<MapPoint>();
 		this.lines = map.getLineList();
 		this.points = map.getPointList();
-		this.scaleFactor = 100;
+		ConvertMap2Image.scaleFactor = 100;
+		ConvertMap2Image.zoomFactor = 2;
+		ConvertMap2Image.width = 400;
+		ConvertMap2Image.height = 460;
 		this.image = transform();
 		writeMap();
 	}
-
-
+	
+	public static void zoomIn() {
+		ConvertMap2Image.scaleFactor /= ConvertMap2Image.zoomFactor;
+		ConvertMap2Image.width *= ConvertMap2Image.zoomFactor;
+		ConvertMap2Image.height *= ConvertMap2Image.zoomFactor;
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.fhwiesbaden.webrobbie.clientutil.map.Map2ImageTransformer#transform()
 	 */
@@ -68,23 +79,21 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	public BufferedImage transform() {
 		//BufferedImage img = new BufferedImage(this.mapFile.getMapWidth(), this.mapFile.getMapHeight(), BufferedImage.TYPE_INT_RGB);
 		
-		
-		BufferedImage img = new BufferedImage(400, 460, BufferedImage.TYPE_INT_ARGB);//350, 410
+		BufferedImage img = new BufferedImage(ConvertMap2Image.width*zoomFactor, ConvertMap2Image.height*zoomFactor, BufferedImage.TYPE_INT_ARGB);//350, 410
 		Graphics2D g = (Graphics2D)img.getGraphics();
 		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, 400, 460);
+		g.clearRect(0, 0, ConvertMap2Image.width*zoomFactor, ConvertMap2Image.height*zoomFactor);
 		
 		g.setColor(Color.BLACK);
 		for(MapLine ml : lines){
-			g.drawLine((int)ml.getP1().getX()/this.scaleFactor+49, (int)ml.getP1().getY()*-1/this.scaleFactor+400,
-						(int)ml.getP2().getX()/this.scaleFactor+49, (int)ml.getP2().getY()*-1/this.scaleFactor+400);
+			g.drawLine((int)ml.getP1().getX()/ConvertMap2Image.scaleFactor*zoomFactor+49, (int)ml.getP1().getY()*-1/ConvertMap2Image.scaleFactor*zoomFactor+ConvertMap2Image.width*zoomFactor,
+						(int)ml.getP2().getX()/ConvertMap2Image.scaleFactor*zoomFactor+49, (int)ml.getP2().getY()*-1/ConvertMap2Image.scaleFactor*zoomFactor+ConvertMap2Image.width*zoomFactor);
 		}
 		g.setColor(Color.BLACK);
 		for(MapPoint mp : points){
-			g.drawLine((int)mp.getX()/this.scaleFactor+49, (int)mp.getY()*-1/this.scaleFactor+400, 
-						((int)mp.getX()+5)/this.scaleFactor+49, ((int)mp.getY()*-1/this.scaleFactor+400));
+			g.drawLine((int)mp.getX()/ConvertMap2Image.scaleFactor*zoomFactor+49, (int)mp.getY()*-1/ConvertMap2Image.scaleFactor*zoomFactor+ConvertMap2Image.width*zoomFactor, 
+						((int)mp.getX()+5)/ConvertMap2Image.scaleFactor*zoomFactor+49, ((int)mp.getY()*-1/ConvertMap2Image.scaleFactor*zoomFactor+ConvertMap2Image.width*zoomFactor));
 		}
-		
 		return img;
 	}
 	
@@ -115,5 +124,28 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	public MapFile getMap() {
 		return map;
 	}
-
+	
+//	public void setZoomFactor(int zoomFactor) {
+//		ConvertMap2Image.zoomFactor = zoomFactor;
+//	}
+//	
+//	public int getZoomFactor() {
+//		return ConvertMap2Image.zoomFactor;
+//	}
+//	
+//	public void setWidth(int width) {
+//		ConvertMap2Image.width*scaleFactor = width;
+//	}
+//	
+//	public int getWidth() {
+//		return ConvertMap2Image.width;
+//	}
+//	
+//	public void setHeight(int height) {
+//		ConvertMap2Image.height = height;
+//	}
+//	
+//	public int getHeight() {
+//		return ConvertMap2Image.height;
+//	}
 }
