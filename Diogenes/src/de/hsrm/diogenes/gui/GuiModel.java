@@ -137,7 +137,7 @@ public class GuiModel extends JFrame {
 		 * create(x, y, gridwidth, gridheight) 
 		 */
 		
-		this.scroller = new JScrollPane(new MapCanvas(new Map(this.c), this.c, 70), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scroller = new JScrollPane(new MapCanvas(new Map(this.c), this.c, 70, 50, 400), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		//this.scroller = new JScrollPane(new MapPanel(this.map, this.c), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.scroller.setPreferredSize(new Dimension(350, 410));
 		this.add(scroller, GridBagConstraintsFactory.create(0, 0, 1, 2));
@@ -237,7 +237,15 @@ public class GuiModel extends JFrame {
         menuItem = new JMenuItem("Simulator?");
         menu_datei.add(menuItem);
         
-        menuItem = new JMenuItem("Map");
+        menuItem = new JMenuItem("Wander the given points");
+        menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				c.setStartWander(true);
+				
+			}
+		});
         menu_funktionen.add(menuItem);
         menuItem = new JMenuItem("Visualize map");
         menu_funktionen.add(menuItem);
