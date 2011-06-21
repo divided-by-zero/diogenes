@@ -24,14 +24,14 @@ public class Connection implements WRPPacketListener {
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private WRPConnection diogenes;
-	
+	private String ip;
+	private int port;
 	/**
 	 * Represents the camera
 	 * @uml.property  name="cameraData"
 	 * @uml.associationEnd  
 	 */
 	private CameraData cameraData;
-	
 	/**
 	 * Shows if any camera data is given
 	 * @uml.property  name="camData"
@@ -64,12 +64,10 @@ public class Connection implements WRPPacketListener {
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private Location location;
-	
 	/**
 	 * @uml.property  name="startWander"
 	 */
 	private boolean startWander;
-	
 	private boolean wanderFinished;
 	
 	/**
@@ -77,8 +75,10 @@ public class Connection implements WRPPacketListener {
 	 * @throws WRPException 
 	 */
 	public Connection(String ip, int port) throws WRPException {
+		this.ip = ip;
+		this.port = port;
 		this.camData = false;
-		run(ip, port);
+		connect();
 		this.connected = true;
 		this.startWander = false;
 		this.wanderFinished = false;
@@ -98,14 +98,13 @@ public class Connection implements WRPPacketListener {
 	 * @param port The open port on the robot or the simulator
 	 * @throws WRPException 
 	 */
-	public void run(String ip, int port) throws WRPException {
+	public void connect() throws WRPException {
 		try {
-			this.diogenes = WRPConnection.connect(ip,port,ip,port);
+			this.diogenes = WRPConnection.connect(ip, port, ip, port);
 			this.diogenes.addPacketListener(this);
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_INFO));
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_STATUS_DATA));
-			//this.diogenes.waitFor(WRPCmd.GET_VIDEO);
 		} catch (WRPException e) {
 			System.err.println("Couldn't run diogenes:");
 			e.printStackTrace();
@@ -115,7 +114,6 @@ public class Connection implements WRPPacketListener {
 	@Override
 	public void handleStatusPacket(WRPStatusPacket packet) {
 		location.setAll(packet.getX(), packet.getY(), packet.getAngle());
-//		System.out.println("Connection: " + location.toString());
 	}
 	
 	@Override
@@ -177,7 +175,23 @@ public class Connection implements WRPPacketListener {
 	public WRPConnection getDiogenes() {
 		return this.diogenes;
 	}
-
+	
+	public String getIP() {
+		return ip;
+	}
+	
+	public void setIP(String ip) {
+		this.ip = ip;
+	}
+	
+	public int getPort() {
+		return port;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
 	/**
 	 * Gets the camera-data
 	 * @return The current camera-data
