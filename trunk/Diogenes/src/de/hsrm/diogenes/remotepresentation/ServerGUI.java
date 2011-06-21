@@ -154,8 +154,9 @@ public class ServerGUI extends JFrame {
 				// but warn the user
 				JOptionPane.showMessageDialog(
 						new JFrame(), 
-						e.getMessage() + "\nServers' synchronization interrupted:\n" +
-								"This may cause bad Exception-Handling", 
+						"Servers' synchronization interrupted\n"
+						+ "This may cause bad Exception-Handling:\n"
+						+ e.getMessage(), 
 						"Warning", 
 						JOptionPane.WARNING_MESSAGE, null);
 			}

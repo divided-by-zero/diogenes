@@ -75,26 +75,20 @@ public class Server extends Thread {
 			// infinite loop for accepting clients, receiving data and disconnecting them
 			while (true) {
 				// accept client
-				System.out.println("Server: accepting clients...");
 				Socket current_client = server_sock.accept();
-				System.out.println("Server: client accepted");
 				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
-				System.out.println("Server: got clients inputstream");
 				Packet tmp_packet;
 				while(true) {
 					// receive data as long as connection established
 					tmp_packet = (Packet) client_input.readObject();
 					if (packet != null) {
-						packet = tmp_packet;
-						System.out.println("Server: got clients packet: " + packet.getDescriptionText());	
+						packet = tmp_packet;	
 					} else {
-						System.out.println("Server: recieving null -> client disconnected");
 						break;
 					}
 					
 				}
 				// close connection
-				System.out.println("Server: closing connection");
 				current_client.close();
 				client_input.close();
 			}
