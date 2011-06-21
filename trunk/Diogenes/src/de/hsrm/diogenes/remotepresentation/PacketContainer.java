@@ -18,17 +18,12 @@ public class PacketContainer extends ArrayList<Presentable> {
 				new Rectangle(-1000, 1000, 1300, 1300)));
 		// 2. rectangle in front of the middle-desk
 		this.add(new Packet(
-				new ImageIcon("test2.jpg"), 
-				"Life is NOT a malfunction.", 
-				new Rectangle(2400, -2500, 1300, 2500)));
-		// 3. rectangle at coffee-mashine ???
-		this.add(new Packet(
 				new ImageIcon("test3.jpg"), 
 				"<html><B>Kaffee</B> [ˈkafe, kaˈfeː] (türk. kahve aus arab. ‏قهوة‎ qahwa) " +
 				"ist ein schwarzes, coffeinhaltiges Heißgetränk, das aus gerösteten " +
 				"(weshalb man auch von Röstkaffee spricht) und gemahlenen Kaffeebohnen " +
-				"hergestellt wird.</html>", 
-				new Rectangle(5345, -3089, 1000, 3000)));
+				"hergestellt wird.</html>",
+				new Rectangle(1000, -2000, 3500, 2000)));
 	}
 	
 }
