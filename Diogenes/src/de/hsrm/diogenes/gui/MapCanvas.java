@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import de.hsrm.diogenes.map.Map;
 /**
  * The Class MapCanvas.
  */
-public class MapCanvas extends JPanel implements MouseListener {
+public class MapCanvas extends JPanel implements MouseListener, MouseWheelListener {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -62,7 +64,9 @@ public class MapCanvas extends JPanel implements MouseListener {
 	
 	/** The move yfactor. */
 	private int moveYfactor;
-	
+	private static double zoomFactor;
+	private int width;
+	private int height;
 	
 	/**
 	 * Instantiates a new map canvas.
@@ -82,8 +86,11 @@ public class MapCanvas extends JPanel implements MouseListener {
 		this.clicked = false;
 		this.clickedList = new ArrayList<Point>();
 		this.convertedList = new ArrayList<Point>();
+		MapCanvas.zoomFactor = 1.0;
+		this.width = 350;
+		this.height = 480;
 		this.addMouseListener(this);
-		this.setPreferredSize(this.getSize());
+//		this.setPreferredSize(this.getSize());
 	}
 	
 	
@@ -92,9 +99,16 @@ public class MapCanvas extends JPanel implements MouseListener {
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(350, 480);
+		return new Dimension((int)(this.width*MapCanvas.zoomFactor),(int)(this.height*MapCanvas.zoomFactor));
 	}
 	
+	public static void zoomIn() {
+		MapCanvas.zoomFactor += 0.1;
+	}
+	
+	public static void zoomOut() {
+		MapCanvas.zoomFactor -= 0.1;
+	}
 	
 	/* (non-Javadoc)
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
@@ -104,10 +118,10 @@ public class MapCanvas extends JPanel implements MouseListener {
 		super.paintComponent(g);
 		// print points
 		for (MapPoint p : map.getPoints()) {
-			int x = (int) (p.getX() / scale);
-			int y = (int) (p.getY() / scale);
+			int x = (int) (p.getX() / scale*zoomFactor);
+			int y = (int) (p.getY() / scale*zoomFactor);
 //			System.out.println("drawing Oval to " + x + "," + y);
-			g.drawOval(x+this.moveXfactor, -y+this.moveYfactor, 1, 1); // TODO offset!
+			g.drawOval(x+(int)(this.moveXfactor*zoomFactor), -y+(int)(this.moveYfactor*zoomFactor), 1, 1); // TODO offset!
 		}
 		// print lines
 		for (MapLine l : map.getLines()) {
@@ -117,8 +131,8 @@ public class MapCanvas extends JPanel implements MouseListener {
 		
 		// print robbie
 		this.l = connection.getLocation();
-		this.robbie_x = (l.getX()/scale)+this.moveXfactor;
-		this.robbie_y = (-l.getY()/scale)+this.moveYfactor;
+		this.robbie_x = (int) ((l.getX()/scale*zoomFactor)+this.moveXfactor*zoomFactor);
+		this.robbie_y = (int) ((-l.getY()/scale*zoomFactor)+this.moveYfactor*zoomFactor);
 		
 		g.setColor(Color.RED);
 		g.drawOval(robbie_x, robbie_y, 5, 5);
@@ -171,7 +185,8 @@ public class MapCanvas extends JPanel implements MouseListener {
 			
 			@Override
 			public void run() {
-				//if(connection.getMove().isRobiMoving()){
+				//if(connection.getMove().isRobiMoving()){(
+					setSize((int)(width*MapCanvas.zoomFactor), (int)(height*MapCanvas.zoomFactor));
 					repaint();
 				//}
 			}
@@ -201,21 +216,21 @@ public class MapCanvas extends JPanel implements MouseListener {
 	 */
 	public Point calculateRobiPoint(Point p){
 		
-		int x = ((int)p.getX() * this.scale);
-		int y =  (((int)p.getY() * this.scale) * -1);
+		int x = (int) ((int)p.getX() * this.scale*zoomFactor);
+		int y =  (int) (((int)p.getY() * this.scale*zoomFactor) * -1);
 		
 		if(checkSign(x) == -1){
-			x = x + (this.moveXfactor * this.scale);
+			x = (int) (x + (this.moveXfactor*zoomFactor * this.scale*zoomFactor));
 		}
 		else{
-			x = x - (this.moveXfactor * this.scale);
+			x = (int) (x - (this.moveXfactor*zoomFactor * this.scale*zoomFactor));
 		}
 		
 		if(checkSign(y) == -1){
-			y = y + (this.moveYfactor * this.scale);
+			y = (int) (y + (this.moveYfactor*zoomFactor * this.scale*zoomFactor));
 		}
 		else{
-			y = y - (this.moveYfactor * this.scale);
+			y = (int) (y - (this.moveYfactor*zoomFactor * this.scale*zoomFactor));
 		}
 		
 		return new Point(x, y);
@@ -308,6 +323,12 @@ public class MapCanvas extends JPanel implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
 		
 	}
 	

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -62,6 +64,8 @@ public class ButtonPanel extends JPanel{
 	private JRadioButton roboRadio;
 	
 	private JRadioButton camRadio;
+	private JButton zoomIn;
+	private JButton zoomOut;
 	
 	
 	/**
@@ -87,6 +91,10 @@ public class ButtonPanel extends JPanel{
 		this.down = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRu.JPG")));
 		this.param = new JTextField("4", 2);
 		
+		//
+		this.zoomIn = new JButton("+");
+		this.zoomOut = new JButton("-");
+		
 		this.bGroup.add(roboRadio);
 		this.bGroup.add(camRadio);
 		
@@ -102,6 +110,8 @@ public class ButtonPanel extends JPanel{
 		this.add(this.param, GridBagConstraintsFactory.create(1, 2, 1, 1));
 		this.add(this.right, GridBagConstraintsFactory.create(2, 2, 1, 1));
 		this.add(this.down, GridBagConstraintsFactory.create(1, 3, 1, 1));
+		this.add(this.zoomIn, GridBagConstraintsFactory.create(1, 4, 1, 1));
+		this.add(this.zoomOut, GridBagConstraintsFactory.create(1, 5, 1, 1));
 		
 		this.roboRadio.setToolTipText("Enable robot control mode");
 		this.camRadio.setToolTipText("Enable camera control mode");
@@ -251,6 +261,21 @@ public class ButtonPanel extends JPanel{
 			}
 		});
 		
+		this.zoomIn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapCanvas.zoomIn();
+			}
+		});
+
+		this.zoomOut.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapCanvas.zoomOut();
+			}
+		});
 	}
 		
 	
