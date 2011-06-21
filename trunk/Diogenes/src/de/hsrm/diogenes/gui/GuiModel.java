@@ -397,7 +397,8 @@ public class GuiModel extends JFrame {
 				JOptionPane.showMessageDialog(new JFrame(),
 						"Clients' synchronization interrupted,\n"
 								+ "This may cause bad Exception-Handling:\n"
-								+ ie.getMessage(), "Warning",
+								+ ie.getMessage(), 
+								"Warning",
 						JOptionPane.WARNING_MESSAGE, null);
 			}
 		}
@@ -414,7 +415,8 @@ public class GuiModel extends JFrame {
 			// popup exception, don't set labeltext
 			JOptionPane.showMessageDialog(new JFrame(),
 					"An Error occurred during the initialization of the Client:\n"
-							+ e1.getMessage(), "Error",
+					+ e1.getMessage(), 
+					"Error",
 					JOptionPane.ERROR_MESSAGE, null);
 		}
 		// now finished with:
@@ -429,8 +431,10 @@ public class GuiModel extends JFrame {
 			presentationClient.disconnect();
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(),
-					"Couldn't stop Presentation-Mode:\n" + e1.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE, null);
+					"Couldn't stop Presentation-Mode:\n" 
+					+ e1.getMessage(),
+					"Error", 
+					JOptionPane.ERROR_MESSAGE, null);
 		}
 		// no matter what happened, this stuff will be set
 		isPresentationRunning = false;

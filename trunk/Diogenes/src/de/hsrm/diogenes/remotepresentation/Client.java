@@ -92,7 +92,6 @@ public class Client extends Thread {
 		this.container = container;
 		this.location = location;
 		initLocationListener();
-		this.run();
 	}
 
 	private void initLocationListener() {
@@ -111,7 +110,6 @@ public class Client extends Thread {
 								lastPresentable = p;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
 							}
 						}
 					}
