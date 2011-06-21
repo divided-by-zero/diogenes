@@ -23,16 +23,29 @@ import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 
 	
-	/** The map. */
+	/**
+	 * The map.
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private MapFile map;
 	
-	/** The lines. */
+	/**
+	 * The lines.
+	 * @uml.property  name="lines"
+	 */
 	private List<MapLine> lines;
 	
-	/** The points. */
+	/**
+	 * The points.
+	 * @uml.property  name="points"
+	 */
 	private List<MapPoint> points;
 	
-	/** The image. */
+	/**
+	 * The image.
+	 * @uml.property  name="image"
+	 */
 	private BufferedImage image;
 	
 	private static int scaleFactor;
@@ -109,8 +122,8 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 
 	/**
 	 * Sets the map.
-	 *
-	 * @param map the new map
+	 * @param map  the new map
+	 * @uml.property  name="map"
 	 */
 	public void setMap(MapFile map) {
 		this.map = map;
@@ -118,8 +131,8 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 
 	/**
 	 * Gets the map.
-	 *
-	 * @return the map
+	 * @return  the map
+	 * @uml.property  name="map"
 	 */
 	public MapFile getMap() {
 		return map;

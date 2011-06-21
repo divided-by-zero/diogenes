@@ -21,6 +21,7 @@ public class ExceptionListener {
 
 	/**
 	 * The Exception to be notified to another Class
+	 * @uml.property  name="exception"
 	 */
 	private Throwable exception;
 	

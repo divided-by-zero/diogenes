@@ -17,36 +17,50 @@ public class Client extends Thread {
 
 	/**
 	 * Holds the destination address (Server)
+	 * @uml.property  name="dest_addr"
 	 */
 	private String dest_addr;
 	
 	/**
 	 * Holds the port
+	 * @uml.property  name="port"
 	 */
 	private int port;
 	
 	/**
-	 * A shared Object of the Client and its GUI, so that the Client
-	 * as a Thread is able to throw a connection to the ExceptionListener
-	 * and the GUI can read the Clients' Exception out of it.
-	 * Also used as a lock for synchronizing GUI and Client-Thread
+	 * A shared Object of the Client and its GUI, so that the Client as a Thread is able to throw a connection to the ExceptionListener and the GUI can read the Clients' Exception out of it. Also used as a lock for synchronizing GUI and Client-Thread
+	 * @uml.property  name="exceptionlistener"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private ExceptionListener exceptionlistener;
 	
 	/**
 	 * Holding the socket-connection
+	 * @uml.property  name="server"
 	 */
 	private Socket server;
 	
 	/**
 	 * Holding the output-stream (for Packet-Objects)
+	 * @uml.property  name="output"
 	 */
 	private ObjectOutputStream output;
 	
+	/**
+	 * @uml.property  name="locationlistener"
+	 */
 	private Thread locationlistener;
 	
+	/**
+	 * @uml.property  name="container"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private PacketContainer container;
 	
+	/**
+	 * @uml.property  name="location"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Location location;
 	
 	/**

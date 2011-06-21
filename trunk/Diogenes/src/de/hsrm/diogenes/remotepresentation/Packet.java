@@ -10,8 +10,18 @@ import de.hsrm.diogenes.connection.Location;
 public class Packet implements Serializable, Presentable {
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * @uml.property  name="image"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private ImageIcon image;
+	/**
+	 * @uml.property  name="text"
+	 */
 	private String text;
+	/**
+	 * @uml.property  name="triggerBox"
+	 */
 	private Rectangle triggerBox;
 	
 	public Packet(ImageIcon icon, String text, Rectangle triggerBox) {
@@ -20,6 +30,10 @@ public class Packet implements Serializable, Presentable {
 			this.triggerBox = triggerBox;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="image"
+	 */
 	@Override
 	public ImageIcon getImage() {
 		return image;

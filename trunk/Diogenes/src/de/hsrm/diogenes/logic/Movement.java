@@ -17,6 +17,9 @@ public class Movement {
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private Connection c;
+	/**
+	 * @uml.property  name="robiMoving"
+	 */
 	private boolean robiMoving;
 	
 	public Movement(Connection c) {
@@ -146,10 +149,18 @@ public class Movement {
 	}
 	
 
+	/**
+	 * @return
+	 * @uml.property  name="robiMoving"
+	 */
 	public boolean isRobiMoving() {
 		return robiMoving;
 	}
 
+	/**
+	 * @param robiMoving
+	 * @uml.property  name="robiMoving"
+	 */
 	public void setRobiMoving(boolean robiMoving) {
 		this.robiMoving = robiMoving;
 	}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="Dependencies1" size="1431,904" id="." metadata="uml2-1.0" initialized="true" scrolledY="56" tag="10" key="32303037303533312D31302044696F67656E6573">
+  <children xsi:type="editmodel:PackageEditModel" name="de.hsrm.diogenes.fileChooser" location="50,824" size="261,60" id="de.hsrm.diogenes.fileChooser"/>
+  <children xsi:type="editmodel:PackageEditModel" name="de.hsrm.diogenes.tests" location="50,59" size="213,60" id="de.hsrm.diogenes.tests">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.tests-Standard::Instantiate->de.hsrm.diogenes.logic*de.hsrm.diogenes.tests-Soyatec::Import->de.hsrm.diogenes.logic" source="//@children.1" target="//@children.3" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate, Import»" size="114,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="213,25" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,34"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.tests-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.tests-Standard::Instantiate->de.hsrm.diogenes.connection*de.hsrm.diogenes.tests-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.1" target="//@children.4" targetEnd="//@children.1/@sourceConnections.1/@children.2" label="//@children.1/@sourceConnections.1/@children.0" sourceEnd="//@children.1/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Instantiate, Import»" location="284,194" size="140,13" automaticRelocationAllowed="false" locationOnWireFromSource="29.562457133290927" distanceFromWire="59.825254936709925" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="137,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="97,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.7/@sourceConnections.5" name="de.hsrm.diogenes.remotepresentation" location="654,122" size="326,60" id="de.hsrm.diogenes.remotepresentation">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.remotepresentation-Standard::Instantiate->de.hsrm.diogenes.logic*de.hsrm.diogenes.remotepresentation-Soyatec::Import->de.hsrm.diogenes.logic" source="//@children.2" target="//@children.3" targetEnd="//@children.2/@sourceConnections.0/@children.2" label="//@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate, Import»" size="114,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="29,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="213,54"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.remotepresentation-Standard::Call->de.hsrm.diogenes.gui" source="//@children.2" target="//@children.7" targetEnd="//@children.2/@sourceConnections.1/@children.2" label="//@children.2/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" size="34,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="169,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.remotepresentation-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.remotepresentation-Standard::Instantiate->de.hsrm.diogenes.connection*de.hsrm.diogenes.remotepresentation-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.2" target="//@children.4" targetEnd="//@children.2/@sourceConnections.2/@children.2" label="//@children.2/@sourceConnections.2/@children.0" sourceEnd="//@children.2/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Instantiate, Import»" size="140,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="106,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="185,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.2/@sourceConnections.0 //@children.4/@sourceConnections.0 //@children.7/@sourceConnections.4" name="de.hsrm.diogenes.logic" location="390,50" size="213,60" id="de.hsrm.diogenes.logic">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.logic-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.logic-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.3" target="//@children.4" targetEnd="//@children.3/@sourceConnections.0/@children.2" label="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" size="75,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="152,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.1/@sourceConnections.1 //@children.2/@sourceConnections.2 //@children.8/@sourceConnections.0 //@children.7/@sourceConnections.3 //@children.5/@sourceConnections.0 //@children.3/@sourceConnections.0" name="de.hsrm.diogenes.connection" location="301,327" size="257,60" id="de.hsrm.diogenes.connection">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.connection-Standard::Instantiate->de.hsrm.diogenes.logic*de.hsrm.diogenes.connection-Soyatec::Import->de.hsrm.diogenes.logic" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate, Import»" size="114,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="172,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,60"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.connection-Standard::Instantiate->de.hsrm.diogenes.camera*de.hsrm.diogenes.connection-Soyatec::Import->de.hsrm.diogenes.camera" source="//@children.4" target="//@children.8" targetEnd="//@children.4/@sourceConnections.1/@children.2" label="//@children.4/@sourceConnections.1/@children.0" sourceEnd="//@children.4/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate, Import»" size="114,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="45,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="185,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.connection-Standard::Call->de.hsrm.diogenes.map*de.hsrm.diogenes.connection-Standard::Instantiate->de.hsrm.diogenes.map*de.hsrm.diogenes.connection-Soyatec::Import->de.hsrm.diogenes.map" source="//@children.4" target="//@children.5" targetEnd="//@children.4/@sourceConnections.2/@children.2" label="//@children.4/@sourceConnections.2/@children.0" sourceEnd="//@children.4/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Instantiate, Import»" size="140,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="191,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="64,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.4/@sourceConnections.2 //@children.7/@sourceConnections.2" name="de.hsrm.diogenes.map" location="428,714" size="209,60" id="de.hsrm.diogenes.map">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.map-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.map-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" location="479,616" size="75,13" automaticRelocationAllowed="false" locationOnWireFromSource="-72.00000000000001" distanceFromWire="-44.99999999999999" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="44,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="171,60"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.7/@sourceConnections.1" name="de.hsrm.diogenes.common" location="906,569" size="239,60" id="de.hsrm.diogenes.common"/>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.2/@sourceConnections.1" name="de.hsrm.diogenes.gui" location="554,430" size="200,60" id="de.hsrm.diogenes.gui">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Standard::Call->de.hsrm.diogenes.camera" source="//@children.7" target="//@children.8" targetEnd="//@children.7/@sourceConnections.0/@children.2" label="//@children.7/@sourceConnections.0/@children.0" sourceEnd="//@children.7/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" location="404,569" size="34,13" automaticRelocationAllowed="false" locationOnWireFromSource="52.308316673021686" distanceFromWire="11.697863344854094" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="33,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="183,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Soyatec::Implement->de.hsrm.diogenes.common" source="//@children.7" target="//@children.6" targetEnd="//@children.7/@sourceConnections.1/@children.2" label="//@children.7/@sourceConnections.1/@children.0" sourceEnd="//@children.7/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Implement»" size="72,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="180,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="39,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Standard::Call->de.hsrm.diogenes.map*de.hsrm.diogenes.gui-Standard::Instantiate->de.hsrm.diogenes.map*de.hsrm.diogenes.gui-Soyatec::Import->de.hsrm.diogenes.map" source="//@children.7" target="//@children.5" targetEnd="//@children.7/@sourceConnections.2/@children.2" label="//@children.7/@sourceConnections.2/@children.0" sourceEnd="//@children.7/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Instantiate, Import»" size="140,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="41,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="167,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.gui-Standard::Instantiate->de.hsrm.diogenes.connection*de.hsrm.diogenes.gui-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.7" target="//@children.4" targetEnd="//@children.7/@sourceConnections.3/@children.2" label="//@children.7/@sourceConnections.3/@children.0" sourceEnd="//@children.7/@sourceConnections.3/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Instantiate, Import»" size="140,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="1,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="254,60"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Standard::Call->de.hsrm.diogenes.logic" source="//@children.7" target="//@children.3" targetEnd="//@children.7/@sourceConnections.4/@children.2" label="//@children.7/@sourceConnections.4/@children.0" sourceEnd="//@children.7/@sourceConnections.4/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" location="585,345" size="34,13" automaticRelocationAllowed="false" locationOnWireFromSource="-81.0" distanceFromWire="-24.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="24,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="188,60"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.gui-Soyatec::Import->de.hsrm.diogenes.remotepresentation" source="//@children.7" target="//@children.2" targetEnd="//@children.7/@sourceConnections.5/@children.2" label="//@children.7/@sourceConnections.5/@children.0" sourceEnd="//@children.7/@sourceConnections.5/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" location="654,314" size="49,13" automaticRelocationAllowed="false" locationOnWireFromSource="-14.999999999999998" distanceFromWire="25.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="149,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="49,60"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.4/@sourceConnections.1 //@children.7/@sourceConnections.0" name="de.hsrm.diogenes.camera" location="161,598" size="232,60" id="de.hsrm.diogenes.camera">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="de.hsrm.diogenes.camera-Standard::Call->de.hsrm.diogenes.connection*de.hsrm.diogenes.camera-Soyatec::Import->de.hsrm.diogenes.connection" source="//@children.8" target="//@children.4" targetEnd="//@children.8/@sourceConnections.0/@children.2" label="//@children.8/@sourceConnections.0/@children.0" sourceEnd="//@children.8/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" location="240,477" size="75,13" automaticRelocationAllowed="false" locationOnWireFromSource="9.0" distanceFromWire="49.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="165,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="25,60"/>
+    </sourceConnections>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" properties="wireOptions=4;Product=eUML2;displayOptions=1"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>

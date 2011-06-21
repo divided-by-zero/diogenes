@@ -10,10 +10,23 @@ import de.hsrm.diogenes.connection.Connection;
 
 public class ConnectionTest extends TestCase {
 	
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  
+	 */
 	Connection c;
 	
+	/**
+	 * @uml.property  name="output"
+	 */
 	String output = "";
+	/**
+	 * @uml.property  name="ps_tmp"
+	 */
 	PrintStream ps_tmp = System.out;
+	/**
+	 * @uml.property  name="ps"
+	 */
 	PrintStream ps = new PrintStream(System.out) {
 		public void println(String x) {
 			output += x;
@@ -23,7 +36,13 @@ public class ConnectionTest extends TestCase {
 		}
 	};
 	
+	/**
+	 * @uml.property  name="ip"
+	 */
 	String ip = "10.18.72.254";
+	/**
+	 * @uml.property  name="port"
+	 */
 	int port = 33333;
 	
 	public void testConnection() throws WRPException {

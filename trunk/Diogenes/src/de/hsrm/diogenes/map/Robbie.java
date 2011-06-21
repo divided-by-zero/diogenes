@@ -20,8 +20,20 @@ public class Robbie{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * @uml.property  name="robbie"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private WebRobbiePainterImpl robbie;
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
+	/**
+	 * @uml.property  name="img"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private ImageIcon img;
 	
 	public Robbie(Connection c) throws IOException{
@@ -48,10 +60,18 @@ public class Robbie{
 		this.img.paintIcon(null, g, 0, 0);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="img"
+	 */
 	public ImageIcon getImg() {
 		return img;
 	}
 
+	/**
+	 * @param img
+	 * @uml.property  name="img"
+	 */
 	public void setImg(ImageIcon img) {
 		this.img = img;
 	}

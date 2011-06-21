@@ -24,16 +24,31 @@ public class CameraData {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The packet with the cam-data. @uml.property  name="packet" @uml.associationEnd  multiplicity="(1 1)" */
+	/**
+	 * The packet with the cam-data. @uml.property  name="packet" @uml.associationEnd  multiplicity="(1 1)"
+	 * @uml.property  name="packet"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private WRPVideoPacket packet;
 	
-	/** A label to display the camera images. @uml.property  name="cam" @uml.associationEnd */
+	/**
+	 * A label to display the camera images. @uml.property  name="cam" @uml.associationEnd
+	 * @uml.property  name="cam"
+	 * @uml.associationEnd  
+	 */
 	private JLabel cam;
 
-	/** The image. */
+	/**
+	 * The image.
+	 * @uml.property  name="image"
+	 */
 	private BufferedImage image; 
 	
-	/** The c. */
+	/**
+	 * The c.
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)" inverse="cameraData:de.hsrm.diogenes.connection.Connection"
+	 */
 	private Connection c;
 	
 	/**

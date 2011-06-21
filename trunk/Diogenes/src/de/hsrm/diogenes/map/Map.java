@@ -62,10 +62,19 @@ public class Map {
 	 */
 	private MapFile map;
 	
+	/**
+	 * @uml.property  name="lines"
+	 */
 	private List<MapLine> lines;
 	
+	/**
+	 * @uml.property  name="points"
+	 */
 	private List<MapPoint> points;
 	
+	/**
+	 * @uml.property  name="img"
+	 */
 	private Image img;
 	
 	/**
@@ -134,24 +143,40 @@ public class Map {
 
 
 
+	/**
+	 * @return
+	 * @uml.property  name="map"
+	 */
 	public MapFile getMap() {
 		return map;
 	}
 
 
 
+	/**
+	 * @param map
+	 * @uml.property  name="map"
+	 */
 	public void setMap(MapFile map) {
 		this.map = map;
 	}
 
 
 
+	/**
+	 * @param img
+	 * @uml.property  name="img"
+	 */
 	public void setImg(Image img) {
 		this.img = img;
 	}
 
 
 
+	/**
+	 * @return
+	 * @uml.property  name="img"
+	 */
 	public Image getImg() {
 		return img;
 	}

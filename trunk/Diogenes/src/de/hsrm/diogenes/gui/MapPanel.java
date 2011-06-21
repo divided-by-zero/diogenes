@@ -24,11 +24,31 @@ public class MapPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="mapImg"
+	 */
 	private Image mapImg; 
+	/**
+	 * @uml.property  name="robiImg"
+	 */
 	private Image robiImg;
+	/**
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Map map;
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
+	/**
+	 * @uml.property  name="width"
+	 */
 	private int width;
+	/**
+	 * @uml.property  name="height"
+	 */
 	private int height;
 	
 	public MapPanel(Map map, Connection c) throws InterruptedException{
@@ -74,10 +94,18 @@ public class MapPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * @param map
+	 * @uml.property  name="map"
+	 */
 	public void setMap(Map map) {
 		this.map = map;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="map"
+	 */
 	public Map getMap() {
 		return map;
 	}

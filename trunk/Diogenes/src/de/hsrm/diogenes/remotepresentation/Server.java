@@ -16,21 +16,22 @@ import javax.swing.ImageIcon;
 public class Server extends Thread {
 
 	/**
-	 * A packet containing an image and a text to be displayed by a GUI (use
-	 * getPacket). Will be updated by a remote client.
+	 * A packet containing an image and a text to be displayed by a GUI (use getPacket). Will be updated by a remote client.
+	 * @uml.property  name="packet"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private Packet packet;
 	
 	/**
 	 * The port to be used for the connection with Clients
+	 * @uml.property  name="port"
 	 */
 	private int port;
 	
 	/**
-	 * A shared Object of ServerGUI and Server, so that the Server
-	 * as a Thread is able to throw an Exception to the ExceptionListener
-	 * and the ServerGUI can read the Servers' Exception out of it.
-	 * Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 * A shared Object of ServerGUI and Server, so that the Server as a Thread is able to throw an Exception to the ExceptionListener and the ServerGUI can read the Servers' Exception out of it. Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 * @uml.property  name="exceptionlistener"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private ExceptionListener exceptionlistener;
 	
@@ -108,9 +109,9 @@ public class Server extends Thread {
 	}
 
 	/**
-	 * Returns a packet containing an image and a text to be displayed by a
-	 * GUI. Will be updated by a remote Client.
-	 * @return The packet containing an image and a text for visualization
+	 * Returns a packet containing an image and a text to be displayed by a GUI. Will be updated by a remote Client.
+	 * @return  The packet containing an image and a text for visualization
+	 * @uml.property  name="packet"
 	 */
 	public Packet getPacket() {
 		return packet;

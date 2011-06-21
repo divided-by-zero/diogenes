@@ -9,9 +9,19 @@ import junit.framework.TestCase;
 
 public class MovementTest extends TestCase {
 	
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  
+	 */
 	Connection c;
 	
+	/**
+	 * @uml.property  name="output"
+	 */
 	String output = "";
+	/**
+	 * @uml.property  name="ps"
+	 */
 	PrintStream ps = new PrintStream(System.out) {
 		public void println(String x) {
 			output += x;
@@ -21,7 +31,13 @@ public class MovementTest extends TestCase {
 		}
 	};
 	
+	/**
+	 * @uml.property  name="ip"
+	 */
 	String ip = "10.18.72.254";
+	/**
+	 * @uml.property  name="port"
+	 */
 	int port = 33333;
 	
 	

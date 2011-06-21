@@ -37,18 +37,37 @@ public class Connection implements WRPPacketListener {
 	 * @uml.property  name="camData"
 	 */
 	private boolean camData;
+	/**
+	 * @uml.property  name="move"
+	 * @uml.associationEnd  multiplicity="(1 1)" inverse="c:de.hsrm.diogenes.logic.Movement"
+	 */
 	private Movement move;
+	/**
+	 * @uml.property  name="connected"
+	 */
 	private boolean connected;
+	/**
+	 * @uml.property  name="cameraPan"
+	 */
 	private int cameraPan;
+	/**
+	 * @uml.property  name="cameraTilt"
+	 */
 	private int cameraTilt;
+	/**
+	 * @uml.property  name="cameraZoom"
+	 */
 	private int cameraZoom;
 	/**
-	 * The location will be sent by the robot every 100ms (initialized
-	 * when connecting) to the client and saved in the local member
-	 * location.
+	 * The location will be sent by the robot every 100ms (initialized when connecting) to the client and saved in the local member location.
+	 * @uml.property  name="location"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private Location location;
 	
+	/**
+	 * @uml.property  name="startWander"
+	 */
 	private boolean startWander;
 	
 	private boolean wanderFinished;
@@ -195,62 +214,107 @@ public class Connection implements WRPPacketListener {
 		this.camData = camData;
 	}
 
+	/**
+	 * @param move
+	 * @uml.property  name="move"
+	 */
 	public void setMove(Movement move) {
 		this.move = move;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="move"
+	 */
 	public Movement getMove() {
 		return this.move;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="connected"
+	 */
 	public boolean isConnected() {
 		return this.connected;
 	}
 
+	/**
+	 * @param connected
+	 * @uml.property  name="connected"
+	 */
 	public void setConnected(boolean connected) {
 		this.connected = connected;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="cameraPan"
+	 */
 	public int getCameraPan() {
 		return this.cameraPan;
 	}
 
+	/**
+	 * @param cameraPan
+	 * @uml.property  name="cameraPan"
+	 */
 	public void setCameraPan(int cameraPan) {
 		this.cameraPan = cameraPan;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="cameraTilt"
+	 */
 	public int getCameraTilt() {
 		return cameraTilt;
 	}
 
+	/**
+	 * @param cameraTilt
+	 * @uml.property  name="cameraTilt"
+	 */
 	public void setCameraTilt(int cameraTilt) {
 		this.cameraTilt = cameraTilt;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="cameraZoom"
+	 */
 	public int getCameraZoom() {
 		return this.cameraZoom;
 	}
 
+	/**
+	 * @param cameraZoom
+	 * @uml.property  name="cameraZoom"
+	 */
 	public void setCameraZoom(int cameraZoom) {
 		this.cameraZoom = cameraZoom;
 	}
 
 	/**
-	 * Returns the current robot's location values (x, y, angle).
-	 * The location will be sent by the robot every 100ms (initialized
-	 * when connecting) to the client and saved in the local member
-	 * location.
-	 * @return An Object with x and y coordinates and the angle of the 
-	 * 			robot within
+	 * Returns the current robot's location values (x, y, angle). The location will be sent by the robot every 100ms (initialized when connecting) to the client and saved in the local member location.
+	 * @return  An Object with x and y coordinates and the angle of the   robot within
+	 * @uml.property  name="location"
 	 */
 	public Location getLocation() {
 		return location;
 	}
 
+	/**
+	 * @param startWander
+	 * @uml.property  name="startWander"
+	 */
 	public void setStartWander(boolean startWander) {
 		this.startWander = startWander;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="startWander"
+	 */
 	public boolean isStartWander() {
 		return startWander;
 	}

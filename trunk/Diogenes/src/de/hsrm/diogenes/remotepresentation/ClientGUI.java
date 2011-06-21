@@ -18,16 +18,55 @@ import de.hsrm.diogenes.logic.Movement;
  */
 public class ClientGUI extends JFrame {
 
+	/**
+	 * @uml.property  name="connection"
+	 * @uml.associationEnd  
+	 */
 	Connection connection;
+	/**
+	 * @uml.property  name="move"
+	 * @uml.associationEnd  
+	 */
 	Movement move;
 	private static final long serialVersionUID = 1L;
+	/**
+	 * @uml.property  name="client"
+	 * @uml.associationEnd  
+	 */
 	private Client client;
+	/**
+	 * @uml.property  name="exceptionlistener"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private ExceptionListener exceptionlistener;
+	/**
+	 * @uml.property  name="connected"
+	 */
 	boolean connected;
+	/**
+	 * @uml.property  name="hostfield"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField hostfield;
+	/**
+	 * @uml.property  name="portfield"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField portfield;
+	/**
+	 * @uml.property  name="containerfield"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField containerfield;
+	/**
+	 * @uml.property  name="status"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JLabel status;
+	/**
+	 * @uml.property  name="button"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton button;
 
 	public ClientGUI() throws WRPException {
