@@ -86,8 +86,7 @@ public class GuiModel extends JFrame {
 	 */
 	private ImageIcon screen;
 	/**
-
-	/**
+	 * /
 	 * @uml.property  name="c"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
@@ -97,12 +96,32 @@ public class GuiModel extends JFrame {
 	 */
 	private boolean camEnabled;
 	
+	/**
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Map map;
+	/**
+	 * @uml.property  name="mapImg"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	private ImageIcon mapImg;
 	
+	/**
+	 * @uml.property  name="praesi_client"
+	 * @uml.associationEnd  
+	 */
 	private Client praesi_client;
 	
+	/**
+	 * @uml.property  name="robi"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Robbie robi;
+	/**
+	 * @uml.property  name="scroller"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JScrollPane scroller;
 	
 	public GuiModel(Connection c, Map map) throws IOException, InterruptedException {
@@ -377,18 +396,34 @@ public class GuiModel extends JFrame {
 		    });
 		  }
 
+	/**
+	 * @return
+	 * @uml.property  name="l1"
+	 */
 	public JLabel getL1() {
 		return l1;
 	}
 
+	/**
+	 * @param l1
+	 * @uml.property  name="l1"
+	 */
 	public void setL1(JLabel l1) {
 		this.l1 = l1;
 	}
 
+	/**
+	 * @param praesi_client
+	 * @uml.property  name="praesi_client"
+	 */
 	public void setPraesi_client(Client praesi_client) {
 		this.praesi_client = praesi_client;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="praesi_client"
+	 */
 	public Client getPraesi_client() {
 		return praesi_client;//this.add(this.robi, GridBagConstraintsFactory.create(0, 0, 1, 1));
 		//this.add(this.cam, GridBagConstraintsFactory.create(2, 0, 1, 1));

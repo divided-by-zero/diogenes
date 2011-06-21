@@ -32,37 +32,75 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The map. */
+	/**
+	 * The map.
+	 * @uml.property  name="map"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Map map;
 	
-	/** The connection. */
+	/**
+	 * The connection.
+	 * @uml.property  name="connection"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection connection;
 	
-	/** The scale. */
+	/**
+	 * The scale.
+	 * @uml.property  name="scale"
+	 */
 	private int scale;
 	
-	/** The location of the robi */
+	/**
+	 * The location of the robi
+	 * @uml.property  name="l"
+	 * @uml.associationEnd  
+	 */
 	private Location l;
 	
-	/** The robbie_x. */
+	/**
+	 * The robbie_x.
+	 * @uml.property  name="robbie_x"
+	 */
 	private int robbie_x;
 	
-	/** The robbie_y. */
+	/**
+	 * The robbie_y.
+	 * @uml.property  name="robbie_y"
+	 */
 	private int robbie_y ;
 	
-	/** The clicked. */
+	/**
+	 * The clicked.
+	 * @uml.property  name="clicked"
+	 */
 	private boolean clicked;
 	
-	/** The clicked list. */
+	/**
+	 * The clicked list.
+	 * @uml.property  name="clickedList"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Point"
+	 */
 	private List<Point> clickedList;
 	
-	/** The converted list. */
+	/**
+	 * The converted list.
+	 * @uml.property  name="convertedList"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Point"
+	 */
 	private List<Point> convertedList;
 	
-	/** The move xfactor. */
+	/**
+	 * The move xfactor.
+	 * @uml.property  name="moveXfactor"
+	 */
 	private int moveXfactor;
 	
-	/** The move yfactor. */
+	/**
+	 * The move yfactor.
+	 * @uml.property  name="moveYfactor"
+	 */
 	private int moveYfactor;
 	private static double zoomFactor;
 	private int width;

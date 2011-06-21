@@ -30,39 +30,89 @@ public class ButtonPanel extends JPanel{
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	/** The robi. */
+	/**
+	 * The robi.
+	 * @uml.property  name="robi"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton robi;
 	
-	/** The cam. */
+	/**
+	 * The cam.
+	 * @uml.property  name="cam"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton cam;
 	
-	/** The left. */
+	/**
+	 * The left.
+	 * @uml.property  name="left"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton left;
 	
-	/** The right. */
+	/**
+	 * The right.
+	 * @uml.property  name="right"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton right;
 	
-	/** The up. */
+	/**
+	 * The up.
+	 * @uml.property  name="up"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton up;
 	
-	/** The down. */
+	/**
+	 * The down.
+	 * @uml.property  name="down"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JButton down;
 	
-	/** The param. */
+	/**
+	 * The param.
+	 * @uml.property  name="param"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField param;
 	
-	/** The c. */
+	/**
+	 * The c.
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Connection c;
 	
-	/** The robo enabled. */
+	/**
+	 * The robo enabled.
+	 * @uml.property  name="roboEnabled"
+	 */
 	private boolean roboEnabled;
 	
+	/**
+	 * @uml.property  name="camEnabled"
+	 */
 	private boolean camEnabled;
 	
+	/**
+	 * @uml.property  name="bGroup"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private ButtonGroup bGroup;
 	
+	/**
+	 * @uml.property  name="roboRadio"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JRadioButton roboRadio;
 	
+	/**
+	 * @uml.property  name="camRadio"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JRadioButton camRadio;
 	private JButton zoomIn;
 	private JButton zoomOut;

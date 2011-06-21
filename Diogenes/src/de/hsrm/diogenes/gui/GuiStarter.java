@@ -22,7 +22,8 @@ public class GuiStarter {
 	public static void main(String[] args) throws WRPException, IOException, InterruptedException {
 	
 		GuiStarter gs = new GuiStarter();
-		Connection c = new Connection("10.18.72.254", 33333);
+		Connection c = new Connection("127.0.0.1", 33333);
+		//Connection c = new Connection("10.18.72.254", 33333);
 		gs.gm = new GuiModel(c, new Map(c));
 		gs.gc = new GuiController(gs.gm);
 	}

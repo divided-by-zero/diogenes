@@ -30,39 +30,49 @@ public class ServerGUI extends JFrame {
 	
 	/**
 	 * Holds a Server-Object who can be connected by a Client-Object
+	 * @uml.property  name="server"
+	 * @uml.associationEnd  
 	 */
 	private Server server;
 	
 	/**
 	 * The port to be used for incoming Packets
+	 * @uml.property  name="port"
 	 */
 	private Integer port;
 	
 	/**
-	 * A shared Object of ServerGUI and Server, so that the Server
-	 * as a Thread is able to throw an Exception to the ExceptionListener
-	 * and the ServerGUI can read the Servers' Exception out of it.
-	 * Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 * A shared Object of ServerGUI and Server, so that the Server as a Thread is able to throw an Exception to the ExceptionListener and the ServerGUI can read the Servers' Exception out of it. Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 * @uml.property  name="exceptionlistener"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/** 
+	/**
 	 * A label for the image
+	 * @uml.property  name="image_label"
+	 * @uml.associationEnd  
 	 */
 	private JLabel image_label;
 	
-	/** 
+	/**
 	 * A label for the description-text
+	 * @uml.property  name="text_label"
+	 * @uml.associationEnd  
 	 */	
 	private JLabel text_label;
 	
-	/** 
+	/**
 	 * A label for the status-text
+	 * @uml.property  name="status_label"
+	 * @uml.associationEnd  
 	 */
 	private JLabel status_label;
 	
 	/**
 	 * The menubar
+	 * @uml.property  name="menu"
+	 * @uml.associationEnd  
 	 */
 	private JMenuBar menu;
 	
