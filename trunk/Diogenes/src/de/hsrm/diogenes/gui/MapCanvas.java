@@ -90,6 +90,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 		this.width = 350;
 		this.height = 480;
 		this.addMouseListener(this);
+		this.addMouseWheelListener(this);
 //		this.setPreferredSize(this.getSize());
 	}
 	
@@ -329,7 +330,13 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getWheelRotation() == -1) {
+			MapCanvas.zoomIn();
+		}
 		
+		if (e.getWheelRotation() == 1) {
+			MapCanvas.zoomOut();
+		}
 	}
 	
 }
