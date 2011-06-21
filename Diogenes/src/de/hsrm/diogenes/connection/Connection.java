@@ -51,6 +51,8 @@ public class Connection implements WRPPacketListener {
 	
 	private boolean startWander;
 	
+	private boolean wanderFinished;
+	
 	/**
 	 * Creates an instance of the client
 	 * @throws WRPException 
@@ -60,6 +62,7 @@ public class Connection implements WRPPacketListener {
 		run(ip, port);
 		this.connected = true;
 		this.startWander = false;
+		this.wanderFinished = false;
 		this.move =  new Movement(this);
 		// initiate location values with starting position of WRPRobotInfoPackets.
 		// after a successful run() the robot will send current positioning
@@ -250,6 +253,14 @@ public class Connection implements WRPPacketListener {
 
 	public boolean isStartWander() {
 		return startWander;
+	}
+
+	public boolean isWanderFinished() {
+		return wanderFinished;
+	}
+
+	public void setWanderFinished(boolean wanderFinished) {
+		this.wanderFinished = wanderFinished;
 	}
 	
 }

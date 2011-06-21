@@ -129,8 +129,15 @@ public class MapCanvas extends JPanel implements MouseListener {
 		
 		if(this.clicked){
 			g.setColor(Color.BLUE);
-			for(Point p : this.clickedList){
-				g.drawOval(p.x, p.y, 5, 5);
+			if(!connection.isWanderFinished()){
+				for(Point p : this.clickedList){
+					g.drawOval(p.x, p.y, 5, 5);
+				}
+				
+			}else{
+				this.clickedList.clear();
+				this.convertedList.clear();
+				this.connection.setWanderFinished(false);
 			}
 			
 			if(connection.isStartWander()){

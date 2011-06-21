@@ -134,6 +134,7 @@ public class Movement {
 			this.c.getDiogenes().sendCommand(new WRPCommand(WRPCmd.GOTO_XY, (int)pp.getX(), (int)pp.getY()));
 			this.c.getDiogenes().waitFor(WRPCmd.GOTO_XY);
 		}
+		this.c.setWanderFinished(true);
 		
 		/*for(Iterator<Point> it = points.iterator(); it.hasNext();){
 			Point p = it.next();
