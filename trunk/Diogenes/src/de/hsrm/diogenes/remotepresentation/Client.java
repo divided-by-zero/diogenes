@@ -64,6 +64,14 @@ public class Client extends Thread {
 	private Location location;
 	
 	/**
+	 * Holds the last presentable which has been sent
+	 * to the Server. Used to prevent the Client to send
+	 * the same presentable over and over as long as the sending 
+	 * itself is triggered 
+	 */
+	private Presentable lastPresentable;
+	
+	/**
 	 * Instantiates the Client with the address.
 	 * The ExceptionListener should be owned by a class
 	 * holding a Client-Object and given to the Client.
@@ -91,30 +99,29 @@ public class Client extends Thread {
 		this.locationlistener = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Client: start listening!");
-				while(true) {
-					System.out.println("Client: TICK:");
+				while (true) {
 					// check all content-objects if within the current position
 					for (Presentable p : container) {
-						if (p.surrounds(location)) {
-							System.out.println("Client: hit in triggerbox, sending content in packet...");
+						// sends if triggered AND 
+						// if this presentable hasn't just been sent in the 
+						// last round (less traffic) 
+						if (p.surrounds(location) && !p.equals(lastPresentable)) {
 							try {
 								send(p);
-								System.out.println("Client: ...package sent!");
-							} catch (IOException e1) {
+								lastPresentable = p;
+							} catch (IOException e) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								e.printStackTrace();
 							}
 						}
 					}
 					try {
-						sleep(3000);
+						sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		});
 	}
@@ -168,16 +175,8 @@ public class Client extends Thread {
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
 	public void send(Presentable p) throws IOException {
-		System.out.println("Client: sending packet");
 		output.writeObject(p);
 		output.flush();
-		System.out.println("Client: packet sent");
-	}
-	
-	public static void main(String[] args) throws IOException {
-		System.out.println("starting client test");
-		new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(3400, -1500, 0));
-		System.out.println("end client test");
 	}
 	
 }
