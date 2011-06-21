@@ -138,7 +138,6 @@ public class Client extends Thread {
 			startListening();
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
-			t.printStackTrace();
 		}
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
