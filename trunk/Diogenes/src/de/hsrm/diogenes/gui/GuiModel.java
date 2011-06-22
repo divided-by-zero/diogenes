@@ -2,12 +2,18 @@ package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -118,6 +124,8 @@ public class GuiModel extends JFrame {
 		this.map = map;
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setIconImage(ImageIO.read(getClass().getResource("../img/robi.jpg")));
+		this.setResizable(false);
 		this.setLayout(new GridBagLayout());
 		this.setJMenuBar(makeMenuBar());
 		this.camEnabled = true;
@@ -348,6 +356,20 @@ public class GuiModel extends JFrame {
 		menu_kamera.add(menuItem);
 
 		menuItem = new JMenuItem("Info");
+		menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ImageIcon ic = new ImageIcon(getClass().getResource("../img/robi.jpg"));
+				JOptionPane.showMessageDialog(new JFrame(), new String("<html> <body><center><h2><b>Diogenes Robot control r124<b/></h2> " +
+						"<br> This client has been developed at Hochschule RheinMain, <br> for the modula software engineering project <br><br> <b>Developers are:</b><br><br> " +
+						"Oliver Kieven (oliver-kieven@gmx.de)<br> Philip Koch (pkoch88@googlemail.com)<br> "+
+						"Dirk Stanke (dirk.stanke@googlemail.com)<br> Marc Stanke (marc.stanke@googlemail.com)<br> Daniel Ernst (daniel.ernst01@googlemail.com)<br>" +
+						" Gayatri Patel (gayatrijapan@googlemail.com)<br>" +
+						"</center></body></html>"), "Info", JFrame.EXIT_ON_CLOSE, ic);
+				
+			}
+		});
 		menu_ueber.add(menuItem);
 
 		menuItem = new JMenuItem("Help");

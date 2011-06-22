@@ -106,11 +106,16 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	}
 	
 	public static void zoomIn() {
-		MapCanvas.zoomFactor += 0.1;
+		if(zoomFactor <= 2.0){
+			MapCanvas.zoomFactor += 0.1;
+		}
+	
 	}
 	
 	public static void zoomOut() {
-		MapCanvas.zoomFactor -= 0.1;
+		if(zoomFactor >= 0.5){
+			MapCanvas.zoomFactor -= 0.1;
+		}
 	}
 	
 	/* (non-Javadoc)
