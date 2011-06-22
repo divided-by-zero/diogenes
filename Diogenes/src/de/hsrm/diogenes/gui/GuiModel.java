@@ -105,11 +105,7 @@ public class GuiModel extends JFrame {
 	private JMenuItem presentationMenuItem;
 	private JFrame presentationDialogFrame;
 	private JTextField presentationDialogPortfield;
-	/**
-	 * @uml.property name="robi"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
-	private Robbie robi;
+
 	/**
 	 * @uml.property name="scroller"
 	 * @uml.associationEnd multiplicity="(1 1)"
@@ -135,7 +131,7 @@ public class GuiModel extends JFrame {
 		this.coordsPanel = new JPanel();
 		this.coordsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.statusbarPanel = new JPanel();
-		this.robi = new Robbie(c);
+		
 		createPanels();
 		/**
 		 * Adds the different panels onto our JFrame with the given

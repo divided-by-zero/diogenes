@@ -119,9 +119,14 @@ public class Map {
 		ImageIO.write((RenderedImage) img, "png", new File("mapimg"));
 		System.out.println("Image written");*/
 		
+		
+		
+	}
+	
+	public void writeIMG() throws IOException{
+		
 		new ConvertMap2Image(this.getMap(),400);
 		this.img = ImageIO.read(new File("mapimg.png"));
-		
 	}
 	
 	
