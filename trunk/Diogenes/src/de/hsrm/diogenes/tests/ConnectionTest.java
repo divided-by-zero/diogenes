@@ -61,7 +61,7 @@ public class ConnectionTest extends TestCase {
 		
 		boolean fehlerMeldungGeworfen = false;
 		try {
-			c.run(ip, port);
+			c.connect();
 			assertTrue(c.isConnected());
 		} catch (Exception e) {
 			fehlerMeldungGeworfen = true;

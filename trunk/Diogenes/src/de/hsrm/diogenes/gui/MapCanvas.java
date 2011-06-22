@@ -148,9 +148,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			g.setColor(Color.BLUE);
 			if(!connection.isWanderFinished()){
 				for(Point p : this.clickedList){
-				
-						g.drawOval((int)((p.x)), (int)((p.y)), 5, 5);
-										
+					
+					g.drawOval((int)((p.x)*zoomFactor), (int)((p.y)*zoomFactor), 5, 5);
+															
 				}
 				
 			}else{
@@ -206,7 +206,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	public void setPoints(MouseEvent ev){
 		Point p = new Point();
-		p = new Point((int)(ev.getX()),(int) (ev.getY()));
+		p = new Point((int)(ev.getX()/zoomFactor),(int) (ev.getY()/zoomFactor));
 		
 		System.out.println(p);
 		this.clickedList.add(p);
