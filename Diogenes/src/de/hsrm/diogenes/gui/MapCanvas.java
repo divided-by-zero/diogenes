@@ -32,79 +32,42 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * The map.
-	 * @uml.property  name="map"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	/** The map. */
 	private Map map;
 	
-	/**
-	 * The connection.
-	 * @uml.property  name="connection"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	/** The connection. */
 	private Connection connection;
 	
-	/**
-	 * The scale.
-	 * @uml.property  name="scale"
-	 */
+	/** The scale. */
 	private int scale;
 	
-	/**
-	 * The location of the robi
-	 * @uml.property  name="l"
-	 * @uml.associationEnd  
-	 */
+	/** The location of the robi */
 	private Location l;
 	
-	/**
-	 * The robbie_x.
-	 * @uml.property  name="robbie_x"
-	 */
+	/** The robbie_x. */
 	private int robbie_x;
 	
-	/**
-	 * The robbie_y.
-	 * @uml.property  name="robbie_y"
-	 */
+	/** The robbie_y. */
 	private int robbie_y ;
 	
-	/**
-	 * The clicked.
-	 * @uml.property  name="clicked"
-	 */
+	/** The clicked. */
 	private boolean clicked;
 	
-	/**
-	 * The clicked list.
-	 * @uml.property  name="clickedList"
-	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Point"
-	 */
+	/** The clicked list. */
 	private List<Point> clickedList;
 	
-	/**
-	 * The converted list.
-	 * @uml.property  name="convertedList"
-	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Point"
-	 */
+	/** The converted list. */
 	private List<Point> convertedList;
 	
-	/**
-	 * The move xfactor.
-	 * @uml.property  name="moveXfactor"
-	 */
+	/** The move xfactor. */
 	private int moveXfactor;
 	
-	/**
-	 * The move yfactor.
-	 * @uml.property  name="moveYfactor"
-	 */
+	/** The move yfactor. */
 	private int moveYfactor;
 	private static double zoomFactor;
 	private int width;
 	private int height;
+	private boolean zoomed;
 	
 	/**
 	 * Instantiates a new map canvas.
@@ -122,6 +85,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 		this.moveXfactor = moveXfactor;
 		this.moveYfactor = moveYfactor;
 		this.clicked = false;
+		this.zoomed = false;
 		this.clickedList = new ArrayList<Point>();
 		this.convertedList = new ArrayList<Point>();
 		MapCanvas.zoomFactor = 1.0;
@@ -184,7 +148,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			g.setColor(Color.BLUE);
 			if(!connection.isWanderFinished()){
 				for(Point p : this.clickedList){
-					g.drawOval(p.x, p.y, 5, 5);
+				
+						g.drawOval((int)((p.x)), (int)((p.y)), 5, 5);
+										
 				}
 				
 			}else{
@@ -239,8 +205,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 * @param ev the new points
 	 */
 	public void setPoints(MouseEvent ev){
+		Point p = new Point();
+		p = new Point((int)(ev.getX()),(int) (ev.getY()));
 		
-		Point p = new Point(ev.getX(), ev.getY());
 		System.out.println(p);
 		this.clickedList.add(p);
 		this.clicked = true;
@@ -255,21 +222,21 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	public Point calculateRobiPoint(Point p){
 		
-		int x = (int) ((int)p.getX() * this.scale*zoomFactor);
-		int y =  (int) (((int)p.getY() * this.scale*zoomFactor) * -1);
+		int x = (int) ((int)p.getX() * this.scale);
+		int y =  (int) (((int)p.getY() * this.scale) * -1);
 		
 		if(checkSign(x) == -1){
-			x = (int) (x + (this.moveXfactor*zoomFactor * this.scale*zoomFactor));
+			x = (int) (x + (this.moveXfactor * this.scale));
 		}
 		else{
-			x = (int) (x - (this.moveXfactor*zoomFactor * this.scale*zoomFactor));
+			x = (int) (x - (this.moveXfactor * this.scale));
 		}
 		
 		if(checkSign(y) == -1){
-			y = (int) (y + (this.moveYfactor*zoomFactor * this.scale*zoomFactor));
+			y = (int) (y + (this.moveYfactor * this.scale));
 		}
 		else{
-			y = (int) (y - (this.moveYfactor*zoomFactor * this.scale*zoomFactor));
+			y = (int) (y - (this.moveYfactor * this.scale));
 		}
 		
 		return new Point(x, y);
@@ -322,7 +289,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	@Override
 	public void mouseClicked(MouseEvent ev) {
 		setPoints(ev);
-		
 	}
 
 
@@ -368,6 +334,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		this.zoomed = true;
 		if (e.getWheelRotation() == -1) {
 			MapCanvas.zoomIn();
 		}
