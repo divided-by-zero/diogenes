@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import javax.swing.ImageIcon;
 
 /**
@@ -52,9 +51,10 @@ public class Server extends Thread {
 		this.port = port;
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
+		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
 		packet = new Packet(
-				new ImageIcon("example.jpg"), 
-				"<html><B>No Information gathered so far...</B>", 
+				image,
+				"<html><B>No Information gathered so far...</B></html>", 
 				new Rectangle(0, 0, 0, 0));
 	}
 
@@ -67,32 +67,41 @@ public class Server extends Thread {
 	public void run() {
 		ServerSocket server_sock;
 		try {
+			System.out.println("Server: Opening socket...");
 			server_sock = new ServerSocket(port);
 			// connection with port successful, notify
 			synchronized (exceptionlistener) {
 				exceptionlistener.notify();
 			}
 			// infinite loop for accepting clients, receiving data and disconnecting them
+			System.out.println("Server: Starting accepting-client-loop...");
 			while (true) {
 				// accept client
+				System.out.println("Server: Accepting Client...");
 				Socket current_client = server_sock.accept();
+				System.out.println("Server: Getting ObjInputStream...");
 				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
 				Packet tmp_packet;
 				while(true) {
 					// receive data as long as connection established
+					System.out.println("Server: Reading input-obj...");
 					tmp_packet = (Packet) client_input.readObject();
 					if (packet != null) {
+						System.out.println("Server: Setting local packet to recieved packet...");
 						packet = tmp_packet;	
 					} else {
+						System.out.println("ServeR: Packet to set is null!");
 						break;
 					}
-					
 				}
+				System.out.println("Server: Closing connection...");
 				// close connection
 				current_client.close();
 				client_input.close();
+				System.out.println("Server: Connection closed");
 			}
 		} catch (Throwable t) {
+			System.out.println("Server: Throwing exception to listener: " + t.getMessage());
 			exceptionlistener.notifyException(t);
 		}
 		// due to the whileloop this part of code is only reachable when 

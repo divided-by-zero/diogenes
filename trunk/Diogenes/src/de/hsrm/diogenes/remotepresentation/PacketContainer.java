@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class PacketContainer extends ArrayList<Presentable> {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -868542116216859181L;
 
 	public PacketContainer() {
 		// TODO add items by user

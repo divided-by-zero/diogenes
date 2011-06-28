@@ -7,13 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
 import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
 
 /**
@@ -68,13 +64,6 @@ public class ServerGUI extends JFrame {
 	 * @uml.associationEnd  
 	 */
 	private JLabel status_label;
-	
-	/**
-	 * The menubar
-	 * @uml.property  name="menu"
-	 * @uml.associationEnd  
-	 */
-	private JMenuBar menu;
 	
 	/**
 	 * Instantiates the GUI and starts a DialogWindow
@@ -179,10 +168,6 @@ public class ServerGUI extends JFrame {
 		this.setTitle("Presentation Window (Server)");
 		this.setLayout(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setUndecorated(true);
-		// set up menubar
-		setUpMenuBar();
 		// load picture and text initially
 		image_label = new JLabel(server.getPacket().getImage());
 		text_label = new JLabel(server.getPacket().getDescriptionText());
@@ -204,24 +189,6 @@ public class ServerGUI extends JFrame {
 			}
 		});
 		refreshtimer.start();
-	}
-	
-	/**
-	 * Assembles the Menubar of the MainWindow
-	 */
-	private void setUpMenuBar() {
-		menu = new JMenuBar();
-		JMenu file = new JMenu("File");
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		file.add(exit);
-		menu.add(file);
-		this.setJMenuBar(menu);
 	}
 
 	public static void main(String[] args) {
