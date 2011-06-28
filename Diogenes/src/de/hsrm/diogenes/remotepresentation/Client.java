@@ -104,17 +104,21 @@ public class Client extends Thread {
 						// sends if triggered AND 
 						// if this presentable hasn't just been sent in the 
 						// last round (less traffic) 
+						System.out.println("Robbielocation: " + location.toString());
 						if (p.surrounds(location) && !p.equals(lastPresentable)) {
+							System.out.println("Client: Triggerbox-hit");
 							try {
+								System.out.println("Client: Try to send a packet...");
 								send(p);
+								System.out.println("Client: Packet sent: " + p.getAdditionalText());
 								lastPresentable = p;
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
+								System.out.println("Client: Unkown exception during sending package");
 							}
 						}
 					}
 					try {
-						sleep(1000);
+						sleep(500);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 					}
@@ -172,7 +176,9 @@ public class Client extends Thread {
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
 	public void send(Presentable p) throws IOException {
+		System.out.println("Client: Write Obj to output...");
 		output.writeObject(p);
+		System.out.println("Client: Flushing output...");
 		output.flush();
 	}
 	

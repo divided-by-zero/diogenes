@@ -9,7 +9,7 @@ import de.hsrm.diogenes.connection.Location;
 
 public class Packet implements Serializable, Presentable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6026570658167708225L;
 	/**
 	 * @uml.property  name="image"
 	 * @uml.associationEnd  multiplicity="(1 1)"
@@ -65,16 +65,6 @@ public class Packet implements Serializable, Presentable {
 		}
 //		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
 		return false;
-	}
-	
-	public static void main(String[] args) {
-		Packet p = new Packet(
-				new ImageIcon("test1.jpg"), 
-				"The answer is 42", 
-//				new Rectangle(-1000, 1000, 1300, 1300));
-				new Rectangle(2400, -2500, 1300, 2500));
-		System.out.println(p.triggerBox.getMinX() +", "+ p.triggerBox.getMinY() +", "+ p.triggerBox.getMaxX() +", "+ p.triggerBox.getMaxY());
-		System.out.println(p.surrounds(new Point(3400, -1500)));
 	}
 	
 }
