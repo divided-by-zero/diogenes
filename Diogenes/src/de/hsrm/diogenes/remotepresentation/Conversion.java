@@ -20,22 +20,22 @@ import javax.imageio.ImageIO;
 public class Conversion {
 
 	
+//	
+//	public File file;
+//	public long size;
+//	//ACHTUNG NOCH VON LONG NACH INT GECASTET!!!NUR ZU TESTZWECKEN!!!
+//	public int bufSize;
+//	public static int len;
+//	public static byte[] buffer;
+//	
 	
-	public File file;
-	public long size;
-	//ACHTUNG NOCH VON LONG NACH INT GECASTET!!!NUR ZU TESTZWECKEN!!!
-	public int bufSize;
-	public static int len;
-	public static byte[] buffer;
-	
-	
-	public Conversion(){
-		file = new File("");
-		size = new Long(file.length());
-		bufSize = (int)size;
-		buffer =  new byte[bufSize];
-	}
-	
+//	public Conversion(){
+//		file = new File("");
+//		size = new Long(file.length());
+//		bufSize = (int)size;
+//		buffer =  new byte[bufSize];
+//	}
+//	
 //	public void loadImg(BufferedImage img) throws IOException{
 //		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //		ImageIO.write(img, "jpeg", baos);
@@ -48,8 +48,12 @@ public class Conversion {
 
 //convert file in ByteArrayOutputStream 
 	public static byte[] fileToBaos(File file) throws FileNotFoundException, IOException{
+		long size = new Long(file.length());
+		int bufSize = (int)size;
+		
+		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		copyStream(new FileInputStream(file), baos);
+		copyStream(new FileInputStream(file), baos, bufSize);
 		byte[] data = baos.toByteArray();
 		System.out.println(data.length);
 		System.out.println("loadFile Method success!");
@@ -57,10 +61,16 @@ public class Conversion {
 	}
 	
 //reads file, writes in buffer	
-	public static void copyStream(InputStream in, OutputStream out) throws IOException{
-		while((len = in.read(buffer))> 0) {
-			out.write(buffer, 0, len);
+	public static void copyStream(InputStream in, OutputStream out, int bufSize) throws IOException{
 		
+		int len;
+		byte[] buffer;
+		
+		buffer =  new byte[bufSize];
+		System.out.println("copystream");
+		while((len = in.read(buffer))> 0) {
+			System.out.println("writing");
+			out.write(buffer, 0, len);
 		}
 		System.out.println("img copied");
 		in.close();
@@ -76,7 +86,7 @@ public class Conversion {
 
 	public static byte[] stringToBaos(String s) throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		copyStream(new StringBufferInputStream(s), baos);
+		copyStream(new StringBufferInputStream(s), baos, s.length());
 		byte[] stringData = baos.toByteArray();
 		System.out.println(stringData.length);
 		System.out.println("stringToBaos success!");

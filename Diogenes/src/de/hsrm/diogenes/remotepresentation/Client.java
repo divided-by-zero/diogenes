@@ -3,6 +3,11 @@ package de.hsrm.diogenes.remotepresentation;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import de.hsrm.diogenes.connection.Location;
 
 /**
@@ -175,7 +180,7 @@ public class Client extends Thread {
 	 * @param p The packet to be sent to the Server
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
-	public void send(Presentable p) throws IOException {
+	public void send(Presentable p) throws IOException {		
 		output.write(p.imageToByteArrayLength());
 		output.flush();
 		output.write(p.imageToByteArray());
