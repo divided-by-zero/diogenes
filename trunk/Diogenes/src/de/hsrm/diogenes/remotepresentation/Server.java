@@ -1,7 +1,7 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.Rectangle;
-import java.io.ObjectInputStream;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.ImageIcon;
@@ -80,18 +80,26 @@ public class Server extends Thread {
 				// accept client
 				System.out.println("Server: Accepting Client...");
 				Socket current_client = server_sock.accept();
-				System.out.println("Server: Getting ObjInputStream...");
-				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
-				Presentable tmp_packet;
+				System.out.println("Server: Getting InputStream...");
+				InputStream client_input = current_client.getInputStream();
+//				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
+				int length;
+				byte[] byteArray;
 				while(true) {
 					// receive data as long as connection established
-					System.out.println("Server: Reading input-obj...");
-					tmp_packet = (Presentable) client_input.readObject();
+					System.out.println("Server: Reading length...");
+					length = client_input.read();
+					System.out.println("Server: Length is " + length + ", init bytearray");
+					byteArray = new byte[length];
+					System.out.println("Server: Reading bytes...");
+					client_input.read(byteArray);
+					System.out.println("Server: Creating Presentable from bytearray...");
+					Presentable tmp_presentable = new Packet(byteArray); 
 					if (presentable != null) {
-						System.out.println("Server: Setting local packet to recieved packet...");
-						presentable = tmp_packet;	
+						System.out.println("Server: Setting local presentable to recieved presentable...");
+						presentable = tmp_presentable;
 					} else {
-						System.out.println("Server: Packet to set is null!");
+						System.out.println("Server: Presentable to set is null!");
 						break;
 					}
 				}
