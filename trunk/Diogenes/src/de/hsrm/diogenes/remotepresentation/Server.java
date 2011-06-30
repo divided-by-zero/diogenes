@@ -51,12 +51,12 @@ public class Server extends Thread {
 		this.port = port;
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
-//		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-//		presentable = new Packet(																			//TODO revert
-//				image,
-//				"<html><B>No Information gathered so far...</B></html>", 
-//				new Rectangle(0, 0, 0, 0));
-		presentable = new PaketFurz("erstes", "erstes", new Rectangle(0,0,0,0));
+		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
+		presentable = new Packet(																			//TODO revert
+				image,
+				"<html><B>No Information gathered so far...</B></html>", 
+				new Rectangle(0, 0, 0, 0));
+//		presentable = new PaketFurz("erstes", "erstes", new Rectangle(0,0,0,0));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class Server extends Thread {
 						System.out.println("Server: Setting local packet to recieved packet...");
 						presentable = tmp_packet;	
 					} else {
-						System.out.println("ServeR: Packet to set is null!");
+						System.out.println("Server: Packet to set is null!");
 						break;
 					}
 				}
