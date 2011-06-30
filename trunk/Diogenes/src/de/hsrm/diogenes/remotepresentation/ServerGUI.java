@@ -171,9 +171,8 @@ public class ServerGUI extends JFrame {
 		// load picture and text initially
 		image_label = new JLabel(server.getPacket().getImage());
 //		image_label = new JLabel("here be pics");
-		text_label = new JLabel(server.getPacket().getDescriptionText());
-		status_label = new JLabel("Awaiting connection on port " + port + ", " + 
-								server.getPacket().getAdditionalText());
+		text_label = new JLabel(server.getPacket().getText());
+		status_label = new JLabel("Awaiting connection on port " + port);
 		this.add(image_label, GridBagConstraintsFactory.create(1, 1));
 		this.add(text_label, GridBagConstraintsFactory.create(2, 1));
 		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
@@ -185,8 +184,8 @@ public class ServerGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				image_label.setIcon(server.getPacket().getImage());
-				text_label.setText(server.getPacket().getDescriptionText());
-				status_label.setText(server.getPacket().getAdditionalText());
+				text_label.setText(server.getPacket().getText());
+				status_label.setText("TODO");
 			}
 		});
 		refreshtimer.start();
