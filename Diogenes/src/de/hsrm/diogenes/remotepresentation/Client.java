@@ -110,7 +110,7 @@ public class Client extends Thread {
 							try {
 								System.out.println("Client: Try to send a packet...");
 								send(p);
-								System.out.println("Client: Packet sent: " + p.getAdditionalText());
+								System.out.println("Client: Packet sent");
 								lastPresentable = p;
 							} catch (IOException e) {
 								System.out.println("Client: Unkown exception during sending package");
@@ -176,14 +176,26 @@ public class Client extends Thread {
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
 	public void send(Presentable p) throws IOException {
-		output.write(p.toByteArray().length);
+		output.write(p.imageToByteArrayLength());
 		output.flush();
-		output.write(p.toByteArray());
+		output.write(p.imageToByteArray());
+		output.flush();
+		output.write(p.textToByteArrayLength());
+		output.flush();
+		output.write(p.textToByteArray());
+		output.flush();
+		output.write((int)p.getRectangle().getX());
+		output.flush();
+		output.write((int)p.getRectangle().getY());
+		output.flush();
+		output.write((int)p.getRectangle().getWidth());
+		output.flush();
+		output.write((int)p.getRectangle().getHeight());
 		output.flush();
 	}
 	
 	public static void main(String[] args) {
-		Client c = new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(1,2,3));
+		
 		
 	}
 	

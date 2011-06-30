@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -83,18 +85,29 @@ public class Server extends Thread {
 				System.out.println("Server: Getting InputStream...");
 				InputStream client_input = current_client.getInputStream();
 //				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
-				int length;
-				byte[] byteArray;
+				byte[] imageByteArray;
+				byte[] textByteArray;
+				Rectangle rectangle;
 				while(true) {
-					// receive data as long as connection established
-					System.out.println("Server: Reading length...");
-					length = client_input.read();
-					System.out.println("Server: Length is " + length + ", init bytearray");
-					byteArray = new byte[length];
-					System.out.println("Server: Reading bytes...");
-					client_input.read(byteArray);
-					System.out.println("Server: Creating Presentable from bytearray...");
-					Presentable tmp_presentable = new Packet(byteArray); 
+					// read image
+					int imagelength = client_input.read();
+					imageByteArray = new byte[imagelength];
+					client_input.read(imageByteArray);
+					// read text
+					int textlength = client_input.read();
+					textByteArray = new byte[textlength];
+					client_input.read(textByteArray);
+					// read rectangle
+					int r_x = client_input.read();
+					int r_y = client_input.read();
+					int r_w = client_input.read();
+					int r_h = client_input.read();
+					rectangle = new Rectangle(r_x, r_y, r_w, r_h);
+					// assemble to presentable
+					Presentable tmp_presentable = new Packet(
+							new ImageIcon(imageByteArray), 
+							new String(textByteArray), 
+							rectangle); 
 					if (presentable != null) {
 						System.out.println("Server: Setting local presentable to recieved presentable...");
 						presentable = tmp_presentable;
