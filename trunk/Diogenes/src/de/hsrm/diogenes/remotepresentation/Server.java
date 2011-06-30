@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * A Server-Object will be connected to a Client-Object via a network.

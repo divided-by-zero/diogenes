@@ -7,53 +7,38 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import de.hsrm.diogenes.connection.Location;
 
-public class Packet implements Serializable, Presentable {
+public class Packet implements Presentable {
 
-	private static final long serialVersionUID = -6026570658167708225L;
-	/**
-	 * @uml.property  name="image"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
-	private File image;
-	/**
-	 * @uml.property  name="text"
-	 */
+	private File file;
+	private ImageIcon image;
 	private String text;
-	/**
-	 * @uml.property  name="triggerBox"
-	 */
 	private Rectangle triggerBox;
 	
-	int lenImg;
-	
-	
-	public Packet(File icon, String text, Rectangle triggerBox) {
-			this.image 		= icon;
+	public Packet(File file, String text, Rectangle triggerBox) {
+			this.file 		= file;
 			this.text		= text;
 			this.triggerBox = triggerBox;
 	}
-	
-	
-	
-	
 
-	/**
-	 * @return
-	 * @uml.property  name="image"
-	 */
-//	@Override
-//	public ImageIcon getImage() {
-//		return image;
-//	}
+	public Packet(ImageIcon image, String text, Rectangle triggerBox) {
+		this.image 		= image;
+		this.text		= text;
+		this.triggerBox = triggerBox;
+	}
+
+	public ImageIcon getImage() {
+		return image;
+	}
 	
 	@Override
 	public String getText() {
 		return text;
-	}
-	
+	}	
 	
 	@Override
 	public boolean surrounds(Location l) {
@@ -63,13 +48,10 @@ public class Packet implements Serializable, Presentable {
 	@Override
 	public boolean surrounds(Point p) {
 		if (triggerBox.contains(p)) {
-//			System.out.println("Packet: triggerBox " + triggerBox.toString() + " surrounds " + p.toString());
 			return true;
 		}
-//		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
 		return false;
 	}
-
 
 	@Override
 	public Rectangle getRectangle() {
@@ -78,18 +60,17 @@ public class Packet implements Serializable, Presentable {
 
 	@Override
 	public byte[] imageToByteArray() throws FileNotFoundException, IOException {
-		return Conversion.fileToBaos(this.image);
+		return Conversion.fileToBaos(this.file);
 	}
 
 	@Override
 	public int imageToByteArrayLength() throws FileNotFoundException, IOException {
-		return lenImg = Conversion.fileToBaos(this.image).length;
+		return Conversion.fileToBaos(this.file).length;
 	}
 
 	@Override
 	public byte[] textToByteArray() throws IOException {
-		return Conversion.stringToBaos(this.text);
-		
+		return Conversion.stringToBaos(this.text);		
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -184,8 +186,8 @@ public class ServerGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				image_label.setIcon(server.getPacket().getImage());
-				text_label.setText(server.getPacket().getText());
-				status_label.setText("TODO");
+//				text_label.setText(server.getPacket().getText());
+//				status_label.setText(server.getPacket().getRectangle().toString());
 			}
 		});
 		refreshtimer.start();

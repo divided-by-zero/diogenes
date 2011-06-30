@@ -17,7 +17,7 @@ public interface Presentable {
 	public int imageToByteArrayLength() throws FileNotFoundException, IOException;
 	public int textToByteArrayLength() throws IOException;
 	
-	//public ImageIcon getImage();
+	public ImageIcon getImage();
 	public String getText();
 	public Rectangle getRectangle();	
 	public boolean surrounds(Point p);
