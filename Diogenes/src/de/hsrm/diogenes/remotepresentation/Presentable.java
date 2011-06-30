@@ -13,7 +13,7 @@ public interface Presentable {
 	 * @uml.property  name="image"
 	 * @uml.associationEnd  
 	 */
-//	public ImageIcon getImage();
+	public ImageIcon getImage();
 	/**
 	 * @uml.property  name="descriptionText"
 	 */
