@@ -1,7 +1,7 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import de.hsrm.diogenes.connection.Location;
 
@@ -44,7 +44,7 @@ public class Client extends Thread {
 	 * Holding the output-stream (for Packet-Objects)
 	 * @uml.property  name="output"
 	 */
-	private ObjectOutputStream output;
+	private OutputStream output;
 	
 	/**
 	 * @uml.property  name="locationlistener"
@@ -137,7 +137,7 @@ public class Client extends Thread {
 	public void run() {
 		try {
 			server = new Socket(dest_addr, port);
-			output = new ObjectOutputStream(server.getOutputStream());
+			output = server.getOutputStream();
 			output.flush();
 			startListening();
 		} catch (Throwable t) {
@@ -176,10 +176,15 @@ public class Client extends Thread {
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
 	public void send(Presentable p) throws IOException {
-		System.out.println("Client: Write Obj to output...");
-		output.writeObject(p);
-		System.out.println("Client: Flushing output...");
+		output.write(p.toByteArray().length);
 		output.flush();
+		output.write(p.toByteArray());
+		output.flush();
+	}
+	
+	public static void main(String[] args) {
+		Client c = new Client("localhost", 55555, new ExceptionListener(), new PacketContainer(), new Location(1,2,3));
+		
 	}
 	
 }
