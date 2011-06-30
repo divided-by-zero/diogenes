@@ -19,7 +19,7 @@ public class Server extends Thread {
 	 * @uml.property  name="packet"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	private Packet packet;
+	private Presentable presentable;
 	
 	/**
 	 * The port to be used for the connection with Clients
@@ -51,11 +51,12 @@ public class Server extends Thread {
 		this.port = port;
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
-		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-		packet = new Packet(
-				image,
-				"<html><B>No Information gathered so far...</B></html>", 
-				new Rectangle(0, 0, 0, 0));
+//		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
+//		presentable = new Packet(																			//TODO revert
+//				image,
+//				"<html><B>No Information gathered so far...</B></html>", 
+//				new Rectangle(0, 0, 0, 0));
+		presentable = new PaketFurz("erstes", "erstes", new Rectangle(0,0,0,0));
 	}
 
 	/**
@@ -81,14 +82,14 @@ public class Server extends Thread {
 				Socket current_client = server_sock.accept();
 				System.out.println("Server: Getting ObjInputStream...");
 				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
-				Packet tmp_packet;
+				Presentable tmp_packet;
 				while(true) {
 					// receive data as long as connection established
 					System.out.println("Server: Reading input-obj...");
-					tmp_packet = (Packet) client_input.readObject();
-					if (packet != null) {
+					tmp_packet = (Presentable) client_input.readObject();
+					if (presentable != null) {
 						System.out.println("Server: Setting local packet to recieved packet...");
-						packet = tmp_packet;	
+						presentable = tmp_packet;	
 					} else {
 						System.out.println("ServeR: Packet to set is null!");
 						break;
@@ -116,8 +117,8 @@ public class Server extends Thread {
 	 * @return  The packet containing an image and a text for visualization
 	 * @uml.property  name="packet"
 	 */
-	public Packet getPacket() {
-		return packet;
+	public Presentable getPacket() {
+		return presentable;
 	}
 
 }
