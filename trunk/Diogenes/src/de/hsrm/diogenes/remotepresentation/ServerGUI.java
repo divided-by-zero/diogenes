@@ -169,7 +169,8 @@ public class ServerGUI extends JFrame {
 		this.setLayout(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// load picture and text initially
-		image_label = new JLabel(server.getPacket().getImage());
+//		image_label = new JLabel(server.getPacket().getImage());
+		image_label = new JLabel("here be pics");
 		text_label = new JLabel(server.getPacket().getDescriptionText());
 		status_label = new JLabel("Awaiting connection on port " + port + ", " + 
 								server.getPacket().getAdditionalText());
@@ -183,7 +184,7 @@ public class ServerGUI extends JFrame {
 		Timer refreshtimer = new Timer(500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				image_label.setIcon(server.getPacket().getImage());
+//				image_label.setIcon(server.getPacket().getImage());
 				text_label.setText(server.getPacket().getDescriptionText());
 				status_label.setText(server.getPacket().getAdditionalText());
 			}

@@ -24,11 +24,6 @@ public class PaketFurz implements Serializable, Presentable {
 		text2 = t2;
 		this.triggerBox = triggerBox;
 	}
-	
-	@Override
-	public ImageIcon getImage() {
-		return new ImageIcon();
-	}
 
 	@Override
 	public String getDescriptionText() {
