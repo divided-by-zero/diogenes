@@ -2,6 +2,9 @@ package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
@@ -14,7 +17,7 @@ public class Packet implements Serializable, Presentable {
 	 * @uml.property  name="image"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	private ImageIcon image;
+	private File image;
 	/**
 	 * @uml.property  name="text"
 	 */
@@ -24,33 +27,33 @@ public class Packet implements Serializable, Presentable {
 	 */
 	private Rectangle triggerBox;
 	
-	public Packet(ImageIcon icon, String text, Rectangle triggerBox) {
+	int lenImg;
+	
+	
+	public Packet(File icon, String text, Rectangle triggerBox) {
 			this.image 		= icon;
 			this.text		= text;
 			this.triggerBox = triggerBox;
 	}
 	
+	
+	
+	
+
 	/**
 	 * @return
 	 * @uml.property  name="image"
 	 */
-	@Override
-	public ImageIcon getImage() {
-		return image;
-	}
+//	@Override
+//	public ImageIcon getImage() {
+//		return image;
+//	}
 	
 	@Override
-	public String getDescriptionText() {
+	public String getText() {
 		return text;
 	}
 	
-	@Override
-	public String getAdditionalText() {
-		return "Invoked between (" 
-			+ (int)triggerBox.getMinX() + "," + (int)triggerBox.getMinY() 
-			+ ") and (" 
-			+ (int)triggerBox.getMaxX() + "," + (int)triggerBox.getMaxY() + ")";
-	}
 	
 	@Override
 	public boolean surrounds(Location l) {
@@ -65,6 +68,34 @@ public class Packet implements Serializable, Presentable {
 		}
 //		System.out.println("Packet: triggerBox " + triggerBox.toString() + " does not surround " + p.toString());
 		return false;
+	}
+
+
+	@Override
+	public Rectangle getRectangle() {
+		return triggerBox;
+	}
+
+	@Override
+	public byte[] imageToByteArray() throws FileNotFoundException, IOException {
+		return Conversion.fileToBaos(this.image);
+	}
+
+	@Override
+	public int imageToByteArrayLength() throws FileNotFoundException, IOException {
+		return lenImg = Conversion.fileToBaos(this.image).length;
+	}
+
+	@Override
+	public byte[] textToByteArray() throws IOException {
+		return Conversion.stringToBaos(this.text);
+		
+	}
+
+	@Override
+	public int textToByteArrayLength() throws IOException {
+		return Conversion.stringToBaos(this.text).length;
+		
 	}
 	
 }
