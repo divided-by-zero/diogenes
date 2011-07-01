@@ -1,17 +1,12 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.Rectangle;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  * A Server-Object will be connected to a Client-Object via a network.
@@ -90,36 +85,20 @@ public class Server extends Thread {
 				System.out.println("Server: Getting InputStream...");
 				InputStream client_input = current_client.getInputStream();
 				ObjectInputStream client_objinput = new ObjectInputStream(client_input);
-//				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
+				DataInputStream client_datainput = new DataInputStream(client_input);
 				byte[] imageByteArray;
 				byte[] textByteArray;
 				Rectangle rectangle;
 				while(true) {
-					
 					// read image
-
-//					byte[] imagelength = new byte[1];
-//					client_input.read(imagelength);
-//					System.out.println("server imagebytearray length = " + (int)imagelength[0]);
-
 					int imagelength = (Integer) client_objinput.readObject();
-					System.out.println("server imagebytearray length = " + imagelength);
-//					imageByteArray = new byte[imagelength];
-//					client_input.read(imageByteArray);
+					imageByteArray = new byte[imagelength];
+					client_datainput.readFully(imageByteArray);
 					
 					// read text
-
-//					byte[] textlength = new byte[1]; 
-//					client_input.read(textlength);
-//					System.out.println("server textbytearray length = " + (int)textlength[0]);
-//					textByteArray = new byte[(int)textlength[0]];
-//					client_input.read(textByteArray);
-					
 					int textlength = (Integer) client_objinput.readObject();
-					System.out.println("server textbytearray length = " + textlength);
 					textByteArray = new byte[textlength];
 					client_input.read(textByteArray);
-					System.out.println("server textbytearray = " + new String(textByteArray));
 					
 					// read rectangle
 					int r_x = (Integer) client_objinput.readObject();
@@ -128,13 +107,12 @@ public class Server extends Thread {
 					int r_h = (Integer) client_objinput.readObject();
 					rectangle = new Rectangle(r_x, r_y, r_w, r_h);
 					
-					
 					// assemble to presentable
 					Presentable tmp_presentable = new Packet(
-							new ImageIcon(),
-//							new ImageIcon(imageByteArray),
+							new ImageIcon(imageByteArray),
 							new String(textByteArray), 
-							rectangle); 
+							rectangle);
+					
 					if (presentable != null) {
 						System.out.println("Server: Setting local presentable to recieved presentable...");
 						presentable = tmp_presentable;
@@ -142,7 +120,7 @@ public class Server extends Thread {
 						System.out.println("Server: Presentable to set is null!");
 						break;
 					}
-					System.out.println("server sleeping 500ms");
+					System.out.println("Server sleeping 500ms");
 					sleep(500);
 				}
 				System.out.println("Server: Closing connection...");
@@ -152,6 +130,7 @@ public class Server extends Thread {
 				System.out.println("Server: Connection closed");
 			}
 		} catch (Throwable t) {
+			t.printStackTrace();
 			System.out.println("Server: Throwing exception to listener: " + t.getMessage());
 			exceptionlistener.notifyException(t);
 		}
