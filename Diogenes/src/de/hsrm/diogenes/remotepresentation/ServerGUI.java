@@ -186,8 +186,8 @@ public class ServerGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				image_label.setIcon(server.getPacket().getImage());
-//				text_label.setText(server.getPacket().getText());
-//				status_label.setText(server.getPacket().getRectangle().toString());
+				text_label.setText(server.getPacket().getText());
+				status_label.setText(server.getPacket().getRectangle().toString());
 			}
 		});
 		refreshtimer.start();

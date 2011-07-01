@@ -1,7 +1,10 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.Rectangle;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -86,28 +89,50 @@ public class Server extends Thread {
 				Socket current_client = server_sock.accept();
 				System.out.println("Server: Getting InputStream...");
 				InputStream client_input = current_client.getInputStream();
+				ObjectInputStream client_objinput = new ObjectInputStream(client_input);
 //				ObjectInputStream client_input = new ObjectInputStream(current_client.getInputStream());
 				byte[] imageByteArray;
 				byte[] textByteArray;
 				Rectangle rectangle;
 				while(true) {
+					
 					// read image
-					int imagelength = client_input.read();
-					imageByteArray = new byte[imagelength];
-					client_input.read(imageByteArray);
+
+//					byte[] imagelength = new byte[1];
+//					client_input.read(imagelength);
+//					System.out.println("server imagebytearray length = " + (int)imagelength[0]);
+
+					int imagelength = (Integer) client_objinput.readObject();
+					System.out.println("server imagebytearray length = " + imagelength);
+//					imageByteArray = new byte[imagelength];
+//					client_input.read(imageByteArray);
+					
 					// read text
-					int textlength = client_input.read();
+
+//					byte[] textlength = new byte[1]; 
+//					client_input.read(textlength);
+//					System.out.println("server textbytearray length = " + (int)textlength[0]);
+//					textByteArray = new byte[(int)textlength[0]];
+//					client_input.read(textByteArray);
+					
+					int textlength = (Integer) client_objinput.readObject();
+					System.out.println("server textbytearray length = " + textlength);
 					textByteArray = new byte[textlength];
 					client_input.read(textByteArray);
+					System.out.println("server textbytearray = " + new String(textByteArray));
+					
 					// read rectangle
-					int r_x = client_input.read();
-					int r_y = client_input.read();
-					int r_w = client_input.read();
-					int r_h = client_input.read();
+					int r_x = (Integer) client_objinput.readObject();
+					int r_y = (Integer) client_objinput.readObject();
+					int r_w = (Integer) client_objinput.readObject();
+					int r_h = (Integer) client_objinput.readObject();
 					rectangle = new Rectangle(r_x, r_y, r_w, r_h);
+					
+					
 					// assemble to presentable
 					Presentable tmp_presentable = new Packet(
-							new ImageIcon(imageByteArray), 
+							new ImageIcon(),
+//							new ImageIcon(imageByteArray),
 							new String(textByteArray), 
 							rectangle); 
 					if (presentable != null) {
@@ -117,6 +142,8 @@ public class Server extends Thread {
 						System.out.println("Server: Presentable to set is null!");
 						break;
 					}
+					System.out.println("server sleeping 500ms");
+					sleep(500);
 				}
 				System.out.println("Server: Closing connection...");
 				// close connection
