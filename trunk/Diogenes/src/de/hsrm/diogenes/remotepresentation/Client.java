@@ -1,9 +1,12 @@
 package de.hsrm.diogenes.remotepresentation;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,6 +53,10 @@ public class Client extends Thread {
 	 * @uml.property  name="output"
 	 */
 	private OutputStream output;
+
+	private ObjectOutputStream objoutput;
+	
+	private ByteArrayOutputStream baoutput;
 	
 	/**
 	 * @uml.property  name="locationlistener"
@@ -143,7 +150,8 @@ public class Client extends Thread {
 		try {
 			server = new Socket(dest_addr, port);
 			output = server.getOutputStream();
-			output.flush();
+			objoutput = new ObjectOutputStream(output);
+//			output.flush();
 			startListening();
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
@@ -180,23 +188,33 @@ public class Client extends Thread {
 	 * @param p The packet to be sent to the Server
 	 * @throws IOException If streams within the connection couldn't be established
 	 */
-	public void send(Presentable p) throws IOException {		
-		output.write(p.imageToByteArrayLength());
-		output.flush();
-		output.write(p.imageToByteArray());
-		output.flush();
-		output.write(p.textToByteArrayLength());
-		output.flush();
+	public void send(Presentable p) throws IOException {
+		
+		// sending image
+
+		int imagelength = p.imageToByteArrayLength();
+		System.out.println("client imagebytearray length = " + imagelength);
+		objoutput.writeObject(imagelength);
+		objoutput.flush();
+//		output.write(p.imageToByteArray());
+//		output.flush();
+		
+		// sending text
+		System.out.println("client textbytearray length = " + p.textToByteArrayLength());
+		objoutput.writeObject(p.textToByteArrayLength());
+		objoutput.flush();
 		output.write(p.textToByteArray());
 		output.flush();
-		output.write((int)p.getRectangle().getX());
-		output.flush();
-		output.write((int)p.getRectangle().getY());
-		output.flush();
-		output.write((int)p.getRectangle().getWidth());
-		output.flush();
-		output.write((int)p.getRectangle().getHeight());
-		output.flush();
+		
+		// sending rectangle
+		objoutput.writeObject((int)p.getRectangle().getX());
+		objoutput.flush();
+		objoutput.writeObject((int)p.getRectangle().getY());
+		objoutput.flush();
+		objoutput.writeObject((int)p.getRectangle().getWidth());
+		objoutput.flush();
+		objoutput.writeObject((int)p.getRectangle().getHeight());
+		objoutput.flush();
 	}
 	
 	public static void main(String[] args) {

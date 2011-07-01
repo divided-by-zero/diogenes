@@ -55,8 +55,8 @@ public class Conversion {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		copyStream(new FileInputStream(file), baos, bufSize);
 		byte[] data = baos.toByteArray();
-		System.out.println(data.length);
-		System.out.println("loadFile Method success!");
+//		System.out.println(data.length);
+//		System.out.println("loadFile Method success!");
 		return data;
 	}
 	
@@ -67,16 +67,16 @@ public class Conversion {
 		byte[] buffer;
 		
 		buffer =  new byte[bufSize];
-		System.out.println("copystream");
+//		System.out.println("copystream");
 		while((len = in.read(buffer))> 0) {
-			System.out.println("writing");
+//			System.out.println("writing");
 			out.write(buffer, 0, len);
 		}
-		System.out.println("img copied");
+//		System.out.println("img copied");
 		in.close();
-		System.out.println("source closed");
+//		System.out.println("source closed");
 		out.close();
-		System.out.println("destination closed");
+//		System.out.println("destination closed");
 		
 	}
 	
@@ -88,8 +88,8 @@ public class Conversion {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		copyStream(new StringBufferInputStream(s), baos, s.length());
 		byte[] stringData = baos.toByteArray();
-		System.out.println(stringData.length);
-		System.out.println("stringToBaos success!");
+//		System.out.println(stringData.length);
+//		System.out.println("stringToBaos success!");
 		return stringData;
 	}
 	
