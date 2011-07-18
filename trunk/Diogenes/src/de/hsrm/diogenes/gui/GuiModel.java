@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
+import de.hsrm.diogenes.faceClientExample.ClientExample;
 import de.hsrm.diogenes.map.Map;
 import de.hsrm.diogenes.map.Robbie;
 import de.hsrm.diogenes.remotepresentation.Client;
@@ -300,6 +301,20 @@ public class GuiModel extends JFrame {
 			}
 		});
 		menu_funktionen.add(presentationMenuItem);
+		
+		menuItem = new JMenuItem("Face Detection");
+		menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ClientExample.startDetection();
+				} catch (Exception e2){
+					e2.printStackTrace();
+				}
+			}
+		});
+		menu_funktionen.add(menuItem);
 
 		menuItem = new JMenuItem("Turn camera left");
 		menuItem.addActionListener(new ActionListener() {

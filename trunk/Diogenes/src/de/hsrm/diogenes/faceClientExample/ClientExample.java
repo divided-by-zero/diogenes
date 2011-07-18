@@ -2,6 +2,9 @@ package de.hsrm.diogenes.faceClientExample;
 
 import java.io.File;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.github.mhendred.face4j.DefaultFaceClient;
 import com.github.mhendred.face4j.FaceClient;
 import com.github.mhendred.face4j.exception.FaceClientException;
@@ -19,12 +22,13 @@ public class ClientExample
 
 	private static final String NAMESPACE = "Diogenes";
 
-	private static final String USER_ID = "Oliver_Kieven@" + NAMESPACE;
+	private static final String USER = "Oliver_Kieven";
 	
-
-    public static void main(String[] args) throws FaceClientException, FaceServerException
-    {
-    	FaceClient faceClient = new DefaultFaceClient(API_KEY, API_SEC);
+	private static final String USER_ID = USER + "@" + NAMESPACE;
+	
+	public static void startDetection() throws FaceClientException, FaceServerException{
+		
+		FaceClient faceClient = new DefaultFaceClient(API_KEY, API_SEC);
     	
     	/**
     	 * First we detect some faces in a url. This URL has a single face, So we get back one
@@ -56,7 +60,7 @@ public class ClientExample
     	 * IMPORTANT: Now we call train on our untrained user. This will commit our saved tag for this user to
     	 * the database so we can recognize them later with 'recognize' calls   
     	 */
-    	faceClient.train(USER_ID);
+//    	faceClient.train(USER_ID);
     	
     	/**
     	 * Now we can call recognize. Look for any user in our index (we only have one now)
@@ -65,9 +69,13 @@ public class ClientExample
 //    	photo = faceClient.recognize(URL_WITH_FACES, "all@" + NAMESPACE).get(0);
     	photo = faceClient.recognize(file, "all@" + NAMESPACE);
     	
-    	for (Face face : photo.getFaces())
-    	{
-    		System.out.println(face.getGuesses());
+    	for (Face face : photo.getFaces()) {
+    		JOptionPane.showMessageDialog(new JFrame(),
+    				"The person on the foto is : " + face.getGender() + "\n" +
+    				"Is the person wearing some glasses? " + face.isWearingGlasses() + "\n" +
+    				"He/She is smiling? " + face.isSmiling() + "\n\n" +
+    				face.getGuess(), "Face Detection", JOptionPane.INFORMATION_MESSAGE		
+    		);
     	}
-    }
+	}
 }
