@@ -40,10 +40,9 @@ public class Guess extends Pair<String, Integer> implements Comparable<Guess>
 	}
 
 	@Override
-	public String toString ()
-	{
+	public String toString () {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Guess [confidence=").append(second).append(", uid=").append(first).append("]");
+		builder.append("The Person on the photo is: ").append(first).append("\nconfidence = ").append(second);
 		return builder.toString();
 	}
 	

@@ -72,8 +72,8 @@ public class ClientExample
     	for (Face face : photo.getFaces()) {
     		JOptionPane.showMessageDialog(new JFrame(),
     				"The person on the foto is : " + face.getGender() + "\n" +
-    				"Is the person wearing some glasses? " + face.isWearingGlasses() + "\n" +
-    				"He/She is smiling? " + face.isSmiling() + "\n\n" +
+    				"Is the person wearing some glasses? " + (face.isWearingGlasses() ? "Yes" : "No") + "\n" +
+    				"He/She is smiling? " + (face.isSmiling() ? "Yes" : "No") + "\n\n" +
     				face.getGuess(), "Face Detection", JOptionPane.INFORMATION_MESSAGE		
     		);
     	}
