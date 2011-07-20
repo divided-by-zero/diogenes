@@ -302,20 +302,6 @@ public class GuiModel extends JFrame {
 		});
 		menu_funktionen.add(presentationMenuItem);
 		
-		menuItem = new JMenuItem("Face Detection");
-		menuItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ClientExample.startDetection();
-				} catch (Exception e2){
-					e2.printStackTrace();
-				}
-			}
-		});
-		menu_funktionen.add(menuItem);
-
 		menuItem = new JMenuItem("Turn camera left");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -364,7 +350,22 @@ public class GuiModel extends JFrame {
 		});
 		menu_funktionen.add(menuItem);
 
-		menuItem = new JMenuItem("Find person");
+		menuItem = new JMenuItem("Find Person");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Thread t = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							ClientExample.startDetection();
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}
+					}
+				});
+				t.start();
+			}
+		});
 		menu_kamera.add(menuItem);
 
 		menuItem = new JMenuItem("Switch modi");
