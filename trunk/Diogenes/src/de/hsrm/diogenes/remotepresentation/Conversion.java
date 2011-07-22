@@ -1,22 +1,20 @@
 package de.hsrm.diogenes.remotepresentation;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
+
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.StringBufferInputStream;
 
-import javax.imageio.ImageIO;
 
-
+/**
+ * The Class Conversion.
+ */
+@SuppressWarnings("deprecation")
 public class Conversion {
 
 	
@@ -47,7 +45,15 @@ public class Conversion {
 	
 
 //convert file in ByteArrayOutputStream 
-	public static byte[] fileToBaos(File file) throws FileNotFoundException, IOException{
+	/**
+ * File to baos.
+ *
+ * @param file the file
+ * @return the byte[]
+ * @throws FileNotFoundException the file not found exception
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public static byte[] fileToBaos(File file) throws FileNotFoundException, IOException{
 		long size = new Long(file.length());
 		int bufSize = (int)size;
 		
@@ -61,7 +67,15 @@ public class Conversion {
 	}
 	
 //reads file, writes in buffer	
-	public static void copyStream(InputStream in, OutputStream out, int bufSize) throws IOException{
+	/**
+ * Copy stream.
+ *
+ * @param in the in
+ * @param out the out
+ * @param bufSize the buf size
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public static void copyStream(InputStream in, OutputStream out, int bufSize) throws IOException{
 		
 		int len;
 		byte[] buffer;
@@ -84,7 +98,14 @@ public class Conversion {
 	
 //string in byte[] stecken
 
-	public static byte[] stringToBaos(String s) throws IOException{
+	/**
+ * String to baos.
+ *
+ * @param s the s
+ * @return the byte[]
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public static byte[] stringToBaos(String s) throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		copyStream(new StringBufferInputStream(s), baos, s.length());
 		byte[] stringData = baos.toByteArray();

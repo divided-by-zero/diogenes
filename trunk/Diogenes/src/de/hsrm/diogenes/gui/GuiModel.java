@@ -2,17 +2,12 @@ package de.hsrm.diogenes.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,154 +23,135 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
 import de.hsrm.diogenes.faceClientExample.ClientExample;
 import de.hsrm.diogenes.map.Map;
-import de.hsrm.diogenes.map.Robbie;
 import de.hsrm.diogenes.remotepresentation.Client;
 import de.hsrm.diogenes.remotepresentation.ExceptionListener;
 import de.hsrm.diogenes.remotepresentation.PacketContainer;
 
+/**
+ * @author Dirk Stanke
+ * 
+ * The Class GuiModel, everything related to the GUI
+ */
 public class GuiModel extends JFrame {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+
 	/**
-	 * @uml.property name="mapPanel"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
-	private JPanel mapPanel;
-	/**
-	 * @uml.property name="webcamPanel"
-	 * @uml.associationEnd multiplicity="(1 1)"
+	 * The webcam panel. @uml.property name="webcamPanel" @uml.associationEnd
+	 * multiplicity="(1 1)"
 	 */
 	private final JPanel webcamPanel;
+
 	/**
-	 * @uml.property name="coordsPanel"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
-	private JPanel coordsPanel;
-	/**
-	 * @uml.property name="statusbarPanel"
+	 * The statusbar panel. @uml.property name="statusbarPanel"
 	 * @uml.associationEnd multiplicity="(1 1)"
 	 */
 	private JPanel statusbarPanel;
-	/**
-	 * @uml.property name="l1"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
+
+	/** The l1. @uml.property name="l1" @uml.associationEnd multiplicity="(1 1)" */
 	private JLabel l1;
-	/**
-	 * @uml.property name="l2"
-	 * @uml.associationEnd readOnly="true"
-	 */
-	private JLabel l2;
-	/**
-	 * @uml.property name="l3"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
-	private JLabel l3;
-	/**
-	 * @uml.property name="l4"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
-	private JLabel l4;
-	/**
-	 * @uml.property name="screen"
-	 * @uml.associationEnd readOnly="true"
-	 */
-	private ImageIcon screen;
-	/**
-	 * /
-	 * 
-	 * @uml.property name="c"
-	 * @uml.associationEnd multiplicity="(1 1)"
-	 */
+
+	/** /. @uml.property name="c" @uml.associationEnd multiplicity="(1 1)" */
 	private Connection c;
-	/**
-	 * @uml.property name="camEnabled"
-	 */
+
+	/** The cam enabled. @uml.property name="camEnabled" */
 	private boolean camEnabled;
+
 	/**
-	 * @uml.property name="map"
-	 * @uml.associationEnd multiplicity="(1 1)"
+	 * The map. @uml.property name="map" @uml.associationEnd
+	 * multiplicity="(1 1)"
 	 */
 	private Map map;
-	/**
-	 * @uml.property name="mapImg"
-	 * @uml.associationEnd readOnly="true"
-	 */
-	private ImageIcon mapImg;
+
+	/** The presentation client. Used for the presentation mode */
 	private Client presentationClient;
+
+	/** The presentation mode exception listener. */
 	private ExceptionListener presentationExceptionListener;
+
+	/** Tells us wether the presentation mode is running or not */
 	private boolean isPresentationRunning;
+
+	/** The presentation menu item. */
 	private JMenuItem presentationMenuItem;
+
+	/** The presentation mode dialog frame. */
 	private JFrame presentationDialogFrame;
+
+	/** The presentation mode dialog portfield. */
 	private JTextField presentationDialogPortfield;
 
 	/**
-	 * @uml.property name="scroller"
+	 * The scroll object for the mapPanel. @uml.property name="scroller"
 	 * @uml.associationEnd multiplicity="(1 1)"
 	 */
 	private JScrollPane scroller;
 
+	/**
+	 * Instantiates a new gui model.
+	 * 
+	 * @param c
+	 *            the connection
+	 * @param map
+	 *            the map given by the robot
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
 	public GuiModel(Connection c, Map map) throws IOException,
 			InterruptedException {
 		this.c = c;
-		this.map = map;
+		this.setMap(map);
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(ImageIO.read(getClass().getResource("../img/robi.jpg")));
+		this.setIconImage(ImageIO.read(getClass()
+				.getResource("../img/robi.jpg")));
 		this.setResizable(false);
 		this.setLayout(new GridBagLayout());
 		this.setJMenuBar(makeMenuBar());
-		this.camEnabled = true;
+		this.setCamEnabled(true);
 		this.presentationExceptionListener = new ExceptionListener();
 		this.isPresentationRunning = false;
 		this.l1 = new JLabel("Status");
-		// this.l2 = new JLabel(new ImageIcon(map.getImg()));
-		// this.mapPanel = new JPanel();
+
 		this.webcamPanel = new JPanel();
 		this.webcamPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		this.coordsPanel = new JPanel();
-		this.coordsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.statusbarPanel = new JPanel();
-		
+
 		createPanels();
-		/**
-		 * Adds the different panels onto our JFrame with the given
-		 * GridBagConstraints create(x, y, gridwidth, gridheight)
-		 */
+
 		this.scroller = new JScrollPane(new MapCanvas(new Map(this.c), this.c,
 				70, 50, 400), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		// this.scroller = new JScrollPane(new MapPanel(this.map, this.c),
-		// JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-		// JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		this.scroller.setPreferredSize(new Dimension(350, 410));
+
+		// Add the Panels to our JFrame
 		this.add(scroller, GridBagConstraintsFactory.create(0, 0, 1, 2));
 		this.add(webcamPanel, GridBagConstraintsFactory.create(1, 0, 1, 1));
-		// this.add(coordsPanel,GridBagConstraintsFactory.create(1,1,1,1));
-		this.add(new ButtonPanel(this.c),
-				GridBagConstraintsFactory.create(1, 1, 1, 1));
+		this.add(new ButtonPanel(this.c), GridBagConstraintsFactory.create(1,
+				1, 1, 1));
 		this.add(statusbarPanel, GridBagConstraintsFactory.create(0, 3, 2, 1));
+
 		this.pack();
 		this.setVisible(true);
-		// refreshCamPanel(this.webcamPanel);
+
 	}
 
-	/*
-	 * @Override public Dimension getPreferredSize() { return new
-	 * Dimension(1024, 768); }
-	 */
 	/**
-	 * Adds the needed components to the specific JPanel
+	 * Adds the needed components to the specific JPanel.
 	 */
 	public void createPanels() {
-		// this.mapPanel.add(l3);
+
 		this.statusbarPanel.add(l1);
-		// this.mapPanel.add(this.l2);
-		// this.mapPanel.add(new JLabel(this.robi.getImg()));
+
 		if (this.c.isCamData()) {
 			webcamPanel.add(c.getCameraData().getCam());
 			Timer t = new Timer(210, new ActionListener() {
@@ -193,7 +169,7 @@ public class GuiModel extends JFrame {
 	}
 
 	/**
-	 * Constructs our JMenuBar
+	 * Constructs our JMenuBar.
 	 * 
 	 * @return the constructed JMenuBar
 	 */
@@ -219,7 +195,6 @@ public class GuiModel extends JFrame {
 						c.setConnected(true);
 					}
 				} catch (WRPException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 			}
@@ -234,7 +209,6 @@ public class GuiModel extends JFrame {
 					l1.setText("disconnected");
 					c.setConnected(false);
 				} catch (WRPException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 			}
@@ -301,14 +275,13 @@ public class GuiModel extends JFrame {
 			}
 		});
 		menu_funktionen.add(presentationMenuItem);
-		
+
 		menuItem = new JMenuItem("Turn camera left");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					c.getCameraData().adjustCameraLeft(2000);
 				} catch (WRPException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 			}
@@ -322,7 +295,6 @@ public class GuiModel extends JFrame {
 					c.getCameraData().takePhoto();
 					l1.setText("Photo taken!");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -373,17 +345,23 @@ public class GuiModel extends JFrame {
 
 		menuItem = new JMenuItem("Info");
 		menuItem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ImageIcon ic = new ImageIcon(getClass().getResource("../img/robi.jpg"));
-				JOptionPane.showMessageDialog(new JFrame(), new String("<html> <body><center><h2><b>Diogenes Robot control r124<b/></h2> " +
-						"<br> This client has been developed at Hochschule RheinMain, <br> for the modula software engineering project <br><br> <b>Developers are:</b><br><br> " +
-						"Oliver Kieven (oliver-kieven@gmx.de)<br> Philip Koch (pkoch88@googlemail.com)<br> "+
-						"Dirk Stanke (dirk.stanke@googlemail.com)<br> Marc Stanke (marc.stanke@googlemail.com)<br> Daniel Ernst (daniel.ernst01@googlemail.com)<br>" +
-						" Gayatri Patel (gayatrijapan@googlemail.com)<br>" +
-						"</center></body></html>"), "Info", JFrame.EXIT_ON_CLOSE, ic);
-				
+				ImageIcon ic = new ImageIcon(getClass().getResource(
+						"../img/robi.jpg"));
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								new String(
+										"<html> <body><center><h2><b>Diogenes Robot control r124<b/></h2> "
+												+ "<br> This client has been developed at Hochschule RheinMain, <br> for the modula software engineering project <br><br> <b>Developers are:</b><br><br> "
+												+ "Oliver Kieven (oliver-kieven@gmx.de)<br> Philip Koch (pkoch88@googlemail.com)<br> "
+												+ "Dirk Stanke (dirk.stanke@googlemail.com)<br> Marc Stanke (marc.stanke@googlemail.com)<br> Daniel Ernst (daniel.ernst01@googlemail.com)<br>"
+												+ " Gayatri Patel (gayatrijapan@googlemail.com)<br>"
+												+ "</center></body></html>"),
+								"Info", JFrame.EXIT_ON_CLOSE, ic);
+
 			}
 		});
 		menu_ueber.add(menuItem);
@@ -399,7 +377,9 @@ public class GuiModel extends JFrame {
 	}
 
 	/**
-	 * @return
+	 * Gets the l1.
+	 * 
+	 * @return the l1
 	 * @uml.property name="l1"
 	 */
 	public JLabel getL1() {
@@ -407,18 +387,27 @@ public class GuiModel extends JFrame {
 	}
 
 	/**
+	 * Sets the l1.
+	 * 
 	 * @param l1
+	 *            the new l1
 	 * @uml.property name="l1"
 	 */
 	public void setL1(JLabel l1) {
 		this.l1 = l1;
 	}
 
+	/**
+	 * Start presentation client.
+	 * 
+	 * @param port
+	 *            the port
+	 */
 	private void startPresentationClient(int port) {
 		// start clientstuff now
 		presentationClient = new Client(c.getIP(), port,
-				presentationExceptionListener, new PacketContainer(),
-				c.getLocation());
+				presentationExceptionListener, new PacketContainer(), c
+						.getLocation());
 		// own thread
 		presentationClient.start();
 		// wait for client to finish initialization
@@ -431,8 +420,7 @@ public class GuiModel extends JFrame {
 				JOptionPane.showMessageDialog(new JFrame(),
 						"Clients' synchronization interrupted,\n"
 								+ "This may cause bad Exception-Handling:\n"
-								+ ie.getMessage(), 
-								"Warning",
+								+ ie.getMessage(), "Warning",
 						JOptionPane.WARNING_MESSAGE, null);
 			}
 		}
@@ -449,8 +437,7 @@ public class GuiModel extends JFrame {
 			// popup exception, don't set labeltext
 			JOptionPane.showMessageDialog(new JFrame(),
 					"An Error occurred during the initialization of the Client:\n"
-					+ e1.getMessage(), 
-					"Error",
+							+ e1.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE, null);
 		}
 		// now finished with:
@@ -460,15 +447,16 @@ public class GuiModel extends JFrame {
 		// and reacted with error-popups
 	}
 
+	/**
+	 * Stop presentation client.
+	 */
 	private void stopPresentationClient() {
 		try {
 			presentationClient.disconnect();
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(),
-					"Couldn't stop Presentation-Mode:\n" 
-					+ e1.getMessage(),
-					"Error", 
-					JOptionPane.ERROR_MESSAGE, null);
+					"Couldn't stop Presentation-Mode:\n" + e1.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE, null);
 		}
 		// no matter what happened, this stuff will be set
 		isPresentationRunning = false;
@@ -476,6 +464,30 @@ public class GuiModel extends JFrame {
 		l1.setText("Presentation mode stopped");
 	}
 
+	public void setCamEnabled(boolean camEnabled) {
+		this.camEnabled = camEnabled;
+	}
+
+	public boolean isCamEnabled() {
+		return camEnabled;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	/**
+	 * The main method.
+	 * 
+	 * @param args
+	 *            the arguments
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public static void main(String[] args) throws IOException {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -485,13 +497,10 @@ public class GuiModel extends JFrame {
 					Connection c = new Connection("localhost", 33333);
 					new GuiModel(c, new Map(c));
 				} catch (WRPException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

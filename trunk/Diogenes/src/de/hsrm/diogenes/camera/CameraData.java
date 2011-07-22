@@ -15,9 +15,10 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.connection.Connection;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CameraData.
+ * @author Dirk Stanke
+ * 
+ * The Class CameraData handles everything related to the camera.
  */
 public class CameraData {
 	
@@ -45,17 +46,17 @@ public class CameraData {
 	private BufferedImage image; 
 	
 	/**
-	 * The c.
+	 * The connection.
 	 * @uml.property  name="c"
 	 * @uml.associationEnd  multiplicity="(1 1)" inverse="cameraData:de.hsrm.diogenes.connection.Connection"
 	 */
 	private Connection c;
 	
 	/**
-	 * Instantiates a new camera data.
+	 * Instantiates a new camera data object.
 	 *
 	 * @param packet the packet
-	 * @param c the c
+	 * @param c the connection
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public CameraData(WRPVideoPacket packet, Connection c) throws IOException {
@@ -66,12 +67,9 @@ public class CameraData {
 	}
 	
 	/**
-	 * Sets the up camera.
+	 * Sets up the camera.
 	 */
 	public void setUpCamera() {
-		/*System.out.println("handleVideoPacket(): Received image packet - "
-				+ "data size is " + this.packet.getJpegData().length + " bytes.");
-		*/
 		try {
 			image = ImageIO.read(new ByteArrayInputStream(packet.getJpegData()));
 			setCam(new JLabel(new ImageIcon(image)));

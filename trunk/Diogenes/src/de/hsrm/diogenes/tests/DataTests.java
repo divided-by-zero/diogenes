@@ -14,13 +14,19 @@ public class DataTests extends TestCase {
 	private Connection c;
 	
 	public DataTests(Connection c) throws WRPException{
-		this.c = new Connection("localhost", 33333);
+		this.setC(new Connection("localhost", 33333));
 	}
 	public void testBlub(){
 		
 	}
+	public void setC(Connection c) {
+		this.c = c;
+	}
+	public Connection getC() {
+		return c;
+	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 	}
 

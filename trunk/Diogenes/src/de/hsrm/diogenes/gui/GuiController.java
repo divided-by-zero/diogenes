@@ -1,7 +1,6 @@
 package de.hsrm.diogenes.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 /**
  * The Class GuiController.
  */
@@ -20,7 +19,7 @@ public class GuiController {
 	 * @param m A guiModel
 	 */
 	public GuiController(GuiModel m){
-		this.m = m;
+		this.setM(m);
 		addListener();
 	}
 	
@@ -47,6 +46,16 @@ public class GuiController {
 				m.changeStatus("bluub");
 			}
 		});*/
+	}
+
+
+	public void setM(GuiModel m) {
+		this.m = m;
+	}
+
+
+	public GuiModel getM() {
+		return m;
 	}
 	
 }

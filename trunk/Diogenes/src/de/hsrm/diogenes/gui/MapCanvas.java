@@ -3,20 +3,17 @@ package de.hsrm.diogenes.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import de.fhwiesbaden.webrobbie.clientutil.map.MapLine;
 import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -26,57 +23,75 @@ import de.hsrm.diogenes.map.Map;
 
 /**
  * The Class MapCanvas.
+ *
+ * @author Daniel Ernst, Dirk Stanke
+ * 
+ * The Class MapCanvas for drawing the robot map,
+ * the robot and the given wander points
  */
 public class MapCanvas extends JPanel implements MouseListener, MouseWheelListener {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The map. */
+	/** The map given by the robot. */
 	private Map map;
 	
 	/** The connection. */
 	private Connection connection;
 	
-	/** The scale. */
+	/** The scale factor. */
 	private int scale;
 	
-	/** The location of the robi */
+	/** The location of the robi. */
 	private Location l;
 	
-	/** The robbie_x. */
+	/** The robbie_x coordinate. */
 	private int robbie_x;
 	
-	/** The robbie_y. */
+	/** The robbie_y coordinate. */
 	private int robbie_y ;
 	
-	/** The clicked. */
+	/** Wether there is a click on the Canvas or not. */
 	private boolean clicked;
 	
-	/** The clicked list. */
+	/** The list with the clicked points. */
 	private List<Point> clickedList;
 	
-	/** The converted list. */
+	/** The list with the clicked points,
+	 * converted from Canvas coordinate system to
+	 * robot coordinate system.
+	 **/
 	private List<Point> convertedList;
 	
-	/** The move xfactor. */
+	/** the factor we move x coordinates */
 	private int moveXfactor;
 	
-	/** The move yfactor. */
+	/** the factor we move y coordinates */
 	private int moveYfactor;
+	
+	/** The zoom factor. */
 	private static double zoomFactor;
+	
+	/** The width of the Canvas. */
 	private int width;
+	
+	/** The height of the Canvas. */
 	private int height;
-	private boolean zoomed;
 	
 	/**
 	 * Instantiates a new map canvas.
 	 *
-	 * @param m the map
+	 * @param m the map given by the robot
 	 * @param c the connection
-	 * @param s the scale
-	 * @param moveXfactor the move xfactor
-	 * @param moveYfactor the move yfactor
+	 * @param s the scale factor of the canvas
+	 * @param moveXfactor the factor we move x coordinates,
+	 * because of the different coordinate systems of the robot and
+	 * our Canvas
+	 * 
+	 * @param moveYfactor the factor wie move y-coordinates,
+	 * because of the different coordinate systems of the robot
+	 * and our Canvas 
 	 */
 	public MapCanvas(Map m, Connection c, int s, int moveXfactor, int moveYfactor) {
 		this.map = m;
@@ -85,7 +100,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 		this.moveXfactor = moveXfactor;
 		this.moveYfactor = moveYfactor;
 		this.clicked = false;
-		this.zoomed = false;
 		this.clickedList = new ArrayList<Point>();
 		this.convertedList = new ArrayList<Point>();
 		MapCanvas.zoomFactor = 1.0;
@@ -99,12 +113,16 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	
 	/* (non-Javadoc)
 	 * @see javax.swing.JComponent#getPreferredSize()
+	 * Our preferred size
 	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((int)(this.width*MapCanvas.zoomFactor),(int)(this.height*MapCanvas.zoomFactor));
 	}
 	
+	/**
+	 * Zooms the MapCanvas in.
+	 */
 	public static void zoomIn() {
 		if(zoomFactor <= 2.0){
 			MapCanvas.zoomFactor += 0.1;
@@ -112,6 +130,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	
 	}
 	
+	/**
+	 * Zooms the MapCanvas out.
+	 */
 	public static void zoomOut() {
 		if(zoomFactor >= 0.5){
 			MapCanvas.zoomFactor -= 0.1;
@@ -120,24 +141,27 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	
 	/* (non-Javadoc)
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 * Paints the map, the robot and the clicked points
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		// print points
+		
+		//print points
 		for (MapPoint p : map.getPoints()) {
+			
 			int x = (int) (p.getX() / scale*zoomFactor);
 			int y = (int) (p.getY() / scale*zoomFactor);
-//			System.out.println("drawing Oval to " + x + "," + y);
-			g.drawOval(x+(int)(this.moveXfactor*zoomFactor), -y+(int)(this.moveYfactor*zoomFactor), 1, 1); // TODO offset!
+			g.drawOval(x+(int)(this.moveXfactor*zoomFactor), -y+(int)(this.moveYfactor*zoomFactor), 1, 1);
 		}
-		// print lines
+		
+		//print lines
 		for (MapLine l : map.getLines()) {
-//			System.out.println("drawing Line somewhere");
+
 			g.drawLine((int)l.getP1().getX(), (int)l.getP1().getY(), (int)l.getP2().getX(), (int)l.getP2().getY());
 		}
 		
-		// print robbie
+		//print robbie
 		this.l = connection.getLocation();
 		this.robbie_x = (int) ((l.getX()/scale*zoomFactor)+this.moveXfactor*zoomFactor);
 		this.robbie_y = (int) ((-l.getY()/scale*zoomFactor)+this.moveYfactor*zoomFactor);
@@ -145,10 +169,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 		g.setColor(Color.RED);
 		g.drawOval(robbie_x, robbie_y, 5, 5);
 		g.setColor(Color.BLACK);
-		g.drawString("robbie", robbie_x, robbie_y);
-		//g.setColor(Color.YELLOW);
-		//g.drawLine(robbie_x, robbie_y, robbie_x+10, robbie_y+10);
+		g.drawString("robot", robbie_x, robbie_y);
 		
+		//draw the clicked points
 		if(this.clicked){
 			g.setColor(Color.BLUE);
 			if(!connection.isWanderFinished()){
@@ -167,10 +190,12 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			if(connection.isStartWander()){
 				connection.setStartWander(false);
 				
+				//Add converted points into the converted list
 				for(Point p : this.clickedList){
 					this.convertedList.add(new Point(calculateRobiPoint(p)));
 				}
 				
+				//Thread for wandering the clicked points
 				Thread t = new Thread(new Runnable() {
 								
 					@Override
@@ -190,15 +215,13 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			
 		}
 		
-		
+		//Thread for repainting the Canvas
 	 	Thread thread = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				//if(connection.getMove().isRobiMoving()){(
 					setSize((int)(width*MapCanvas.zoomFactor), (int)(height*MapCanvas.zoomFactor));
 					repaint();
-				//}
 			}
 		});
 		thread.start(); 
@@ -222,7 +245,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	/**
 	 * Calculates the exact point for the robot coordinate system.
 	 *
-	 * @param p the point from the panel coordinate system
+	 * @param p the point from the canvas coordinate system
 	 * @return the point converted to robot coordinate system
 	 */
 	public Point calculateRobiPoint(Point p){
@@ -302,7 +325,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -312,7 +334,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -322,7 +343,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -332,14 +352,16 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 	 */
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseWheelListener#mouseWheelMoved(java.awt.event.MouseWheelEvent)
+	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		this.zoomed = true;
+		
 		if (e.getWheelRotation() == -1) {
 			MapCanvas.zoomIn();
 		}

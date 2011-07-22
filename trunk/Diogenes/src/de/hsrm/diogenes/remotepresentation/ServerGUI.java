@@ -19,22 +19,13 @@ import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
  */
 public class ServerGUI extends JFrame {
 
-	/**
-	 * SerialVersionUID
-	 */
+	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * Holds a Server-Object who can be connected by a Client-Object
-	 * @uml.property  name="server"
-	 * @uml.associationEnd  
-	 */
+	/** Holds a Server-Object who can be connected by a Client-Object. @uml.property  name="server" @uml.associationEnd */
 	private Server server;
 	
-	/**
-	 * The port to be used for incoming Packets
-	 * @uml.property  name="port"
-	 */
+	/** The port to be used for incoming Packets. @uml.property  name="port" */
 	private Integer port;
 	
 	/**
@@ -44,25 +35,13 @@ public class ServerGUI extends JFrame {
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/**
-	 * A label for the image
-	 * @uml.property  name="image_label"
-	 * @uml.associationEnd  
-	 */
+	/** A label for the image. @uml.property  name="image_label" @uml.associationEnd */
 	private JLabel image_label;
 	
-	/**
-	 * A label for the description-text
-	 * @uml.property  name="text_label"
-	 * @uml.associationEnd  
-	 */	
+	/** A label for the description-text. @uml.property  name="text_label" @uml.associationEnd */	
 	private JLabel text_label;
 	
-	/**
-	 * A label for the status-text
-	 * @uml.property  name="status_label"
-	 * @uml.associationEnd  
-	 */
+	/** A label for the status-text. @uml.property  name="status_label" @uml.associationEnd */
 	private JLabel status_label;
 	
 	/**
@@ -191,6 +170,11 @@ public class ServerGUI extends JFrame {
 		refreshtimer.start();
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new ServerGUI();
 	}

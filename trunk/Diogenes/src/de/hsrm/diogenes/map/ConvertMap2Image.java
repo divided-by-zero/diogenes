@@ -1,7 +1,6 @@
 package de.hsrm.diogenes.map;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,26 +17,29 @@ import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 
 /**
  * The Class ConvertMap2Image.
+ *
+ * @author Dirk Stanke
+ * The Class ConvertMap2Image.
  * Converts a MapFile to an Image :)
  */
 public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 
 	
 	/**
-	 * The map.
+	 * The map given by the robot.
 	 * @uml.property  name="map"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private MapFile map;
 	
 	/**
-	 * The lines.
+	 * The lines from the mapfile.
 	 * @uml.property  name="lines"
 	 */
 	private List<MapLine> lines;
 	
 	/**
-	 * The points.
+	 * The points form the mapfile.
 	 * @uml.property  name="points"
 	 */
 	private List<MapPoint> points;
@@ -48,9 +50,16 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	 */
 	private BufferedImage image;
 	
+	/** The scale factor. */
 	private static int scaleFactor;
+	
+	/** The zoom factor. */
 	private static int zoomFactor;
+	
+	/** The width. */
 	private static int width;
+	
+	/** The height. */
 	private static int height;
 	
 	/**
@@ -75,6 +84,9 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 		writeMap();
 	}
 	
+	/**
+	 * Zoom in.
+	 */
 	public static void zoomIn() {
 		ConvertMap2Image.scaleFactor /= ConvertMap2Image.zoomFactor;
 		ConvertMap2Image.width *= ConvertMap2Image.zoomFactor;
@@ -86,13 +98,15 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	 */
 	
 	/**
-	 * Creates an image with the given lines and points from the mapfile
+	 * Creates an image with the given lines and points from the mapfile.
+	 *
+	 * @return the buffered image
 	 */
 	@Override
 	public BufferedImage transform() {
-		//BufferedImage img = new BufferedImage(this.mapFile.getMapWidth(), this.mapFile.getMapHeight(), BufferedImage.TYPE_INT_RGB);
 		
-		BufferedImage img = new BufferedImage(ConvertMap2Image.width*zoomFactor, ConvertMap2Image.height*zoomFactor, BufferedImage.TYPE_INT_ARGB);//350, 410
+		
+		BufferedImage img = new BufferedImage(ConvertMap2Image.width*zoomFactor, ConvertMap2Image.height*zoomFactor, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D)img.getGraphics();
 		g.setBackground(Color.WHITE);
 		g.clearRect(0, 0, ConvertMap2Image.width*zoomFactor, ConvertMap2Image.height*zoomFactor);
@@ -137,28 +151,4 @@ public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 	public MapFile getMap() {
 		return map;
 	}
-	
-//	public void setZoomFactor(int zoomFactor) {
-//		ConvertMap2Image.zoomFactor = zoomFactor;
-//	}
-//	
-//	public int getZoomFactor() {
-//		return ConvertMap2Image.zoomFactor;
-//	}
-//	
-//	public void setWidth(int width) {
-//		ConvertMap2Image.width*scaleFactor = width;
-//	}
-//	
-//	public int getWidth() {
-//		return ConvertMap2Image.width;
-//	}
-//	
-//	public void setHeight(int height) {
-//		ConvertMap2Image.height = height;
-//	}
-//	
-//	public int getHeight() {
-//		return ConvertMap2Image.height;
-//	}
 }

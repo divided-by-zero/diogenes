@@ -8,7 +8,7 @@ import java.awt.GridBagConstraints;
 public class GridBagConstraintsFactory {
 
 	/**
-	 * Creates the grid
+	 * Creates the GridBagConstraints
 	 *
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
@@ -24,7 +24,8 @@ public class GridBagConstraintsFactory {
 	}
 
 	/**
-	 * Creates the grid
+	 * Overloaded Constructor with more parameters,
+	 * for constructing the GridBagConstraints
 	 *
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate

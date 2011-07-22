@@ -3,12 +3,18 @@ package de.hsrm.diogenes.remotepresentation;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
+/**
+ * The Class PacketContainer.
+ */
 public class PacketContainer extends ArrayList<Presentable> {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -868542116216859181L;
 
+	/**
+	 * Instantiates a new packet container.
+	 */
 	public PacketContainer() {
 		// TODO add items by user
 		// testitems:

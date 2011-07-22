@@ -1,5 +1,6 @@
 package de.hsrm.diogenes.remotepresentation;
 
+
 /**
  * An ExceptionListener-Object can hold an Exception given
  * to it (by a Class) and throws it to the one (usally another
@@ -19,10 +20,7 @@ package de.hsrm.diogenes.remotepresentation;
  */
 public class ExceptionListener {
 
-	/**
-	 * The Exception to be notified to another Class
-	 * @uml.property  name="exception"
-	 */
+	/** The Exception to be notified to another Class. @uml.property  name="exception" */
 	private Throwable exception;
 	
 	/**
@@ -34,7 +32,8 @@ public class ExceptionListener {
 	}
 	
 	/**
-	 * Sets the local member to t
+	 * Sets the local member to t.
+	 *
 	 * @param t The Exception to be notified
 	 */
 	public void notifyException(Throwable t) {
