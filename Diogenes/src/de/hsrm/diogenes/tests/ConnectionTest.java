@@ -2,9 +2,7 @@ package de.hsrm.diogenes.tests;
 
 import junit.framework.TestCase;
 import java.io.PrintStream;
-
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
-import de.fhwiesbaden.webrobbie.wrp.WRPPacketListener;
 import de.hsrm.diogenes.connection.Connection;
 
 
@@ -15,6 +13,8 @@ public class ConnectionTest extends TestCase {
 	 * @uml.associationEnd  
 	 */
 	Connection c;
+	
+	boolean fehlerMeldungGeworfen;
 	
 	/**
 	 * @uml.property  name="output"
@@ -47,12 +47,12 @@ public class ConnectionTest extends TestCase {
 	
 	public void testConnection() throws WRPException {
 		
-		boolean fehlerMeldungGeworfen = false;
+		this.fehlerMeldungGeworfen = false;
 		try {
 			c = new Connection(ip, port);
 			assertTrue(c.isConnected());
 		} catch (Exception e) {
-			fehlerMeldungGeworfen = true;
+			this.fehlerMeldungGeworfen = true;
 		}
 		//if (!fehlerMeldungGeworfen) fail("Trotz falscher Übergabe wurde keine WRPException geworfen");
 	}

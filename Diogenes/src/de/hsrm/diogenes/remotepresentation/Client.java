@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import de.hsrm.diogenes.connection.Location;
 
+
 /**
  * A Client-Object connects to a Server-Object via a network.
  * It's use is to send packages with information to the Server,
@@ -17,16 +18,10 @@ import de.hsrm.diogenes.connection.Location;
  */
 public class Client extends Thread {
 
-	/**
-	 * Holds the destination address (Server)
-	 * @uml.property  name="dest_addr"
-	 */
+	/** Holds the destination address (Server). @uml.property  name="dest_addr" */
 	private String dest_addr;
 	
-	/**
-	 * Holds the port
-	 * @uml.property  name="port"
-	 */
+	/** Holds the port. @uml.property  name="port" */
 	private int port;
 	
 	/**
@@ -36,35 +31,22 @@ public class Client extends Thread {
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/**
-	 * Holding the socket-connection
-	 * @uml.property  name="server"
-	 */
+	/** Holding the socket-connection. @uml.property  name="server" */
 	private Socket server;
 	
-	/**
-	 * Holding the output-stream (for Packet-Objects)
-	 * @uml.property  name="output"
-	 */
+	/** Holding the output-stream (for Packet-Objects). @uml.property  name="output" */
 	private OutputStream output;
 
+	/** The objoutput. */
 	private ObjectOutputStream objoutput;
 	
-	/**
-	 * @uml.property  name="locationlistener"
-	 */
+	/** The locationlistener. @uml.property  name="locationlistener" */
 	private Thread locationlistener;
 	
-	/**
-	 * @uml.property  name="container"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	/** The container. @uml.property  name="container" @uml.associationEnd  multiplicity="(1 1)" */
 	private PacketContainer container;
 	
-	/**
-	 * @uml.property  name="location"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	/** The location. @uml.property  name="location" @uml.associationEnd  multiplicity="(1 1)" */
 	private Location location;
 	
 	/**
@@ -83,11 +65,14 @@ public class Client extends Thread {
 	 * can get Exceptions thrown by the Client. Casual
 	 * java-Exceptions won't work as this Client runs in an
 	 * own Thread. The ExceptionListener will be used as
-	 * a lock for synchronization as well. 
+	 * a lock for synchronization as well.
+	 *
 	 * @param dest_addr The address to the host (Server)
 	 * @param port The port of the host (Server)
-	 * @param el An ExceptionListener of the class 
-	 * 			holding this Object (e.g. a GUI)
+	 * @param el An ExceptionListener of the class
+	 * holding this Object (e.g. a GUI)
+	 * @param container the container
+	 * @param location the location
 	 */
 	public Client(String dest_addr, int port, ExceptionListener el, PacketContainer container, Location location) {
 		this.dest_addr = dest_addr;
@@ -98,6 +83,9 @@ public class Client extends Thread {
 		initLocationListener();
 	}
 
+	/**
+	 * Inits the location listener.
+	 */
 	private void initLocationListener() {
 		this.locationlistener = new Thread(new Runnable() {
 			@Override
@@ -167,10 +155,16 @@ public class Client extends Thread {
 		}
 	}
 	
+	/**
+	 * Start listening.
+	 */
 	public void startListening() {
 		locationlistener.start();
 	}
 
+	/**
+	 * Stop listening.
+	 */
 	public void stopListening() {
 		//TODO locationlistener.stop() ?
 	}

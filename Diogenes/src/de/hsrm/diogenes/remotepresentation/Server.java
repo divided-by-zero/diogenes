@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.ImageIcon;
 
+
 /**
  * A Server-Object will be connected to a Client-Object via a network.
  * It's use is to display information of Packets sent by the Client-Object.
@@ -23,10 +24,7 @@ public class Server extends Thread {
 	 */
 	private Presentable presentable;
 	
-	/**
-	 * The port to be used for the connection with Clients
-	 * @uml.property  name="port"
-	 */
+	/** The port to be used for the connection with Clients. @uml.property  name="port" */
 	private int port;
 	
 	/**
