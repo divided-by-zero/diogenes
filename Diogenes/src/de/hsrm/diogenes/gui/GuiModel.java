@@ -86,6 +86,8 @@ public class GuiModel extends JFrame {
 
 	/** The presentation mode dialog portfield. */
 	private JTextField presentationDialogPortfield;
+	
+	private final static String versionnumber = "r141";
 
 	/**
 	 * The scroll object for the mapPanel. @uml.property name="scroller"
@@ -354,7 +356,7 @@ public class GuiModel extends JFrame {
 						.showMessageDialog(
 								new JFrame(),
 								new String(
-										"<html> <body><center><h2><b>Diogenes Robot control r124<b/></h2> "
+										"<html> <body><center><h2><b>Diogenes Robot control " + versionnumber +"<b/></h2> "
 												+ "<br> This client has been developed at Hochschule RheinMain, <br> for the modula software engineering project <br><br> <b>Developers are:</b><br><br> "
 												+ "Oliver Kieven (oliver-kieven@gmx.de)<br> Philip Koch (pkoch88@googlemail.com)<br> "
 												+ "Dirk Stanke (dirk.stanke@googlemail.com)<br> Marc Stanke (marc.stanke@googlemail.com)<br> Daniel Ernst (daniel.ernst01@googlemail.com)<br>"
@@ -367,6 +369,25 @@ public class GuiModel extends JFrame {
 		menu_ueber.add(menuItem);
 
 		menuItem = new JMenuItem("Help");
+		menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ImageIcon ic = new ImageIcon(getClass().getResource(
+				"../img/robi.jpg"));
+				JOptionPane.showMessageDialog(
+								new JFrame(),
+								new String(
+										"<html> <body><center><h2><b>Diogenes Robot control " + versionnumber +"<b/></h2> "
+												+ "<br> If you got any problems with the software, please<br> contact one of the developers via e-mail! <br><br> <b>Developers are:</b><br><br> "
+												+ "Oliver Kieven (oliver-kieven@gmx.de)<br> Philip Koch (pkoch88@googlemail.com)<br> "
+												+ "Dirk Stanke (dirk.stanke@googlemail.com)<br> Marc Stanke (marc.stanke@googlemail.com)<br> Daniel Ernst (daniel.ernst01@googlemail.com)<br>"
+												+ " Gayatri Patel (gayatrijapan@googlemail.com)<br>"
+												+ "</center></body></html>"),
+								"Help", JFrame.EXIT_ON_CLOSE, ic);
+
+			}
+		});
 		menu_ueber.add(menuItem);
 
 		menuBar.add(menu_datei);
