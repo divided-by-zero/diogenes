@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -29,6 +31,7 @@ import de.hsrm.diogenes.faceClientExample.ClientExample;
 import de.hsrm.diogenes.map.Map;
 import de.hsrm.diogenes.remotepresentation.Client;
 import de.hsrm.diogenes.remotepresentation.ExceptionListener;
+import de.hsrm.diogenes.remotepresentation.Packet;
 import de.hsrm.diogenes.remotepresentation.PacketContainer;
 
 /**
@@ -401,9 +404,24 @@ public class GuiModel extends JFrame {
 	 */
 	private void startPresentationClient(int port) {
 		// start clientstuff now
-		presentationClient = new Client(c.getIP(), port,
-				presentationExceptionListener, new PacketContainer(), c
-						.getLocation());
+		// TODO example packetcontainer
+		PacketContainer pc = new PacketContainer(		
+				// 1. rectangle at starting position of robbie
+				new Packet(
+						new File("test1.jpg"), 
+						"The answer is 42", 
+						new Rectangle(-1000, 1000, 1300, 1300)),
+				//2. rectangle in front of the middle-desk
+				new Packet(
+						new File("test3.jpg"), 
+						"<html><B>Kaffee</B> [ˈkafe, kaˈfeː] (türk. kahve aus arab. ‏قهوة‎ qahwa)<br>" +
+						"ist ein schwarzes, coffeinhaltiges Heißgetränk, das aus gerösteten<br>" +
+						"(weshalb man auch von Röstkaffee spricht) und gemahlenen Kaffeebohnen<br>" +
+						"hergestellt wird.</html>",
+						new Rectangle(1000, -2000, 3500, 2000))
+				);
+		presentationClient = new Client(
+				c.getIP(), port, presentationExceptionListener, pc, c.getLocation());
 		// own thread
 		presentationClient.start();
 		// wait for client to finish initialization
