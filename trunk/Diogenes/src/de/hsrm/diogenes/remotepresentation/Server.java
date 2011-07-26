@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.ImageIcon;
 
-
 /**
  * A Server-Object will be connected to a Client-Object via a network.
  * It's use is to display information of Packets sent by the Client-Object.
@@ -16,25 +15,26 @@ import javax.swing.ImageIcon;
  * also runs this Object in an own Thread.
  */
 public class Server extends Thread {
-
-	private final int RECEIVEDELAY = 500;
 	
 	/**
-	 * A packet containing an image and a text to be displayed by a GUI (use getPacket). Will be updated by a remote client.
-	 * @uml.property  name="packet"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * A packet containing an image and a text to be displayed by a GUI 
+	 * (use getPacket). Will be updated by a remote client.
 	 */
-	private Presentable presentable;
+	private ServerPacket serverpacket;
 	
-	/** The port to be used for the connection with Clients. @uml.property  name="port" */
+	/** The port to be used for the connection with Clients. */
 	private int port;
 	
 	/**
-	 * A shared Object of ServerGUI and Server, so that the Server as a Thread is able to throw an Exception to the ExceptionListener and the ServerGUI can read the Servers' Exception out of it. Also used as a lock for synchronizing ServerGUI and Server-Thread
-	 * @uml.property  name="exceptionlistener"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * A shared Object of ServerGUI and Server, so that the Server 
+	 * as a Thread is able to throw an Exception to the ExceptionListener 
+	 * and the ServerGUI can read the Servers' Exception out of it. 
+	 * Also used as a lock for synchronizing ServerGUI and Server-Thread
 	 */
 	private ExceptionListener exceptionlistener;
+	
+	/** Delay. */
+	private final int RECEIVEDELAY = 500;
 	
 	/**
 	 * Instantiates the Server at the port.
@@ -54,9 +54,9 @@ public class Server extends Thread {
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
 		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-		presentable = new Packet(
+		serverpacket = new ServerPacket(
 				image,
-				"<html><B>No Information gathered so far...</B></html>", 
+				"<html><B>No information received so far...</B></html>", 
 				new Rectangle(0, 0, 0, 0));
 	}
 
@@ -69,25 +69,21 @@ public class Server extends Thread {
 	public void run() {
 		ServerSocket server_sock;
 		try {
-			System.out.println("Server: Opening socket...");
 			server_sock = new ServerSocket(port);
 			// connection with port successful, notify
 			synchronized (exceptionlistener) {
 				exceptionlistener.notify();
 			}
 			// infinite loop for accepting clients, receiving data and disconnecting them
-			System.out.println("Server: Starting accepting-client-loop...");
 			while (true) {
 				// accept client
-				System.out.println("Server: Accepting Client...");
 				Socket current_client = server_sock.accept();
-				System.out.println("Server: Getting InputStream...");
 				InputStream client_input = current_client.getInputStream();
 				ObjectInputStream client_objinput = new ObjectInputStream(client_input);
 				DataInputStream client_datainput = new DataInputStream(client_input);
 				byte[] imageByteArray;
 				byte[] textByteArray;
-				Rectangle rectangle;
+				Rectangle triggerBox;
 				while(true) {
 					// read image
 					int imagelength = (Integer) client_objinput.readObject();
@@ -97,36 +93,30 @@ public class Server extends Thread {
 					int textlength = (Integer) client_objinput.readObject();
 					textByteArray = new byte[textlength];
 					client_input.read(textByteArray);
-					// read rectangle
+					// read triggerBox
 					int r_x = (Integer) client_objinput.readObject();
 					int r_y = (Integer) client_objinput.readObject();
 					int r_w = (Integer) client_objinput.readObject();
 					int r_h = (Integer) client_objinput.readObject();
-					rectangle = new Rectangle(r_x, r_y, r_w, r_h);
+					triggerBox = new Rectangle(r_x, r_y, r_w, r_h);
 					// assemble to presentable
-					Presentable tmp_presentable = new Packet(
+					ServerPacket tmp_presentable = new ServerPacket(
 							new ImageIcon(imageByteArray),
 							new String(textByteArray), 
-							rectangle);
-					if (presentable != null) {
-						System.out.println("Server: Setting local presentable to recieved presentable...");
-						presentable = tmp_presentable;
+							triggerBox);
+					if (serverpacket != null) {
+						serverpacket = tmp_presentable;
 					} else {
-						System.out.println("Server: Presentable to set is null!");
 						break;
 					}
-					System.out.println("Server sleeping 500ms");
 					sleep(RECEIVEDELAY);
 				}
-				System.out.println("Server: Closing connection...");
 				// close connection
 				current_client.close();
 				client_input.close();
-				System.out.println("Server: Connection closed");
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
-			System.out.println("Server: Throwing exception to listener: " + t.getMessage());
 			exceptionlistener.notifyException(t);
 		}
 		// due to the whileloop this part of code is only reachable when 
@@ -139,10 +129,9 @@ public class Server extends Thread {
 	/**
 	 * Returns a packet containing an image and a text to be displayed by a GUI. Will be updated by a remote Client.
 	 * @return  The packet containing an image and a text for visualization
-	 * @uml.property  name="packet"
 	 */
-	public Presentable getPacket() {
-		return presentable;
+	public ServerPacket getPacket() {
+		return serverpacket;
 	}
 
 }

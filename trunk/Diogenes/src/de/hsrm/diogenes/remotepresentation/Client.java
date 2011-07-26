@@ -5,59 +5,63 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import de.hsrm.diogenes.connection.Location;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import de.hsrm.diogenes.connection.Location;
 
 /**
  * A Client-Object connects to a Server-Object via a network.
- * It's use is to send packages with information to the Server,
- * who presents it on a display for example.
+ * It's use is to send packages as bytearrays to the Server,
+ * who reassambles it and presents it on a display for example.
  * This class will start connecting using the run-method, which
  * also runs this Object in an own Thread.
- * @author Daniel Ernst
  */
 public class Client extends Thread {
 
-	private final int SENDDELAY = 500;
-	
-	/** Holds the destination address (Server). @uml.property  name="dest_addr" */
+	/** Holds the destination address (Server). */
 	private String dest_addr;
 	
-	/** Holds the port. @uml.property  name="port" */
+	/** Holds the port. */
 	private int port;
 	
 	/**
-	 * A shared Object of the Client and its GUI, so that the Client as a Thread is able to throw a connection to the ExceptionListener and the GUI can read the Clients' Exception out of it. Also used as a lock for synchronizing GUI and Client-Thread
-	 * @uml.property  name="exceptionlistener"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * A shared Object of the Client and its GUI, so that the Client as a Thread 
+	 * is able to throw a connection to the ExceptionListener and the GUI can read 
+	 * the Clients' Exception out of it. 
+	 * Also used as a lock for synchronizing GUI and Client-Thread.
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/** Holding the socket-connection. @uml.property  name="server" */
+	/** Holding the socket-connection. */
 	private Socket server;
 	
-	/** Holding the output-stream (for Packet-Objects). @uml.property  name="output" */
+	/** Holding the output-stream. */
 	private OutputStream output;
 
-	/** The objoutput. */
+	/** An ObjectOutputStream using the OutputStream for sending Integers */
 	private ObjectOutputStream objoutput;
 	
-	/** The locationlistener. @uml.property  name="locationlistener" */
-	private Thread locationlistener;
-	
-	/** The container. @uml.property  name="container" @uml.associationEnd  multiplicity="(1 1)" */
-	private PacketContainer container;
-	
-	/** The location. @uml.property  name="location" @uml.associationEnd  multiplicity="(1 1)" */
+	/** The "actual" Location of the robot */
 	private Location location;
 	
+	/** A Thread repetitively reading the current location of the robot
+	 * and checking if a Packet of the Container is triggered */
+	private Thread locationlistener;
+	
+	/** A Container holding the Packets which will probably be sent to the Server */
+	private ClientPacketContainer container;
+	
 	/**
-	 * Holds the last presentable which has been sent
+	 * Holds the last Packet which has been sent
 	 * to the Server. Used to prevent the Client to send
-	 * the same presentable over and over as long as the sending 
-	 * itself is triggered 
+	 * the same Packet over and over as long as the robot
+	 * triggers this Packets triggerBox
 	 */
-	private Presentable lastPresentable;
+	private ClientPacket lastPacket;
+
+	/** Time to wait before sending data again in ms, to improve performance */
+	private final int SENDDELAY = 500;
 	
 	/**
 	 * Instantiates the Client with the address.
@@ -72,11 +76,14 @@ public class Client extends Thread {
 	 * @param dest_addr The address to the host (Server)
 	 * @param port The port of the host (Server)
 	 * @param el An ExceptionListener of the class
-	 * holding this Object (e.g. a GUI)
-	 * @param container the container
-	 * @param location the location
+	 * 			holding this Object (e.g. a GUI)
+	 * @param container The Container holding the Packets 
+	 * 			which are supposed to be eventually sent 
+	 * 			to the Server
+	 * @param location A reference to the Object holding 
+	 * 			the current Location of the robot
 	 */
-	public Client(String dest_addr, int port, ExceptionListener el, PacketContainer container, Location location) {
+	public Client(String dest_addr, int port, ExceptionListener el, ClientPacketContainer container, Location location) {
 		this.dest_addr = dest_addr;
 		this.port = port;
 		this.exceptionlistener = el;
@@ -84,56 +91,19 @@ public class Client extends Thread {
 		this.location = location;
 		initLocationListener();
 	}
-
-	/**
-	 * Inits the location listener.
-	 */
-	private void initLocationListener() {
-		this.locationlistener = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					// check all content-objects if within the current position
-					for (Presentable p : container) {
-						// sends if triggered AND 
-						// if this presentable hasn't just been sent in the 
-						// last round (less traffic) 
-						System.out.println("Robbielocation: " + location.toString());
-						if (p.surrounds(location) && !p.equals(lastPresentable)) {
-							System.out.println("Client: Triggerbox-hit");
-							try {
-								System.out.println("Client: Try to send a packet...");
-								send(p);
-								System.out.println("Client: Packet sent");
-								lastPresentable = p;
-							} catch (IOException e) {
-								System.out.println("Client: Unkown exception during sending package");
-							}
-						}
-					}
-					try {
-						sleep(SENDDELAY);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-					}
-				}
-
-			}
-		});
-	}
 	
 	/**
 	 * Runs the Client in an own Thread and starts connecting
 	 * to the address of the Server.
 	 * Notifies any Exceptions to the ExceptionListener after doing so
-	 * and opens the lock with doing that.
+	 * and releases the lock with doing that.
 	 */
 	public void run() {
 		try {
 			server = new Socket(dest_addr, port);
 			output = server.getOutputStream();
 			objoutput = new ObjectOutputStream(output);
-//			output.flush();
+			output.flush();
 			startListening();
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
@@ -143,6 +113,92 @@ public class Client extends Thread {
 		}
 	}
 
+	/**
+	 * Start reading repetitively the current location of the robot
+	 * and checks if a Packet of the Container is triggered
+	 */
+	public void startListening() {
+		locationlistener.start();
+	}
+	
+	/**
+	 * Initializes the location listener.
+	 */
+	private void initLocationListener() {
+		this.locationlistener = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					// check all content-objects if within the current position
+					for (ClientPacket cp : container) {
+						// sends if triggered AND 
+						// if this Packet hasn't just been sent in the 
+						// last round (avoids unnecessary traffic) 
+						if (cp.surrounds(location) && !cp.equals(lastPacket)) {
+							try {
+								send(cp);
+								lastPacket = cp;
+							} catch (IOException e) {
+								// popup exception
+								JOptionPane.showMessageDialog(
+														new JFrame(), 
+														"Couldn't send packet:\n"
+														+ e.getMessage(),  
+														"Error", 
+														JOptionPane.ERROR_MESSAGE, null);
+							}
+						}
+					}
+					try {
+						sleep(SENDDELAY);
+					} catch (InterruptedException e) {
+						// interrupting the sleep will cause a performance-issue as
+						// the for-each above will be reached earlier - depending on
+						// the size of the SENDDELAY as well as the size of the container.
+						// So this Exception can be catched without doing anything else. 
+					}
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * Sends data to the Server who is supposed to store it locally as a ServerPacket.
+	 * This method avoids sending complex Objects as a whole as it may cause serialization
+	 * problems between different JVM-versions. This is why it just sends whether simple 
+	 * Objects (only Integers) or Bytearrays for more complex Objects (like Images but also
+	 * Strings).
+	 * In detail it will send the data in this order:
+	 * 1st: The image of the packet as byteArray (first the length (int), then the array itself)
+	 * 2nd: The text of the packet as byteArray (first the length (int), then the array itself)
+	 * 3rd: The triggerBox of the packet broke down in four Integers (x,y,width,height)
+	 * @param cp The packet holding the data to be sent to the Server
+	 * @throws IOException If streams within the connection couldn't be established
+	 */
+	public void send(ClientPacket cp) throws IOException {
+		// sending image (int and bytearray)
+		int imagelength = cp.getImage().length;
+		objoutput.writeObject(imagelength);
+		objoutput.flush();
+		output.write(cp.getImage(), 0, imagelength);
+		output.flush();
+		// sending text (int and bytearray)
+		objoutput.writeObject(cp.getText().length);
+		objoutput.flush();
+		output.write(cp.getText());
+		output.flush();
+		// sending rectangle (four times int)
+		objoutput.writeObject((int)cp.getTriggerBox().getX());
+		objoutput.flush();
+		objoutput.writeObject((int)cp.getTriggerBox().getY());
+		objoutput.flush();
+		objoutput.writeObject((int)cp.getTriggerBox().getWidth());
+		objoutput.flush();
+		objoutput.writeObject((int)cp.getTriggerBox().getHeight());
+		objoutput.flush();
+	}
+	
 	/**
 	 * Disconnects the client from the server and closes the streams.
 	 * Notifies any Exceptions to the ExceptionListener after doing so
@@ -155,48 +211,6 @@ public class Client extends Thread {
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
 		}
-	}
-	
-	/**
-	 * Start listening.
-	 */
-	public void startListening() {
-		locationlistener.start();
-	}
-
-	/**
-	 * Stop listening.
-	 */
-	public void stopListening() {
-		//TODO locationlistener.stop() ?
-	}
-	
-	/**
-	 * Sends a Packet to the Server who stores it locally.
-	 * @param p The packet to be sent to the Server
-	 * @throws IOException If streams within the connection couldn't be established
-	 */
-	public void send(Presentable p) throws IOException {
-		// sending image
-		int imagelength = p.imageToByteArrayLength();
-		objoutput.writeObject(imagelength);
-		objoutput.flush();
-		output.write(p.imageToByteArray(), 0, imagelength);
-		output.flush();
-		// sending text
-		objoutput.writeObject(p.textToByteArrayLength());
-		objoutput.flush();
-		output.write(p.textToByteArray());
-		output.flush();
-		// sending rectangle
-		objoutput.writeObject((int)p.getRectangle().getX());
-		objoutput.flush();
-		objoutput.writeObject((int)p.getRectangle().getY());
-		objoutput.flush();
-		objoutput.writeObject((int)p.getRectangle().getWidth());
-		objoutput.flush();
-		objoutput.writeObject((int)p.getRectangle().getHeight());
-		objoutput.flush();
 	}
 	
 }

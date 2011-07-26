@@ -26,32 +26,33 @@ public class ServerGUI extends JFrame {
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** Holds a Server-Object who can be connected by a Client-Object. @uml.property  name="server" @uml.associationEnd */
+	/** Holds a Server-Object who can be connected by a Client-Object. */
 	private Server server;
 	
-	/** The port to be used for incoming Packets. @uml.property  name="port" */
+	/** The port to be used for incoming Packets. */
 	private Integer port;
 	
 	/**
-	 * A shared Object of ServerGUI and Server, so that the Server as a Thread is able to throw an Exception to the ExceptionListener and the ServerGUI can read the Servers' Exception out of it. Also used as a lock for synchronizing ServerGUI and Server-Thread
-	 * @uml.property  name="exceptionlistener"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * A shared Object of ServerGUI and Server, so that the Server as a 
+	 * Thread is able to throw an Exception to the ExceptionListener and 
+	 * the ServerGUI can read the Servers' Exception out of it. 
+	 * Also used as a lock for synchronizing ServerGUI and Server-Thread.
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/** A label for the image. @uml.property  name="image_label" @uml.associationEnd */
+	/** A label for the image. */
 	private JLabel image_label;
 	
-	/** A label for the description-text. @uml.property  name="text_label" @uml.associationEnd */	
+	/** A label for the description-text. */	
 	private JLabel text_label;
 	
-	/** A label for the status-text. @uml.property  name="status_label" @uml.associationEnd */
+	/** A label for the status-text. */
 	private JLabel status_label;
 	
 	/**
 	 * Instantiates the GUI and starts a DialogWindow
 	 * at startup, which asks the user for the port
-	 * to be used. Then starts the actual MainWindow
+	 * to be used. Then starts the actual MainWindow.
 	 */
 	public ServerGUI() {
 		exceptionlistener = new ExceptionListener();
@@ -74,7 +75,7 @@ public class ServerGUI extends JFrame {
 		frame.setLocationRelativeTo(null);
 		JLabel label = new JLabel("Port:");
 		final JTextField portfield = new JTextField("55555");
-		// buttons and actionlisteners - ok button
+		// Buttons and ActionListeners - OK-Button
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
 			@Override
@@ -85,7 +86,7 @@ public class ServerGUI extends JFrame {
 				frame.dispose();				
 			}
 		});
-		// buttons and actionlisteners - cancel button
+		// Buttons and ActionListeners - Cancel-Button
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			@Override
@@ -99,7 +100,7 @@ public class ServerGUI extends JFrame {
 		frame.add(cancel);
 		frame.pack();
 		frame.setVisible(true);
-		// if ok in the DialogWindow is clicked, 
+		// if ok in this DialogWindow is clicked, 
 		// the main gui will show up
 	}
 	
@@ -205,7 +206,7 @@ public class ServerGUI extends JFrame {
 	private void refreshGUI() {
 		image_label.setIcon(server.getPacket().getImage());
 		text_label.setText(server.getPacket().getText());
-		Rectangle r = server.getPacket().getRectangle();
+		Rectangle r = server.getPacket().getTriggerBox();
 		String label = "Invoked between " + 
 					"(" + (int)r.getMinX() + "," + (int)r.getMinY() + ") and " +
 					"(" + (int)r.getMaxX() + "," + (int)r.getMaxY() + ")";
@@ -214,7 +215,6 @@ public class ServerGUI extends JFrame {
 	
 	/**
 	 * The main method for starting the GUI
-	 *
 	 * @param args The arguments (not used)
 	 */
 	public static void main(String[] args) {
