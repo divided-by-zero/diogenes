@@ -18,6 +18,8 @@ import de.hsrm.diogenes.connection.Location;
  */
 public class Client extends Thread {
 
+	private final int SENDDELAY = 500;
+	
 	/** Holds the destination address (Server). @uml.property  name="dest_addr" */
 	private String dest_addr;
 	
@@ -110,7 +112,7 @@ public class Client extends Thread {
 						}
 					}
 					try {
-						sleep(500);
+						sleep(SENDDELAY);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 					}

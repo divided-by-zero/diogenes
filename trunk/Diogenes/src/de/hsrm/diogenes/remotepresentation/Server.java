@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
  */
 public class Server extends Thread {
 
+	private final int RECEIVEDELAY = 500;
+	
 	/**
 	 * A packet containing an image and a text to be displayed by a GUI (use getPacket). Will be updated by a remote client.
 	 * @uml.property  name="packet"
@@ -52,11 +54,10 @@ public class Server extends Thread {
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
 		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-		presentable = new Packet(																			//TODO revert
+		presentable = new Packet(
 				image,
 				"<html><B>No Information gathered so far...</B></html>", 
 				new Rectangle(0, 0, 0, 0));
-//		presentable = new PaketFurz("erstes", "erstes", new Rectangle(0,0,0,0));
 	}
 
 	/**
@@ -92,25 +93,21 @@ public class Server extends Thread {
 					int imagelength = (Integer) client_objinput.readObject();
 					imageByteArray = new byte[imagelength];
 					client_datainput.readFully(imageByteArray);
-					
 					// read text
 					int textlength = (Integer) client_objinput.readObject();
 					textByteArray = new byte[textlength];
 					client_input.read(textByteArray);
-					
 					// read rectangle
 					int r_x = (Integer) client_objinput.readObject();
 					int r_y = (Integer) client_objinput.readObject();
 					int r_w = (Integer) client_objinput.readObject();
 					int r_h = (Integer) client_objinput.readObject();
 					rectangle = new Rectangle(r_x, r_y, r_w, r_h);
-					
 					// assemble to presentable
 					Presentable tmp_presentable = new Packet(
 							new ImageIcon(imageByteArray),
 							new String(textByteArray), 
 							rectangle);
-					
 					if (presentable != null) {
 						System.out.println("Server: Setting local presentable to recieved presentable...");
 						presentable = tmp_presentable;
@@ -119,7 +116,7 @@ public class Server extends Thread {
 						break;
 					}
 					System.out.println("Server sleeping 500ms");
-					sleep(500);
+					sleep(RECEIVEDELAY);
 				}
 				System.out.println("Server: Closing connection...");
 				// close connection
