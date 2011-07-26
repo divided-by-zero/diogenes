@@ -1,16 +1,20 @@
 package de.hsrm.diogenes.remotepresentation;
 
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import de.hsrm.diogenes.gui.GridBagConstraintsFactory;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 /**
  * This GUI is a comfortable way of using a Server-Object
@@ -70,16 +74,18 @@ public class ServerGUI extends JFrame {
 		frame.setLocationRelativeTo(null);
 		JLabel label = new JLabel("Port:");
 		final JTextField portfield = new JTextField("55555");
+		// buttons and actionlisteners - ok button
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
 				port = Integer.valueOf(portfield.getText());
 				// here the main gui actually starts (on OK-click)
 				startMainWindow();
-				frame.dispose();
+				frame.dispose();				
 			}
 		});
+		// buttons and actionlisteners - cancel button
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			@Override
@@ -110,6 +116,57 @@ public class ServerGUI extends JFrame {
 	 * updated every 500ms.
 	 */
 	private void startMainWindow() {
+		// set up the Server and start it in an own Thread,
+		// mind and handle Exceptions
+		initServer();
+		// set up main frame
+		this.setTitle("Presentation Window (Server)");
+		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// center on screen
+		this.setLocationRelativeTo(null);
+		// create labels
+		Border etchedBorder = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		image_label = new JLabel();
+		image_label.setHorizontalAlignment(JLabel.CENTER);
+		image_label.setBorder(etchedBorder);
+		text_label = new JLabel();
+		text_label.setBorder(etchedBorder);
+		status_label = new JLabel();
+		status_label.setBorder(etchedBorder);
+		// fill labels with the data the server initially holds
+		refreshGUI();
+		// add image + textlabel to a panel
+		JPanel p = new JPanel();
+		p.setLayout(new BorderLayout());
+		p.add(image_label, BorderLayout.CENTER);
+		p.add(text_label, BorderLayout.EAST);
+		// add the panel (image+text) and the statuslabel to the frame
+		this.add(p, BorderLayout.CENTER);
+		this.add(status_label, BorderLayout.PAGE_END);
+		// finish
+		this.pack();
+		this.setVisible(true);
+		// refresh loop (every half second)
+		Timer refreshtimer = new Timer(500, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refreshGUI();
+			}
+		});
+		refreshtimer.start();
+	}
+
+	/**
+	 * Sets up the Server-Object for receiving data.
+	 * This server will be initialized and started in an own
+	 * Thread. The exceptionlistener will be used as a lock
+	 * between this GUI and the Server-Object.
+	 * In detail this GUI will wait for the Server-Thread to
+	 * release the lock again and handle Exceptions (using the
+	 * ExceptionListener)
+	 */
+	private void initServer() {
 		// set up server for receiving packets (own thread)
 		server = new Server(port, exceptionlistener);
 		server.start();
@@ -143,37 +200,22 @@ public class ServerGUI extends JFrame {
 			startDialogWindow();
 			return;
 		}
-		// set up main frame
-		this.setTitle("Presentation Window (Server)");
-		this.setLayout(new GridBagLayout());
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// load picture and text initially
-		image_label = new JLabel(server.getPacket().getImage());
-//		image_label = new JLabel("here be pics");
-		text_label = new JLabel(server.getPacket().getText());
-		status_label = new JLabel("Awaiting connection on port " + port);
-		this.add(image_label, GridBagConstraintsFactory.create(1, 1));
-		this.add(text_label, GridBagConstraintsFactory.create(2, 1));
-		this.add(status_label, GridBagConstraintsFactory.create(1, 2));
-		// finish
-		this.pack();
-		this.setVisible(true);
-		// refresh loop (every half second)
-		Timer refreshtimer = new Timer(500, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				image_label.setIcon(server.getPacket().getImage());
-				text_label.setText(server.getPacket().getText());
-				status_label.setText(server.getPacket().getRectangle().toString());
-			}
-		});
-		refreshtimer.start();
 	}
-
+	
+	private void refreshGUI() {
+		image_label.setIcon(server.getPacket().getImage());
+		text_label.setText(server.getPacket().getText());
+		Rectangle r = server.getPacket().getRectangle();
+		String label = "Invoked between " + 
+					"(" + (int)r.getMinX() + "," + (int)r.getMinY() + ") and " +
+					"(" + (int)r.getMaxX() + "," + (int)r.getMaxY() + ")";
+		status_label.setText(label);		
+	}
+	
 	/**
-	 * The main method.
+	 * The main method for starting the GUI
 	 *
-	 * @param args the arguments
+	 * @param args The arguments (not used)
 	 */
 	public static void main(String[] args) {
 		new ServerGUI();
