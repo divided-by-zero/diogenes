@@ -12,20 +12,35 @@ import com.github.mhendred.face4j.exception.FaceServerException;
 import com.github.mhendred.face4j.model.Face;
 import com.github.mhendred.face4j.model.Photo;
 
+/**
+ * Example for the face detection
+ */
 public class ClientExample 
 {
+	
+	/** The Constant API_KEY. */
 	private static final String API_KEY = "0a4fdfea7a4d4bba057edb0614c0b016";
 	
+	/** The Constant API_SEC. */
 	private static final String API_SEC = "c6103059b1be11631fca3c6eda64460d";
 
 //	private static final String URL_WITH_FACES = "/home/olli/Desktop/Bilder/DSCF0493.jpg";
 
-	private static final String NAMESPACE = "Diogenes";
+	/** The Constant NAMESPACE. */
+private static final String NAMESPACE = "Diogenes";
 
+	/** The Constant USER. */
 	private static final String USER = "Oliver_Kieven";
 	
+	/** The Constant USER_ID. */
 	private static final String USER_ID = USER + "@" + NAMESPACE;
 	
+	/**
+	 * Start detection.
+	 *
+	 * @throws FaceClientException the face client exception
+	 * @throws FaceServerException the face server exception
+	 */
 	public static void startDetection() throws FaceClientException, FaceServerException{
 		
 		FaceClient faceClient = new DefaultFaceClient(API_KEY, API_SEC);

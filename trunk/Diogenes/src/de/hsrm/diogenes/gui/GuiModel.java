@@ -3,7 +3,6 @@ package de.hsrm.diogenes.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,9 +32,8 @@ import de.hsrm.diogenes.remotepresentation.ExceptionListener;
 import de.hsrm.diogenes.remotepresentation.PacketContainer;
 
 /**
- * @author Dirk Stanke
- * 
  * The Class GuiModel, everything related to the GUI
+ * @author Dirk Stanke
  */
 public class GuiModel extends JFrame {
 
@@ -141,9 +139,11 @@ public class GuiModel extends JFrame {
 		this.add(new ButtonPanel(this.c), GridBagConstraintsFactory.create(1,
 				1, 1, 1));
 		this.add(statusbarPanel, GridBagConstraintsFactory.create(0, 3, 2, 1));
-
+		
+		this.l1.setText("Connected");
 		this.pack();
 		this.setVisible(true);
+		
 
 	}
 
@@ -217,7 +217,15 @@ public class GuiModel extends JFrame {
 		});
 		menu_datei.add(menuItem);
 
-		menuItem = new JMenuItem("Simulator?");
+		menuItem = new JMenuItem("Exit");
+		menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+				
+			}
+		});
 		menu_datei.add(menuItem);
 
 		menuItem = new JMenuItem("Wander the given points");
@@ -227,9 +235,6 @@ public class GuiModel extends JFrame {
 				c.setStartWander(true);
 			}
 		});
-		menu_funktionen.add(menuItem);
-
-		menuItem = new JMenuItem("Visualize map");
 		menu_funktionen.add(menuItem);
 
 		presentationMenuItem = new JMenuItem("Start presentation mode");
@@ -278,51 +283,24 @@ public class GuiModel extends JFrame {
 		});
 		menu_funktionen.add(presentationMenuItem);
 
-		menuItem = new JMenuItem("Turn camera left");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					c.getCameraData().adjustCameraLeft(2000);
-				} catch (WRPException e2) {
-					e2.printStackTrace();
-				}
-			}
-		});
-		menu_kamera.add(menuItem);
-
 		menuItem = new JMenuItem("Take photo");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					c.getCameraData().takePhoto();
-					l1.setText("Photo taken!");
+					if(c.isCamData()){
+						c.getCameraData().takePhoto();
+						l1.setText("Photo taken!");
+					}
+					else{
+						JOptionPane.showMessageDialog(new JFrame(), "Cam offline :(");
+					}
+					
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 		menu_kamera.add(menuItem);
-
-		menuItem = new JMenuItem("Wander");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Thread t = new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							l1.setText("Wander initiated");
-							c.getMove().wander(new Point(3367, -1747),
-									new Point(6274, 1620),
-									new Point(-334, 1570));
-						} catch (WRPException e2) {
-							e2.printStackTrace();
-						}
-					}
-				});
-				t.start();
-			}
-		});
-		menu_funktionen.add(menuItem);
 
 		menuItem = new JMenuItem("Find Person");
 		menuItem.addActionListener(new ActionListener() {
@@ -340,9 +318,6 @@ public class GuiModel extends JFrame {
 				t.start();
 			}
 		});
-		menu_kamera.add(menuItem);
-
-		menuItem = new JMenuItem("Switch modi");
 		menu_kamera.add(menuItem);
 
 		menuItem = new JMenuItem("Info");
@@ -514,7 +489,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void run() {
 				try {
-					// Connection c = new Connection("10.18.72.254", 33333);
+					//Connection c = new Connection("10.18.72.254", 33333);
 					Connection c = new Connection("localhost", 33333);
 					new GuiModel(c, new Map(c));
 				} catch (WRPException e) {

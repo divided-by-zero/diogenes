@@ -9,10 +9,9 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPCommand;
 import de.hsrm.diogenes.connection.Connection;
 
 /**
- * @author Dirk Stanke
- * 
- * The Class Movement.
  * Everything related to the robot movement
+ * 
+ * @author Dirk Stanke
  */
 public class Movement {
 

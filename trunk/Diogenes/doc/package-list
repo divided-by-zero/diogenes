@@ -1,0 +1,14 @@
+com.github.mhendred.face4j
+com.github.mhendred.face4j.exception
+com.github.mhendred.face4j.model
+com.github.mhendred.face4j.response
+de.hsrm.diogenes.camera
+de.hsrm.diogenes.common
+de.hsrm.diogenes.connection
+de.hsrm.diogenes.faceClientExample
+de.hsrm.diogenes.fileChooser
+de.hsrm.diogenes.gui
+de.hsrm.diogenes.logic
+de.hsrm.diogenes.map
+de.hsrm.diogenes.remotepresentation
+de.hsrm.diogenes.tests

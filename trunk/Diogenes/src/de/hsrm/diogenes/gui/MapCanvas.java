@@ -22,12 +22,11 @@ import de.hsrm.diogenes.connection.Location;
 import de.hsrm.diogenes.map.Map;
 
 /**
- * The Class MapCanvas.
+ * The Class MapCanvas for drawing the robot map,
+ * the robot and the given wander points
  *
  * @author Daniel Ernst, Dirk Stanke
  * 
- * The Class MapCanvas for drawing the robot map,
- * the robot and the given wander points
  */
 public class MapCanvas extends JPanel implements MouseListener, MouseWheelListener {
 
