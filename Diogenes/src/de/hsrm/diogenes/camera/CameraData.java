@@ -16,9 +16,9 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPVideoPacket;
 import de.hsrm.diogenes.connection.Connection;
 
 /**
+ * The Class CameraData handles everything related to the camera.
  * @author Dirk Stanke
  * 
- * The Class CameraData handles everything related to the camera.
  */
 public class CameraData {
 	
@@ -162,7 +162,7 @@ public class CameraData {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void takePhoto() throws IOException{
-		 
+		
 		ImageIO.write(this.image, "jpg", new File("photo"));
 		JFrame f = new JFrame("Picture preview");
 		JLabel j = new JLabel(new ImageIcon("photo"));
@@ -173,7 +173,7 @@ public class CameraData {
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setVisible(true);
 		f.repaint();
-	
+
 	}
 
 	/**

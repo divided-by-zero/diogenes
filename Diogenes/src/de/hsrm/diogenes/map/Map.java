@@ -20,10 +20,10 @@ import de.fhwiesbaden.webrobbie.wrp.packet.WRPMapPacket;
 import de.hsrm.diogenes.connection.Connection;
 
 /**
- * @author Dirk Stanke
- * 
  * Class gets the map data from the robot, writes it into a file,
  * then parses the file into the program and saves it as a MapFile object.
+ * 
+ * @author Dirk Stanke
  */
 public class Map {
 

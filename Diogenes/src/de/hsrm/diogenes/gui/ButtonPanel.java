@@ -17,10 +17,11 @@ import de.hsrm.diogenes.connection.Connection;
 
 
 /**
- * @author Dirk Stanke
- * 
  * The Class ButtonPanel, a Panel to control the movement
  * of the robot and the camera.
+ * 
+ * @author Dirk Stanke
+ * 
  */
 public class ButtonPanel extends JPanel{
 

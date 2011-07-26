@@ -1,32 +1,43 @@
 package de.hsrm.diogenes.connection;
 
+/**
+ * The Class Location, gives us the current location of the robot.
+ */
 public class Location {
 
-	/**
-	 * @uml.property  name="x"
-	 */
+	/** The x. @uml.property  name="x" */
 	private int x;
-	/**
-	 * @uml.property  name="y"
-	 */
+	
+	/** The y. @uml.property  name="y" */
 	private int y;
-	/**
-	 * @uml.property  name="angle"
-	 */
+	
+	/** The angle. @uml.property  name="angle" */
 	private int angle;
 	
+	/**
+	 * Instantiates a new location.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param angle the angle
+	 */
 	public Location(int x, int y, int angle) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Location: X=" + x + ", Y=" + y + ", Angle=" + angle; 
 	}
 	
 	/**
-	 * @param x
+	 * Sets the x.
+	 *
+	 * @param x the new x
 	 * @uml.property  name="x"
 	 */
 	public void setX(int x) {
@@ -34,13 +45,22 @@ public class Location {
 	}
 	
 	/**
-	 * @param y
+	 * Sets the y.
+	 *
+	 * @param y the new y
 	 * @uml.property  name="y"
 	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	/**
+	 * Sets the all.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param angle the angle
+	 */
 	public void setAll(int x, int y, int angle) {
 		setX(x);
 		setY(y);
@@ -48,14 +68,19 @@ public class Location {
 	}
 	
 	/**
-	 * @param angle
+	 * Sets the angle.
+	 *
+	 * @param angle the new angle
 	 * @uml.property  name="angle"
 	 */
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
+	
 	/**
-	 * @return
+	 * Gets the x.
+	 *
+	 * @return the x
 	 * @uml.property  name="x"
 	 */
 	public int getX() {
@@ -63,7 +88,9 @@ public class Location {
 	}
 	
 	/**
-	 * @return
+	 * Gets the y.
+	 *
+	 * @return the y
 	 * @uml.property  name="y"
 	 */
 	public int getY() {
@@ -71,7 +98,9 @@ public class Location {
 	}
 	
 	/**
-	 * @return
+	 * Gets the angle.
+	 *
+	 * @return the angle
 	 * @uml.property  name="angle"
 	 */
 	public int getAngle() {

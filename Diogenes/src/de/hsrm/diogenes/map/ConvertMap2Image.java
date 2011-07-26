@@ -17,10 +17,8 @@ import de.fhwiesbaden.webrobbie.clientutil.map.MapPoint;
 
 /**
  * The Class ConvertMap2Image.
- *
- * @author Dirk Stanke
- * The Class ConvertMap2Image.
  * Converts a MapFile to an Image :)
+ * @author Dirk Stanke
  */
 public class ConvertMap2Image extends Map2ImageTransformer<BufferedImage> {
 
