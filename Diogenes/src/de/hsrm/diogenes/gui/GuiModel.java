@@ -300,17 +300,37 @@ public class GuiModel extends JFrame {
 			}
 		});
 		menu_kamera.add(menuItem);
+		
+		menuItem = new JMenuItem("Train Person");
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Thread t = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							ClientExample.trainPerson();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
+				t.start();
+			}
+		});
+		menu_kamera.add(menuItem);
 
 		menuItem = new JMenuItem("Find Person");
 		menuItem.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread t = new Thread(new Runnable() {
 					@Override
 					public void run() {
 						try {
 							ClientExample.startDetection();
-						} catch (Exception e2) {
-							e2.printStackTrace();
+						} catch (Exception e1) {
+							e1.printStackTrace();
 						}
 					}
 				});
