@@ -54,7 +54,7 @@ public class Server extends Thread {
 		this.exceptionlistener = el;
 		// first Packet will be a "welcome-packet"
 //		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-		ImageIcon image = new ImageIcon(getClass().getResource("../img/robi.jpg"));
+		ImageIcon image = new ImageIcon(getClass().getResource("../img/scrat.jpg"));
 		serverpacket = new ServerPacket(
 				image,
 				"<html><B>No information received so far...</B></html>", 
