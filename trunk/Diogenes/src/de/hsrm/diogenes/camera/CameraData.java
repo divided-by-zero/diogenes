@@ -1,9 +1,13 @@
 package de.hsrm.diogenes.camera;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -53,6 +57,17 @@ public class CameraData {
 	private Connection c;
 	
 	/**
+	 * Counts the amount of taken photos
+	 */
+	private int photoCount;
+	
+	
+	/**
+	 * An ArrayList of photos
+	 */
+	private List<BufferedImage> pList;
+	
+	/**
 	 * Instantiates a new camera data object.
 	 *
 	 * @param packet the packet
@@ -62,6 +77,8 @@ public class CameraData {
 	public CameraData(WRPVideoPacket packet, Connection c) throws IOException {
 		this.packet = packet;
 		this.c = c;
+		this.pList = new ArrayList<BufferedImage>();
+		this.photoCount = 0;
 		setUpCamera();
 		//takePhoto();
 	}
@@ -163,17 +180,36 @@ public class CameraData {
 	 */
 	public void takePhoto() throws IOException{
 		
-		ImageIO.write(this.image, "jpg", new File("photo"));
+		/*this.pList.add(this.image);
+		this.image.flush();*/
+		
+		ImageIcon ic = new ImageIcon(this.image);
+		//this.image.flush();
+		photoCount++;
+		ImageIO.write(this.image, "jpg", new File("photo"+(photoCount)));
+			
+		
 		JFrame f = new JFrame("Picture preview");
-		JLabel j = new JLabel(new ImageIcon("photo"));
-		f.validate();
+		JLabel j = new JLabel(ic);
 		f.add(j);
-		f.validate();
 		f.pack();
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setVisible(true);
 		f.repaint();
 
+	}
+	
+	
+	/**
+	 * Writes the saved photos to hdd
+	 * @throws IOException
+	 */
+	public void writePhotos() throws IOException{
+		for( BufferedImage bI : this.pList){
+			photoCount++;
+			ImageIO.write(bI, "jpg", new File("photo"+this.photoCount));
+		}
+		
 	}
 
 	/**
@@ -192,6 +228,14 @@ public class CameraData {
 	 */
 	public JLabel getCam() {
 		return cam;
+	}
+
+	public List<BufferedImage> getpList() {
+		return pList;
+	}
+
+	public void setpList(List<BufferedImage> pList) {
+		this.pList = pList;
 	}
 
 }
