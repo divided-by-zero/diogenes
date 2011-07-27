@@ -1,6 +1,7 @@
 package de.hsrm.diogenes.remotepresentation;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -122,10 +123,10 @@ public class ServerGUI extends JFrame {
 		initServer();
 		// set up main frame
 		this.setTitle("Presentation Window (Server)");
+		this.setMinimumSize(new Dimension(640, 480));
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// center on screen
-		this.setLocationRelativeTo(null);
 		// create labels
 		Border etchedBorder = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		image_label = new JLabel();
@@ -138,6 +139,7 @@ public class ServerGUI extends JFrame {
 		// fill labels with the data the server initially holds
 		refreshGUI();
 		// add image + textlabel to a panel
+		this.add(image_label);
 		JPanel p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(image_label, BorderLayout.CENTER);
