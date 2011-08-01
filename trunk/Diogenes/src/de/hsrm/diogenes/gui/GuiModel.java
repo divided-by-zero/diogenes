@@ -27,8 +27,8 @@ import de.hsrm.diogenes.connection.Connection;
 import de.hsrm.diogenes.faceClientExample.ClientExample;
 import de.hsrm.diogenes.map.Map;
 import de.hsrm.diogenes.remotepresentation.Client;
+import de.hsrm.diogenes.remotepresentation.ClientPacketContainerExample;
 import de.hsrm.diogenes.remotepresentation.ExceptionListener;
-import de.hsrm.diogenes.remotepresentation.PacketContainerExample;
 
 /**
  * The Class GuiModel, everything related to the GUI
@@ -424,7 +424,7 @@ public class GuiModel extends JFrame {
 				c.getIP(), 
 				port, 
 				presentationExceptionListener, 
-				new PacketContainerExample(), 
+				new ClientPacketContainerExample(), 
 				c.getLocation());
 		// own thread
 		presentationClient.start();
