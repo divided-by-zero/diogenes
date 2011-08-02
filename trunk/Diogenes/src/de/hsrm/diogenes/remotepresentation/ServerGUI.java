@@ -21,13 +21,13 @@ import javax.swing.border.EtchedBorder;
  * This GUI is a comfortable way of using a Server-Object
  * for gaining Packets by a Client for a remote presentation.
  * @see Server
+ * @author Philip Koch, Daniel Ernst
  */
 public class ServerGUI extends JFrame {
 
-	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** Holds a Server-Object who can be connected by a Client-Object. */
+	/** Holds a Server-Object which can be connected by a Client-Object. */
 	private Server server;
 	
 	/** The port to be used for incoming Packets. */
@@ -65,14 +65,14 @@ public class ServerGUI extends JFrame {
 	/**
 	 * Starts a DialogWindow which asks the user for the port
 	 * to be used.
-	 * On hitting the OK-button the MainWindow will show up.
+	 * On pressing the OK-button the MainWindow will show up.
 	 */
 	private void startDialogWindow() {
 		// starts a dialog to get port from user
 		final JFrame frame = new JFrame("Insert port-number");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(2, 2));
-		// center on screen
+		// center on screen:
 		frame.setLocationRelativeTo(null);
 		JLabel label = new JLabel("Port:");
 		final JTextField portfield = new JTextField("55555");
@@ -107,14 +107,14 @@ public class ServerGUI extends JFrame {
 	
 	/**
 	 * Starts the MainWindow with the information of the Packets
-	 * (e.g. images, text...) displayed. The display will updated by
+	 * (e.g. images, text...) displayed. The display will be updated by
 	 * a connected Client-Object sending a new Packet.
 	 * This method also starts the Server-Object in an own Thread
 	 * an waits for the Server-Object to finish initialization and
 	 * notifying that it has done so. If an Exception occurred
 	 * this will be shown in an errormessage, aborts showing the
 	 * MainWindow and starts the DialogWindow again.
-	 * As the MainWindow runs, it's displayed information will be
+	 * While the MainWindow runs, its displayed information will be
 	 * updated every 500ms.
 	 */
 	private void startMainWindow() {
@@ -163,7 +163,7 @@ public class ServerGUI extends JFrame {
 	/**
 	 * Sets up the Server-Object for receiving data.
 	 * This server will be initialized and started in an own
-	 * Thread. The exceptionlistener will be used as a lock
+	 * Thread. The ExceptionListener will be used as a lock
 	 * between this GUI and the Server-Object.
 	 * In detail this GUI will wait for the Server-Thread to
 	 * release the lock again and handle Exceptions (using the
@@ -178,8 +178,6 @@ public class ServerGUI extends JFrame {
 			try {
 				exceptionlistener.wait();
 			} catch (InterruptedException e) {
-				// ignore interruptions as the server does not do it
-				// but warn the user
 				JOptionPane.showMessageDialog(
 						new JFrame(), 
 						"Servers' synchronization interrupted\n"
@@ -205,6 +203,7 @@ public class ServerGUI extends JFrame {
 		}
 	}
 	
+	/** Refreshes the display. */
 	private void refreshGUI() {
 		image_label.setIcon(server.getPacket().getImage());
 		text_label.setText(server.getPacket().getText());
@@ -216,8 +215,8 @@ public class ServerGUI extends JFrame {
 	}
 	
 	/**
-	 * The main method for starting the GUI
-	 * @param args The arguments (not used)
+	 * The main method for starting the GUI.
+	 * @param args The arguments.
 	 */
 	public static void main(String[] args) {
 		new ServerGUI();

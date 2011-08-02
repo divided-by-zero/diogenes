@@ -5,7 +5,7 @@ package de.hsrm.diogenes.remotepresentation;
  * to it (by a Class) and throws it to the one (usally another
  * Class) invoking the throwException()-method.
  * This has been written to make throwing Exceptions of Threads
- * to their "father-processes" possible, though the Exceptions 
+ * to their "father-threads" possible, though the Exceptions 
  * have to be set and read manually unlike the standard java-
  * Exceptions.
  * Usage: An Object (e.g. a GUI) holds another Object which runs
@@ -13,14 +13,15 @@ package de.hsrm.diogenes.remotepresentation;
  * the Thread can give an Exception to the GUI.
  * The GUI holds the ExceptionListener-Object and also gives this 
  * listener (rather a reference) to the Thread . This way they are
- * accessing the exactly the same listener, and the Thread can "throw" 
- * its Exception to the listener and the GUI "reads" it and handles it.
+ * accessing the exactly same listener, and the Thread can "throw" 
+ * its Exception to the listener and the GUI "reads" and handles it.
  * An Object of this ExceptionListener can also be used as a lock
  * simultaneously. E.g. the Thread locks the lock on performing
  * something which can cause an exception and unlock it afterwards.
  * If you want to use this synchronization (which is recommended),
  * then your "fatherobject" (e.g. the GUI) needs to wait() for the
  * Thread to notify().
+ * @author Daniel Ernst
  */
 public class ExceptionListener {
 
@@ -37,7 +38,6 @@ public class ExceptionListener {
 	
 	/**
 	 * Sets the local member to the Throwable t.
-	 *
 	 * @param t The Exception to be notified
 	 */
 	public void notifyException(Throwable t) {
@@ -45,11 +45,12 @@ public class ExceptionListener {
 	}
 	
 	/**
-	 * Throws an Exception if and resets the local 
+	 * Throws an Exception if any and resets the local 
 	 * member to null afterwards.
 	 * Doesn't do anything if there is no Exception
 	 * at the time.
 	 * @throws Throwable The Throwable which was set
+	 * 						by another Object
 	 */
 	public void throwException() throws Throwable {
 		if (exception == null) {
@@ -58,7 +59,7 @@ public class ExceptionListener {
 		} else {
 			// save occurred exception
 			Throwable result = exception;
-			// reset local exception for next round
+			// reset local exception for next turn
 			exception = null;
 			// throw the actual occurred exception
 			throw result;

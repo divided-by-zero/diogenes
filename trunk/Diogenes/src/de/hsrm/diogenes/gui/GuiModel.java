@@ -69,10 +69,13 @@ public class GuiModel extends JFrame {
 	/** The presentation client. Used for the presentation mode */
 	private Client presentationClient;
 
-	/** The presentation mode exception listener. */
+	/** 
+	 * The presentation mode exception listener for synchronizing
+	 * the GUI with the Client 
+	 */
 	private ExceptionListener presentationExceptionListener;
 
-	/** Tells us wether the presentation mode is running or not */
+	/** Tells us whether the presentation mode is running or not */
 	private boolean isPresentationRunning;
 
 	/** The presentation menu item. */
@@ -245,6 +248,7 @@ public class GuiModel extends JFrame {
 					// ask the user via gui for a port to use
 					presentationDialogFrame = new JFrame("Insert port-number");
 					presentationDialogFrame.setLayout(new GridLayout(2, 2));
+					// center on screen:
 					presentationDialogFrame.setLocationRelativeTo(null);
 					JLabel label = new JLabel("Port:");
 					presentationDialogPortfield = new JTextField();
@@ -260,9 +264,8 @@ public class GuiModel extends JFrame {
 					b_ok.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							int port = Integer
-									.valueOf(presentationDialogPortfield
-											.getText());
+							int port = Integer.valueOf(
+									presentationDialogPortfield.getText());
 							presentationDialogFrame.dispose();
 							// actually init the client here
 							startPresentationClient(port);
@@ -414,12 +417,12 @@ public class GuiModel extends JFrame {
 
 	/**
 	 * Start presentation client.
-	 * 
-	 * @param port
-	 *            the port
+	 * @param port The port to be opened.
 	 */
 	private void startPresentationClient(int port) {
-		// start clientstuff now
+		// new Client with the portnumber, current ip from the
+		// actual connection, example-images and -text for
+		// transmitting.
 		presentationClient = new Client(
 				c.getIP(), 
 				port, 
@@ -466,7 +469,7 @@ public class GuiModel extends JFrame {
 	}
 
 	/**
-	 * Stop presentation client.
+	 * Stops the presentation client.
 	 */
 	private void stopPresentationClient() {
 		try {

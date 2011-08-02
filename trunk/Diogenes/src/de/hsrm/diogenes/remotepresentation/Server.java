@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
  * It's use is to display information of Packets sent by the Client-Object.
  * This class will start connecting using the run-method, which
  * also runs this Object in an own Thread.
+ * @author Philip Koch, Daniel Ernst
  */
 public class Server extends Thread {
 	
@@ -26,16 +27,16 @@ public class Server extends Thread {
 	private int port;
 	
 	/**
-	 * A shared Object of ServerGUI and Server, so that the Server 
-	 * as a Thread is able to throw an Exception to the ExceptionListener 
-	 * and the ServerGUI can read the Servers' Exception out of it. 
-	 * Also used as a lock for synchronizing ServerGUI and Server-Thread
+	 * A shared Object of the Server and its GUI, so that the Server as a Thread 
+	 * is able to throw an Exception to the ExceptionListener and the GUI can read 
+	 * the Servers' Exception out of it. 
+	 * Also used as a lock for synchronizing GUI and Server-Thread.
 	 */
 	private ExceptionListener exceptionlistener;
 	
-	/** Delay. */
+	/** Time to wait before receiving data again in ms, to improve performance */
 	private final int RECEIVEDELAY = 500;
-	
+
 	/**
 	 * Instantiates the Server at the port.
 	 * The ExceptionListener should be owned by a class
@@ -44,17 +45,21 @@ public class Server extends Thread {
 	 * can get Exceptions thrown by the Server. Casual
 	 * java-Exceptions won't work as this Server runs in an
 	 * own Thread. The ExceptionListener will be used as
-	 * a lock for synchronization as well. 
+	 * a lock for synchronization as well.
+	 * Not using a shared ExcpetionListenerObject will
+	 * cause the Exceptions of this Thread to not be
+	 * notified elsewhere outside this Object and
+	 * furthermore there will be no synchronization between
+	 * the Threads. Despite this the Server may still work anyway.
 	 * @param port The port to be opened
-	 * @param el An ExceptionListener of the class 
-	 * 			holding this Object (e.g. a GUI)
+	 * @param el The ExceptionListener-Object of the Object
+	 * 			holding this Server (e.g. a GUI) for synchronization
 	 */
 	public Server(int port, ExceptionListener el) {
 		this.port = port;
 		this.exceptionlistener = el;
-		// first Packet will be a "welcome-packet"
+		// first Packet will be a hardcoded "welcome-packet"
 		ImageIcon image = new ImageIcon(Server.class.getClassLoader().getResource("example.jpg"));
-//		ImageIcon image = new ImageIcon(getClass().getResource("../img/scrat.jpg"));
 		serverpacket = new ServerPacket(
 				image,
 				"<html><B>No information received so far...</B></html>", 
@@ -63,7 +68,7 @@ public class Server extends Thread {
 
 	/**
 	 * Runs the Server in an own Thread and starts accepting
-	 * Clients (infinite).
+	 * Clients (infinitely).
 	 * Notifies any Exceptions to the ExceptionListener after doing so
 	 * and opens the lock with doing that.
 	 */
@@ -75,7 +80,7 @@ public class Server extends Thread {
 			synchronized (exceptionlistener) {
 				exceptionlistener.notify();
 			}
-			// infinite loop for accepting clients, receiving data and disconnecting them
+			// infinite loop for accepting clients and receiving data
 			while (true) {
 				// accept client
 				Socket current_client = server_sock.accept();
@@ -86,28 +91,29 @@ public class Server extends Thread {
 				byte[] textByteArray;
 				Rectangle triggerBox;
 				while(true) {
-					// read image
+					// read image (first the length, then init the array, then paste the data)
 					int imagelength = (Integer) client_objinput.readObject();
 					imageByteArray = new byte[imagelength];
 					client_datainput.readFully(imageByteArray);
-					// read text
+					// read text (first the length, then init the array, then paste the data)
 					int textlength = (Integer) client_objinput.readObject();
 					textByteArray = new byte[textlength];
 					client_input.read(textByteArray);
-					// read triggerBox
+					// read triggerBox (x,y,w,h)
 					int r_x = (Integer) client_objinput.readObject();
 					int r_y = (Integer) client_objinput.readObject();
 					int r_w = (Integer) client_objinput.readObject();
 					int r_h = (Integer) client_objinput.readObject();
 					triggerBox = new Rectangle(r_x, r_y, r_w, r_h);
-					// assemble to presentable
-					ServerPacket tmp_presentable = new ServerPacket(
+					// assemble to Packet
+					ServerPacket tmp_packet = new ServerPacket(
 							new ImageIcon(imageByteArray),
 							new String(textByteArray), 
 							triggerBox);
 					if (serverpacket != null) {
-						serverpacket = tmp_presentable;
+						serverpacket = tmp_packet;
 					} else {
+						// bad transmission, rejecting client
 						break;
 					}
 					sleep(RECEIVEDELAY);
@@ -115,9 +121,10 @@ public class Server extends Thread {
 				// close connection
 				current_client.close();
 				client_input.close();
+				client_objinput.close();
+				client_datainput.close();
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
 			exceptionlistener.notifyException(t);
 		}
 		// due to the whileloop this part of code is only reachable when 
@@ -128,8 +135,9 @@ public class Server extends Thread {
 	}
 
 	/**
-	 * Returns a packet containing an image and a text to be displayed by a GUI. Will be updated by a remote Client.
-	 * @return  The packet containing an image and a text for visualization
+	 * Returns a packet containing an image, rectangle and a text to be displayed by a GUI. 
+	 * Will be updated by a remote Client.
+	 * @return  The packet containing an image, rectangle and a text for visualization
 	 */
 	public ServerPacket getPacket() {
 		return serverpacket;

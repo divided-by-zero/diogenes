@@ -9,13 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringBufferInputStream;
 
-import javax.swing.ImageIcon;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
 /**
  * The Class Conversion.
+ * @author Philip Koch
  */
 public class Conversion {
 
