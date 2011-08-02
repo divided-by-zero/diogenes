@@ -3,13 +3,18 @@ package de.hsrm.diogenes.remotepresentation;
 import java.awt.Rectangle;
 import java.io.File;
 
+/**
+ * A Container holding ClientPackets with an example-content for a demonstration 
+ * in the C-building of the University of Applied Science, Wiesbaden.
+ * @author Daniel Ernst
+ */
 public class ClientPacketContainerExample extends ClientPacketContainer {
 
 	private static final long serialVersionUID = 1L;
 
 	public ClientPacketContainerExample() {
-		// 1. rectangle at starting position of robbie with 42-robot
-		// 2. rectangle in front of the middle-desk of prof. dr. panitz
+		// 1st rectangle at starting position of robbie with content "42 robot"
+		// 2nd rectangle in front of the middle-desk with content "prof. dr. panitz"
 		super(
 				new ClientPacket(
 						new File("pres_42.jpg"), 

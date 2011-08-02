@@ -41,7 +41,7 @@ public class Connection implements WRPPacketListener {
 	/** The object for the robot movement. @uml.property  name="move" @uml.associationEnd  multiplicity="(1 1)" inverse="c:de.hsrm.diogenes.logic.Movement" */
 	private Movement move;
 	
-	/** Shows wether we are connected or nit. @uml.property  name="connected" */
+	/** Shows whether we are connected or not. @uml.property  name="connected" */
 	private boolean connected;
 	
 	/** The camera pan given by the camera info packet. @uml.property  name="cameraPan" */
@@ -52,10 +52,11 @@ public class Connection implements WRPPacketListener {
 	
 	/** The camera zoom given by the camera info packet. @uml.property  name="cameraZoom" */
 	private int cameraZoom;
+	
 	/**
-	 * The location will be sent by the robot every 100ms (initialized when connecting) to the client and saved in the local member location.
-	 * @uml.property  name="location"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * Holding the current Location of the robot.
+	 * The location will be sent by the robot every 100ms (initialized when connecting) 
+	 * to the client and saved in the local member location.
 	 */
 	private Location location;
 	
@@ -374,9 +375,10 @@ public class Connection implements WRPPacketListener {
 	}
 
 	/**
-	 * Returns the current robot's location values (x, y, angle). The location will be sent by the robot every 100ms (initialized when connecting) to the client and saved in the local member location.
-	 * @return  An Object with x and y coordinates and the angle of the   robot within
-	 * @uml.property  name="location"
+	 * Returns the current robot's location values (x, y, angle). The location will be sent 
+	 * by the robot every 100ms (initialized when connecting) to the client and saved in the
+	 * local member location.
+	 * @return The Location with x and y coordinates and the angle of the robot.
 	 */
 	public Location getLocation() {
 		return location;

@@ -12,10 +12,11 @@ import de.hsrm.diogenes.connection.Location;
 
 /**
  * A Client-Object connects to a Server-Object via a network.
- * It's use is to send packages as bytearrays to the Server,
- * who reassambles it and presents it on a display for example.
+ * The usage is to send packages as bytearrays to the Server,
+ * who reassambles it and presents it on a display (e.g.).
  * This class will start connecting using the run-method, which
- * also runs this Object in an own Thread.
+ * will run this Object in an own Thread.
+ * @author Philip Koch, Daniel Ernst
  */
 public class Client extends Thread {
 
@@ -24,10 +25,10 @@ public class Client extends Thread {
 	
 	/** Holds the port. */
 	private int port;
-	
+ 
 	/**
 	 * A shared Object of the Client and its GUI, so that the Client as a Thread 
-	 * is able to throw a connection to the ExceptionListener and the GUI can read 
+	 * is able to throw an Exception to the ExceptionListener and the GUI can read 
 	 * the Clients' Exception out of it. 
 	 * Also used as a lock for synchronizing GUI and Client-Thread.
 	 */
@@ -39,14 +40,16 @@ public class Client extends Thread {
 	/** Holding the output-stream. */
 	private OutputStream output;
 
-	/** An ObjectOutputStream using the OutputStream for sending Integers */
+	/** An ObjectOutputStream using the OutputStream mainly for sending Integers */
 	private ObjectOutputStream objoutput;
 	
-	/** The "actual" Location of the robot */
+	/** The "current" Location of the robot */
 	private Location location;
 	
-	/** A Thread repetitively reading the current location of the robot
-	 * and checking if a Packet of the Container is triggered */
+	/** 
+	 * A Thread repetitively reading the current location of the robot
+	 * and checking if a Packet of the Container is triggered 
+	 */
 	private Thread locationlistener;
 	
 	/** A Container holding the Packets which will probably be sent to the Server */
@@ -56,7 +59,7 @@ public class Client extends Thread {
 	 * Holds the last Packet which has been sent
 	 * to the Server. Used to prevent the Client to send
 	 * the same Packet over and over as long as the robot
-	 * triggers this Packets triggerBox
+	 * triggers this Packets' triggerBox
 	 */
 	private ClientPacket lastPacket;
 
@@ -72,11 +75,15 @@ public class Client extends Thread {
 	 * java-Exceptions won't work as this Client runs in an
 	 * own Thread. The ExceptionListener will be used as
 	 * a lock for synchronization as well.
-	 *
+	 * Not using a shared ExcpetionListenerObject will
+	 * cause the Exceptions of this Thread to not be
+	 * notified elsewhere outside this Object and
+	 * furthermore there will be no synchronization between
+	 * the Threads. Despite this the Client may still work anyway.
 	 * @param dest_addr The address to the host (Server)
 	 * @param port The port of the host (Server)
-	 * @param el An ExceptionListener of the class
-	 * 			holding this Object (e.g. a GUI)
+	 * @param el The ExceptionListener-Object of the Object
+	 * 			holding this Client (e.g. a GUI) for synchronization
 	 * @param container The Container holding the Packets 
 	 * 			which are supposed to be eventually sent 
 	 * 			to the Server
@@ -108,6 +115,7 @@ public class Client extends Thread {
 		} catch (Throwable t) {
 			exceptionlistener.notifyException(t);
 		}
+		// release lock
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
 		}
@@ -208,6 +216,7 @@ public class Client extends Thread {
 	public void disconnect() throws IOException {
 		server.close();
 		output.close();
+		// release lock
 		synchronized (exceptionlistener) {
 			exceptionlistener.notify();
 		}
