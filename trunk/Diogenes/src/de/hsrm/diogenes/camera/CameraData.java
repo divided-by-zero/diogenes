@@ -1,6 +1,5 @@
 package de.hsrm.diogenes.camera;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -74,12 +73,11 @@ public class CameraData {
 	 * @param c the connection
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public CameraData(WRPVideoPacket packet, Connection c) throws IOException {
-		this.packet = packet;
+	public CameraData(Connection c) throws IOException {
 		this.c = c;
 		this.pList = new ArrayList<BufferedImage>();
 		this.photoCount = 0;
-		setUpCamera();
+		//setUpCamera();
 		//takePhoto();
 	}
 	
@@ -236,6 +234,15 @@ public class CameraData {
 
 	public void setpList(List<BufferedImage> pList) {
 		this.pList = pList;
+	}
+
+	public WRPVideoPacket getPacket() {
+		return packet;
+	}
+
+	public void setPacket(WRPVideoPacket packet) {
+		this.packet = packet;
+		setUpCamera();
 	}
 
 }

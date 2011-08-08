@@ -13,6 +13,7 @@ import java.io.StringBufferInputStream;
  * The Class Conversion.
  * @author Philip Koch
  */
+@SuppressWarnings("deprecation")
 public class Conversion {
 
 	/**

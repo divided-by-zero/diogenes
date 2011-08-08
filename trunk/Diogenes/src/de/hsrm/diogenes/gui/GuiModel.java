@@ -24,11 +24,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
 import de.hsrm.diogenes.connection.Connection;
-import de.hsrm.diogenes.faceClientExample.ClientExample;
+import de.hsrm.diogenes.faceDetection.FaceDetection;
 import de.hsrm.diogenes.map.Map;
 import de.hsrm.diogenes.remotepresentation.Client;
-import de.hsrm.diogenes.remotepresentation.ClientPacketContainerExample;
 import de.hsrm.diogenes.remotepresentation.ExceptionListener;
+import de.hsrm.diogenes.remotepresentation.ClientPacketContainerExample;
 
 /**
  * The Class GuiModel, everything related to the GUI
@@ -70,9 +70,9 @@ public class GuiModel extends JFrame {
 	private Client presentationClient;
 
 	/** 
-	 * The presentation mode exception listener for synchronizing
-	 * the GUI with the Client 
-	 */
+     * The presentation mode exception listener for synchronizing
+     * the GUI with the Client 
+     */
 	private ExceptionListener presentationExceptionListener;
 
 	/** Tells us whether the presentation mode is running or not */
@@ -94,7 +94,9 @@ public class GuiModel extends JFrame {
 	 * @uml.associationEnd multiplicity="(1 1)"
 	 */
 	private JScrollPane scroller;
-
+	
+	private MapCanvas mC;
+	
 	/**
 	 * Instantiates a new gui model.
 	 * 
@@ -122,15 +124,14 @@ public class GuiModel extends JFrame {
 		this.presentationExceptionListener = new ExceptionListener();
 		this.isPresentationRunning = false;
 		this.l1 = new JLabel("Status");
-
+		this.mC = new MapCanvas(this.map, this.c, 70, 50, 400);
 		this.webcamPanel = new JPanel();
 		this.webcamPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.statusbarPanel = new JPanel();
 
 		createPanels();
 
-		this.scroller = new JScrollPane(new MapCanvas(new Map(this.c), this.c,
-				70, 50, 400), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		this.scroller = new JScrollPane(this.mC, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		this.scroller.setPreferredSize(new Dimension(350, 410));
@@ -248,7 +249,6 @@ public class GuiModel extends JFrame {
 					// ask the user via gui for a port to use
 					presentationDialogFrame = new JFrame("Insert port-number");
 					presentationDialogFrame.setLayout(new GridLayout(2, 2));
-					// center on screen:
 					presentationDialogFrame.setLocationRelativeTo(null);
 					JLabel label = new JLabel("Port:");
 					presentationDialogPortfield = new JTextField();
@@ -264,8 +264,9 @@ public class GuiModel extends JFrame {
 					b_ok.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							int port = Integer.valueOf(
-									presentationDialogPortfield.getText());
+							int port = Integer
+									.valueOf(presentationDialogPortfield
+											.getText());
 							presentationDialogFrame.dispose();
 							// actually init the client here
 							startPresentationClient(port);
@@ -284,7 +285,25 @@ public class GuiModel extends JFrame {
 			}
 		});
 		menu_funktionen.add(presentationMenuItem);
-
+		
+		menuItem = new JMenuItem("Zoom Map in");
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapCanvas.zoomIn();
+			}
+		});
+		menu_funktionen.add(menuItem);
+		
+		menuItem = new JMenuItem("Zoom Map out");
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapCanvas.zoomOut();
+			}
+		});
+		menu_funktionen.add(menuItem);
+		
 		menuItem = new JMenuItem("Take photo");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -312,7 +331,7 @@ public class GuiModel extends JFrame {
 					@Override
 					public void run() {
 						try {
-							ClientExample.trainPerson();
+							FaceDetection.trainPerson();
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -331,7 +350,7 @@ public class GuiModel extends JFrame {
 					@Override
 					public void run() {
 						try {
-							ClientExample.startDetection();
+							FaceDetection.startDetection();
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -417,12 +436,11 @@ public class GuiModel extends JFrame {
 
 	/**
 	 * Start presentation client.
+	 * 
 	 * @param port The port to be opened.
 	 */
 	private void startPresentationClient(int port) {
-		// new Client with the portnumber, current ip from the
-		// actual connection, example-images and -text for
-		// transmitting.
+		// start clientstuff now
 		presentationClient = new Client(
 				c.getIP(), 
 				port, 
@@ -514,7 +532,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void run() {
 				try {
-					//Connection c = new Connection("10.18.72.254", 33333);
+//					Connection c = new Connection("10.18.72.254", 33333);
 					Connection c = new Connection("localhost", 33333);
 					new GuiModel(c, new Map(c));
 				} catch (WRPException e) {
