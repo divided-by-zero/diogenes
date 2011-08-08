@@ -28,16 +28,11 @@ public class FaceDetection {
 	/** The Constant API_SEC. */
 	private static final String API_SEC = "c6103059b1be11631fca3c6eda64460d";
 
+	/** Path of the photo (can be an URL too). */
 	private static final String PHOTOPATH = "/home/dirk/workspace/Diogenes/photo2";
 
 	/** The Constant NAMESPACE. */
 	private static final String NAMESPACE = "Diogenes";
-
-	// /** The Constant USER. */
-	// private static final String USER = "Philip_Koch";
-	//	
-	// /** The Constant USER_ID. */
-	// private static final String USER_ID = USER + "@" + NAMESPACE;
 
 	/**
 	 * Train Person.
