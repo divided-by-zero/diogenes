@@ -66,6 +66,8 @@ public class Connection implements WRPPacketListener {
 	/** Shows if wander is finished or not. */
 	private boolean wanderFinished;
 	
+	private boolean camOnce;
+	
 	/**
 	 * Creates an instance of connection.
 	 *
@@ -77,6 +79,7 @@ public class Connection implements WRPPacketListener {
 		this.ip = ip;
 		this.port = port;
 		this.camData = false;
+		this.camOnce = true;
 		connect();
 		this.connected = true;
 		this.startWander = false;
@@ -123,12 +126,17 @@ public class Connection implements WRPPacketListener {
 	 */
 	@Override
 	public void handleVideoPacket(WRPVideoPacket packet) {
-		System.out.println("video data");
 		this.camData = true;
-		try {
-			this.cameraData = new CameraData(packet, this);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(camOnce){
+			try {
+				this.cameraData = new CameraData(this);
+				this.camOnce = false;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			this.cameraData.setPacket(packet);
 		}
 	}
 
