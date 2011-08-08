@@ -11,15 +11,14 @@ import java.io.StringBufferInputStream;
 
 /**
  * The Class Conversion.
- * @author Philip Koch
  */
 @SuppressWarnings("deprecation")
 public class Conversion {
 
 	/**
-	 * File to baos.
-	 * @param file
-	 * @return
+	 * Converts a file to a Byte Array Output Stream.
+	 * @param file the file to be converted 
+	 * @return byte array which consists of the file-data
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -33,9 +32,9 @@ public class Conversion {
 	}
 
 	/**
-	 * String to baos.
-	 * @param s
-	 * @return
+	 * Converts a String to a Byte Array Output Stream
+	 * @param s the String to be converted
+	 * @return byte array which consists of the String
 	 * @throws IOException
 	 */
 	public static byte[] stringToBaos(String s) throws IOException {
@@ -46,10 +45,10 @@ public class Conversion {
 	}
 
 	/**
-	 * Copies the stream.
-	 * @param in
-	 * @param out
-	 * @param bufSize
+	 * Copies the bytestream.
+	 * @param in Input Stream
+	 * @param out Output Stream
+	 * @param bufSize Size of the Buffer
 	 * @throws IOException
 	 */
 	private static void copyStream(InputStream in, OutputStream out, int bufSize) throws IOException {
