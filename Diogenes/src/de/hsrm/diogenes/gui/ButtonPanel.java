@@ -115,10 +115,10 @@ public class ButtonPanel extends JPanel{
 		this.bGroup = new ButtonGroup();
 		this.roboRadio = new JRadioButton("Robot");
 		this.camRadio = new JRadioButton("Camera");
-		this.left = new JButton(new ImageIcon(getClass().getResource("../img/pfeilLi.JPG")));
-		this.right = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRe.JPG")));
-		this.up = new JButton(new ImageIcon(getClass().getResource("../img/pfeilHo.JPG")));
-		this.down = new JButton(new ImageIcon(getClass().getResource("../img/pfeilRu.JPG")));
+		this.left = new JButton(new ImageIcon(getClass().getResource("/de/hsrm/diogenes/img/pfeilLi.JPG")));
+		this.right = new JButton(new ImageIcon(getClass().getResource("/de/hsrm/diogenes/img/pfeilRe.JPG")));
+		this.up = new JButton(new ImageIcon(getClass().getResource("/de/hsrm/diogenes/img/pfeilHo.JPG")));
+		this.down = new JButton(new ImageIcon(getClass().getResource("/de/hsrm/diogenes/img/pfeilRu.JPG")));
 		this.param = new JTextField("4", 2);
 		
 		
@@ -170,7 +170,7 @@ public class ButtonPanel extends JPanel{
 
 		left.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (roboEnabled){
+				if (roboEnabled && c.isMoveAllowed() ){
 					try {
 						c.getMove().turnLeft(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
@@ -198,7 +198,7 @@ public class ButtonPanel extends JPanel{
 
 		right.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(roboEnabled){
+				if(roboEnabled && c.isMoveAllowed()){
 					try {
 						c.getMove().turnRight(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
@@ -228,7 +228,7 @@ public class ButtonPanel extends JPanel{
 		
 		down.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(roboEnabled){
+				if(roboEnabled && c.isMoveAllowed()){
 					try {
 						c.getMove().moveBackward(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {
@@ -258,7 +258,7 @@ public class ButtonPanel extends JPanel{
 		
 		up.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(roboEnabled){
+				if(roboEnabled && c.isMoveAllowed()){
 					try {
 						c.getMove().moveForward(Integer.parseInt(param.getText())*10);
 					} catch (NumberFormatException e1) {

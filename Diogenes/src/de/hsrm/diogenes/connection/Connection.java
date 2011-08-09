@@ -2,6 +2,9 @@ package de.hsrm.diogenes.connection;
 
 import java.io.IOException;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import de.fhwiesbaden.webrobbie.wrp.WRPCmd;
 import de.fhwiesbaden.webrobbie.wrp.WRPConnection;
 import de.fhwiesbaden.webrobbie.wrp.WRPException;
@@ -66,7 +69,11 @@ public class Connection implements WRPPacketListener {
 	/** Shows if wander is finished or not. */
 	private boolean wanderFinished;
 	
+	/** helps us to coordinate the cam request */
 	private boolean camOnce;
+	
+	/** If the robot is allowed moving */
+	private boolean moveAllowed;
 	
 	/**
 	 * Creates an instance of connection.
@@ -81,6 +88,7 @@ public class Connection implements WRPPacketListener {
 		this.camData = false;
 		this.camOnce = true;
 		connect();
+		this.moveAllowed = true;
 		this.connected = true;
 		this.startWander = false;
 		this.wanderFinished = false;
@@ -100,7 +108,7 @@ public class Connection implements WRPPacketListener {
 	 *
 	 * @throws WRPException the wRP exception
 	 */
-	public void connect() throws WRPException {
+	public void connect() {
 		try {
 			this.diogenes = WRPConnection.connect(ip, port, ip, port);
 			this.diogenes.addPacketListener(this);
@@ -108,8 +116,19 @@ public class Connection implements WRPPacketListener {
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
 			this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_STATUS_DATA));
 		} catch (WRPException e) {
-			System.err.println("Couldn't run diogenes:");
-			e.printStackTrace();
+				try{
+					System.err.println("Couldn't run diogenes:");
+					this.diogenes = WRPConnection.connect("localhost", port, "localhost", port);
+					this.diogenes.addPacketListener(this);
+					this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_CAMERA_INFO));
+					this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_VIDEO));
+					this.diogenes.sendCommand(new WRPCommand(WRPCmd.GET_STATUS_DATA));
+				}catch (WRPException e1){
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Could not start, maybe you are not connected to the robot, or the simulator isn't running: " + e1.getMessage(),
+							"Error", JOptionPane.ERROR_MESSAGE, null);
+					System.exit(1);
+				}
 		}
 	}
 	
@@ -428,6 +447,14 @@ public class Connection implements WRPPacketListener {
 	 */
 	public void setWanderFinished(boolean wanderFinished) {
 		this.wanderFinished = wanderFinished;
+	}
+
+	public void setMoveAllowed(boolean moveAllowed) {
+		this.moveAllowed = moveAllowed;
+	}
+
+	public boolean isMoveAllowed() {
+		return moveAllowed;
 	}
 	
 }
