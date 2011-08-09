@@ -106,7 +106,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 		this.height = 480;
 		this.addMouseListener(this);
 		this.addMouseWheelListener(this);
-//		this.setPreferredSize(this.getSize());
+		
 	}
 	
 	
@@ -187,6 +187,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			}
 			
 			if(connection.isStartWander()){
+				connection.setMoveAllowed(false);
 				connection.setStartWander(false);
 				
 				//Add converted points into the converted list
@@ -202,6 +203,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 								
 						try {
 							connection.getMove().wander(convertedList);
+							connection.setMoveAllowed(true);
 						}
 						catch (WRPException e) {
 							e.printStackTrace();
@@ -224,6 +226,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseWheelListen
 			}
 		});
 		thread.start(); 
+		
 	}
 	
 	/**

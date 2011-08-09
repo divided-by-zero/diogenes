@@ -116,7 +116,7 @@ public class GuiModel extends JFrame {
 		this.setTitle("Diogenes robot control");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(ImageIO.read(getClass()
-				.getResource("../img/robi.jpg")));
+				.getResource("/de/hsrm/diogenes/img/robi.jpg")));
 		this.setResizable(false);
 		this.setLayout(new GridBagLayout());
 		this.setJMenuBar(makeMenuBar());
@@ -169,13 +169,12 @@ public class GuiModel extends JFrame {
 			t.start();
 		} else {
 			this.webcamPanel.add(new JLabel(new ImageIcon(getClass()
-					.getResource("../img/scrat.png"))));
+					.getResource("/de/hsrm/diogenes/img/scrat.png"))));
 		}
 	}
 
 	/**
 	 * Constructs our JMenuBar.
-	 * 
 	 * @return the constructed JMenuBar
 	 */
 	public JMenuBar makeMenuBar() {
@@ -193,14 +192,10 @@ public class GuiModel extends JFrame {
 		menuItem = new JMenuItem("Connect");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					if (!c.isConnected()) {
-						c.connect(); // "10.18.72.254", 33333
-						l1.setText("connected");
-						c.setConnected(true);
-					}
-				} catch (WRPException e2) {
-					e2.printStackTrace();
+				if (!c.isConnected()) {
+					c.connect(); // "10.18.72.254", 33333
+					l1.setText("connected");
+					c.setConnected(true);
 				}
 			}
 		});
@@ -367,7 +362,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ImageIcon ic = new ImageIcon(getClass().getResource(
-						"../img/robi.jpg"));
+						"/de/hsrm/diogenes/img/robi.jpg"));
 				JOptionPane
 						.showMessageDialog(
 								new JFrame(),
@@ -390,7 +385,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				ImageIcon ic = new ImageIcon(getClass().getResource(
-				"../img/robi.jpg"));
+				"/de/hsrm/diogenes/img/robi.jpg"));
 				JOptionPane.showMessageDialog(
 								new JFrame(),
 								new String(
@@ -532,8 +527,7 @@ public class GuiModel extends JFrame {
 			@Override
 			public void run() {
 				try {
-//					Connection c = new Connection("10.18.72.254", 33333);
-					Connection c = new Connection("localhost", 33333);
+					Connection c = new Connection("10.18.72.254", 33333);
 					new GuiModel(c, new Map(c));
 				} catch (WRPException e) {
 					e.printStackTrace();
