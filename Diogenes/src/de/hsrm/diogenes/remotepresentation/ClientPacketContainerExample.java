@@ -13,10 +13,12 @@ public class ClientPacketContainerExample extends ClientPacketContainer {
 	private static final long serialVersionUID = 1L;
 
 	public ClientPacketContainerExample() {
+		
 		// 1st rectangle at starting position of robbie with content "42 robot"
 		// 2nd rectangle in front of the middle-desk with content "prof. dr. panitz"
 		super(
 				new ClientPacket(
+						
 						new File("pres_42.jpg"), 
 						"The answer is 42",
 						new Rectangle(-1000, 1000, 1300, 1300)),
