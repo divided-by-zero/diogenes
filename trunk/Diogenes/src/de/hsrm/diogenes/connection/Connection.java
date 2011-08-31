@@ -451,10 +451,18 @@ public class Connection implements WRPPacketListener {
 		this.wanderFinished = wanderFinished;
 	}
 
+	/**
+	 * Sets if moving is allowed
+	 * @param moveAllowed true or false
+	 */
 	public void setMoveAllowed(boolean moveAllowed) {
 		this.moveAllowed = moveAllowed;
 	}
 
+	/**
+	 * Checks if moving is allowed
+	 * @return true when allowed false when not allowed
+	 */
 	public boolean isMoveAllowed() {
 		return moveAllowed;
 	}
